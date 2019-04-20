@@ -9,36 +9,46 @@ import {
   Row,
 } from 'reactstrap';
 
-import "../App.css"
+const box = {
+  marginTop: "20px",
+  marginBottom: "25px",
+  position: "relative",
+  fontFamily: "Merriweather",
+  fontFamily: "serif",
+  fontFamily: "Open Sans Condensed",
+  fontFamily: "sans-serif",
+  textAlign: "center"
+}
+
 
 class SubscribeBox extends Component {
 render() {
  return (
-   <Container className="box">
-   <Card outline color="info" body className="borderproduct">
+   <Container style={box}>
+   <Card outline color="info" body >
    <h1>Jenis Snack</h1>
    <br/>
     <Row>
       <Col xs={3} sm={3} md={3} lg={3}>
         <CardImg top width="100%" src={require(`../assets/chips.png`)} alt="Card image cap" />
-        <CardTitle>Snack Keripik</CardTitle>
+        <p>Keripik</p>
       </Col>
       <Col xs={3} sm={3} md={3} lg={3}>
         <CardImg top width="100%" src={require(`../assets/peanut.png`)} alt="Card image cap" />
-        <CardTitle>Snack Kacang</CardTitle>
+        <p>Kacang</p>
       </Col>
       <Col xs={3} sm={3} md={3} lg={3}>
         <CardImg top width="100%" src={require(`../assets/traditional.png`)} alt="Card image cap" />
-        <CardTitle>Snack Jadoel</CardTitle>
+        <p>Jadoel</p>
       </Col>
       <Col xs={3} sm={3} md={3} lg={3}>
         <CardImg top width="100%" src={require(`../assets/candy.png`)} alt="Card image cap" />
-        <CardTitle>Permen</CardTitle>
+        <p>Permen</p>
       </Col>
     </Row>
   </Card>
    <br/>
-   <Card outline color="info" body className="borderproduct">
+   <Card outline color="info" body>
    <h1>Produk Snack</h1>
    <br/>
     <Row>
@@ -62,7 +72,7 @@ render() {
       size="lg"> Lihat Produk </Button>
    </Card>
    <br/>
-   <Card outline color="info" body className="borderproduct">
+   <Card outline color="info" body >
    <h2> Harga Pas Dikantong </h2>
    <p> Kami Menjual Snack Terbaik Dengan Harga Grosir Serba Rp 10.000,- </p>
    </Card>
