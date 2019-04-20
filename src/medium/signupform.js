@@ -13,6 +13,17 @@ import axios from "axios";
 
 import "../App.css"
 
+const box = {
+  marginTop: "20px",
+  marginBottom: "25px",
+  position: "relative",
+  fontFamily: "Merriweather",
+  fontFamily: "serif",
+  fontFamily: "Open Sans Condensed",
+  fontFamily: "sans-serif",
+  textAlign: "center"
+}
+
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 class SignUpForm extends Component {
@@ -87,8 +98,6 @@ render() {
 
   return (
     <Container>
-
-
       <Form
        className="loginForm text-info"
        onSubmit={this.submitForm}>
@@ -104,7 +113,6 @@ render() {
             onChange={this.handleChangeName}
             />
            </FormGroup>
-
          <FormGroup>
          <Label for="exampleAddress">Alamat</Label>
           <Input
@@ -153,7 +161,7 @@ render() {
 
       </Form>
       <Col xs={12} sm={12} md={12} lg={12}>
-         <Card outline color="info" body className="box">
+         <Card outline color="info" body style={box}>
          <p>Setelah Melakukan Pendaftaran, Kami Akan Segera Menghubungi Kamu Melalui WhatsApp</p>
          <h1> <img width="8%" src={require(`../assets/whatsapp.png`)} alt="Card"/>  081294086512</h1>
          </Card>

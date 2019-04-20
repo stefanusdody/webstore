@@ -28,10 +28,10 @@ class NavigationBarBottom extends Component {
     return (
     <Navbar color="light fixed-bottom" light expand="md">
         <Row>
-         <Col xs={6} sm={4} md={4} lg={4}>
+         <Col xs={6} sm={6} md={6} lg={6}>
           <NavbarBrand  href="/"><img src={require(`../assets/back.png`)} height="40px" alt="" /> </NavbarBrand>
          </Col>
-         <Col xs={6} sm={4} md={4} lg={4}>
+         <Col xs={6} sm={6} md={6} lg={6}>
           <Button
            href="/signup"
            outline color="danger"

@@ -29,21 +29,21 @@ render() {
    <h1>Jenis Snack</h1>
    <br/>
     <Row>
-      <Col xs={3} sm={3} md={3} lg={3}>
+      <Col xs={6} sm={6} md={6} lg={3}>
         <CardImg top width="100%" src={require(`../assets/chips.png`)} alt="Card image cap" />
-        <p>Keripik</p>
+        <CardTitle>Keripik</CardTitle>
       </Col>
-      <Col xs={3} sm={3} md={3} lg={3}>
+      <Col xs={6} sm={6} md={6} lg={3}>
         <CardImg top width="100%" src={require(`../assets/peanut.png`)} alt="Card image cap" />
-        <p>Kacang</p>
+        <CardTitle>Kacang</CardTitle>
       </Col>
-      <Col xs={3} sm={3} md={3} lg={3}>
+      <Col xs={6} sm={6} md={6} lg={3}>
         <CardImg top width="100%" src={require(`../assets/traditional.png`)} alt="Card image cap" />
-        <p>Jadoel</p>
+        <CardTitle>Jadoel</CardTitle>
       </Col>
-      <Col xs={3} sm={3} md={3} lg={3}>
+      <Col xs={6} sm={6} md={6} lg={3}>
         <CardImg top width="100%" src={require(`../assets/candy.png`)} alt="Card image cap" />
-        <p>Permen</p>
+        <CardTitle>Permen</CardTitle>
       </Col>
     </Row>
   </Card>
