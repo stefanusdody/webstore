@@ -6,15 +6,25 @@ import {
 
 import Product from './product';
 import NavigationBarBottom from './navbarbottom'
-import "../App.css";
 
 import {ProductConsumer} from "../context";
 
-class ListProduct extends Component {
+const box = {
+  marginTop: "20px",
+  marginBottom: "25px",
+  position: "relative",
+  fontFamily: "Merriweather",
+  fontFamily: "serif",
+  fontFamily: "Open Sans Condensed",
+  fontFamily: "sans-serif",
+  textAlign: "center"
+}
 
+
+class ListProduct extends Component {
   render () {
     return (
-      <Container className="box">
+      <Container style={box}>
         <Row >
         <ProductConsumer>
          { value => {

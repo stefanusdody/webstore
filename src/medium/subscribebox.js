@@ -33,7 +33,7 @@ render() {
       </Col>
       <Col xs={3} sm={3} md={3} lg={3}>
         <CardImg top width="100%" src={require(`../assets/candy.png`)} alt="Card image cap" />
-        <CardTitle>Permen & Coklat</CardTitle>
+        <CardTitle>Permen</CardTitle>
       </Col>
     </Row>
   </Card>

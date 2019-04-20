@@ -6,11 +6,20 @@ import {
   CardTitle,
   } from 'reactstrap';
 
-import "../App.css"
+  const box = {
+    marginTop: "20px",
+    marginBottom: "25px",
+    position: "relative",
+    fontFamily: 'Merriweather',
+    fontFamily: "serif",
+    fontFamily: "Open Sans Condensed",
+    fontFamily: "sans-serif",
+    textAlign: "center"
+  }
 
 const NavigationBottom = (props) => {
   return (
-  <div className="box">
+  <div style={box}>
    <Container>
     <Row>
       <Col xs={12} sm={12} md={12} lg={4}>

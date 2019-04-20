@@ -7,7 +7,7 @@ import {
   Row,
   } from 'reactstrap';
 
-import "../App.css"
+
 
 class NavigationBarBottom extends Component {
   constructor(props) {

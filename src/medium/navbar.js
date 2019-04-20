@@ -5,7 +5,10 @@ import {
   Nav,
   } from 'reactstrap';
 
-import "../App.css"
+const navBar = {
+ marginTop: "100px",
+ display: "flex"
+}
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -24,13 +27,11 @@ class NavigationBar extends Component {
 
   render() {
     return (
-      <div className="navBar">
+      <div style={navBar}>
         <Navbar color="light fixed-top" light expand="md">
           <NavbarBrand  href="/"><img src={require(`../assets/logo adirasa.png`)} height="90px" alt="" /> AdirasaSnack </NavbarBrand>
           <Nav className="ml-auto" navbar>
-
           </Nav>
-
         </Navbar>
       </div>
     );
