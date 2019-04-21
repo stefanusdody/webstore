@@ -20,47 +20,51 @@ const box = {
   textAlign: "center"
 }
 
+const borderproduct = {
+  marginTop: "15px",
+}
+
 class ContentProduct extends Component {
   render() {
   return (
     <Container style={box}>
      <div>
-     <h1>Langkah Membeli Snack Favorite Kamu</h1>
+     <CardTitle>Langkah Membeli Snack Favorite Kamu</CardTitle>
       <Row>
          <Col xs={6} sm={6} md={6} lg={3}>
-           <Card outline color="info" body className="borderproduct">
+           <Card body style={borderproduct}>
            <CardTitle>Langkah 1</CardTitle>
            <CardImg width="70%" src={require(`../assets/clipboard.png`)} alt="Card image cap" />
            <br/>
            <CardTitle>Daftar</CardTitle>
-           <p>Daftarkan Diri Kamu Untuk Memulai Pembelian Snack Favorite </p>
+           <p>Daftarkan Diri Kamu Untuk Memulai Pembelian Snack </p>
            </Card>
          </Col>
          <Col xs={6} sm={6} md={6} lg={3}>
-            <Card outline color="info" body className="borderproduct">
-            <CardTitle>Langkah 2</CardTitle>
-            <CardImg top width="100%" src={require(`../assets/whatsapp.png`)} alt="Card image cap" />
-            <br/>
-            <CardTitle>Verifikasi</CardTitle>
-            <p>Kami Akan Segera Menghubungi Kamu Melalui Whatsapp  </p>
-            </Card>
+            <Card body style={borderproduct}>
+             <CardTitle>Langkah 2</CardTitle>
+             <CardImg top width="100%" src={require(`../assets/whatsapp.png`)} alt="Card image cap" />
+             <br/>
+             <CardTitle>Verifikasi</CardTitle>
+             <p>Kami Akan Segera Menghubungi Kamu Melalui Whatsapp  </p>
+             </Card>
          </Col>
          <Col xs={6} sm={6} md={6} lg={3}>
-             <Card outline color="info" body className="borderproduct">
-             <CardTitle>Langkah 3</CardTitle>
-             <CardImg top width="100%" src={require(`../assets/menu.png`)} alt="Card image cap" />
-             <br/>
-             <CardTitle>Pilih Produk</CardTitle>
-             <p>Kamu Bebas Untuk Memilih Produk Snack Favorite </p>
-             </Card>
+             <Card body style={borderproduct}>
+              <CardTitle>Langkah 3</CardTitle>
+              <CardImg top width="100%" src={require(`../assets/menu.png`)} alt="Card image cap" />
+              <br/>
+              <CardTitle>Pilih Produk</CardTitle>
+              <p>Kamu Bebas Untuk Memilih Produk Snack Favorite </p>
+              </Card>
            </Col>
           <Col xs={6} sm={6} md={6} lg={3}>
-             <Card outline color="info" body className="borderproduct">
-             <CardTitle>Langkah 4</CardTitle>
-             <CardImg top width="100%" src={require(`../assets/order.png`)} alt="Card image cap" />
-             <br/>
-             <CardTitle>Pengiriman</CardTitle>
-             <p>Kami Akan Mengirimkan Produk ke Kamu</p>
+             <Card body style={borderproduct}>
+              <CardTitle>Langkah 4</CardTitle>
+              <CardImg top width="100%" src={require(`../assets/order.png`)} alt="Card image cap" />
+              <br/>
+              <CardTitle>Pengiriman</CardTitle>
+              <p>Kami Akan Mengirimkan Produk ke Kamu</p>
              </Card>
           </Col>
        </Row>

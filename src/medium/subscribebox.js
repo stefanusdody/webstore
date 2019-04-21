@@ -25,31 +25,8 @@ class SubscribeBox extends Component {
 render() {
  return (
    <Container style={box}>
-   <Card outline color="info" body >
-   <h1>Jenis Snack</h1>
-   <br/>
-    <Row>
-      <Col xs={6} sm={6} md={6} lg={3}>
-        <CardImg top width="100%" src={require(`../assets/chips.png`)} alt="Card image cap" />
-        <CardTitle>Keripik</CardTitle>
-      </Col>
-      <Col xs={6} sm={6} md={6} lg={3}>
-        <CardImg top width="100%" src={require(`../assets/peanut.png`)} alt="Card image cap" />
-        <CardTitle>Kacang</CardTitle>
-      </Col>
-      <Col xs={6} sm={6} md={6} lg={3}>
-        <CardImg top width="100%" src={require(`../assets/traditional.png`)} alt="Card image cap" />
-        <CardTitle>Jadoel</CardTitle>
-      </Col>
-      <Col xs={6} sm={6} md={6} lg={3}>
-        <CardImg top width="100%" src={require(`../assets/candy.png`)} alt="Card image cap" />
-        <CardTitle>Permen</CardTitle>
-      </Col>
-    </Row>
-  </Card>
-   <br/>
    <Card outline color="info" body>
-   <h1>Produk Snack</h1>
+   <CardTitle>Produk Snack Pilihan</CardTitle>
    <br/>
     <Row>
       <Col xs={6} sm={12} md={12} lg={3}>
@@ -73,9 +50,27 @@ render() {
    </Card>
    <br/>
    <Card outline color="info" body >
-   <h2> Harga Pas Dikantong </h2>
-   <p> Kami Menjual Snack Terbaik Dengan Harga Grosir Serba Rp 10.000,- </p>
-   </Card>
+   <CardTitle>Jenis Snack</CardTitle>
+   <br/>
+    <Row>
+      <Col xs={6} sm={6} md={6} lg={3}>
+        <CardImg top width="100%" src={require(`../assets/chips.png`)} alt="Card image cap" />
+        <CardTitle>Keripik</CardTitle>
+      </Col>
+      <Col xs={6} sm={6} md={6} lg={3}>
+        <CardImg top width="100%" src={require(`../assets/peanut.png`)} alt="Card image cap" />
+        <CardTitle>Kacang</CardTitle>
+      </Col>
+      <Col xs={6} sm={6} md={6} lg={3}>
+        <CardImg top width="100%" src={require(`../assets/traditional.png`)} alt="Card image cap" />
+        <CardTitle>Jadoel</CardTitle>
+      </Col>
+      <Col xs={6} sm={6} md={6} lg={3}>
+        <CardImg top width="100%" src={require(`../assets/candy.png`)} alt="Card image cap" />
+        <CardTitle>Permen</CardTitle>
+      </Col>
+    </Row>
+  </Card>
    </Container>
   )};
 };

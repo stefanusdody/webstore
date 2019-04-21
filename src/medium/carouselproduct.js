@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Card,
          Container,
          CardImg,
+         CardTitle
          } from 'reactstrap';
 
-import Adirasa from "../assets/Adirasa copy1.png";
+import Adirasa from "../assets/head.png";
 
 const box = {
   marginTop: "20px",
@@ -16,18 +17,19 @@ const box = {
   fontFamily: "sans-serif",
   textAlign: "center"
 }
+const titleBox = {
+  marginTop: "20px",
+}
 
 class CarouselProduct extends Component {
   render () {
     return (
       <Container style={box}>
-      <Card>
         <CardImg top width="100%" src={Adirasa} alt="Card image cap" />
-      </Card>
-       <br/>
-       <h2> Pilih Snack Favorite Kamu </h2>
+
+       <CardTitle style={titleBox}> Pilih Snack Favorite Kamu </CardTitle>
        <p>Kami Menyediakan Snack Terbaik dan Akan Mengirimkan Langsung ke Kamu, Sehingga Kamu Bisa Fokuskan ke Hal Yang Lebih Penting</p>
-     </Container>
+      </Container>
     )
   }
 }
