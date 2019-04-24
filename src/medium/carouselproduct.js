@@ -16,7 +16,6 @@ const box = {
   fontFamily: "Open Sans Condensed",
   fontFamily: "sans-serif",
   textAlign: "center",
-  marginTop: "20px"
 }
 
 class CarouselProduct extends Component {

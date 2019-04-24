@@ -101,7 +101,7 @@ render() {
       <Form
        className="loginForm text-info"
        onSubmit={this.submitForm}>
-      <h1>Form Pendaftaran</h1>
+      <h4>Form Pendaftaran</h4>
          <FormGroup>
          <Label for="exampleName">Nama Lengkap</Label>
           <Input
@@ -163,7 +163,7 @@ render() {
       <Col xs={12} sm={12} md={12} lg={12}>
          <Card outline color="info" body style={box}>
          <p>Setelah Melakukan Pendaftaran, Kami Akan Segera Menghubungi Kamu Melalui WhatsApp</p>
-         <h1> <img width="8%" src={require(`../assets/whatsapp.png`)} alt="Card"/>  081294086512</h1>
+         <h4> <img width="8%" src={require(`../assets/whatsapp.png`)} alt="Card"/>  081294086512</h4>
          </Card>
       </Col>
 
