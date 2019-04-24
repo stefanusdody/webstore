@@ -29,7 +29,7 @@ class NavigationBar extends Component {
     return (
       <div style={navBar}>
         <Navbar color="light fixed-top" light expand="md">
-          <NavbarBrand  href="/"><img src={require(`../assets/logo adirasa.png`)} height="90px" alt="" /> AdirasaSnack </NavbarBrand>
+          <NavbarBrand  href="/"><img src={require(`../assets/logo adirasa.png`)} height="60px" alt="" /> AdirasaSnack </NavbarBrand>
           <Nav className="ml-auto" navbar>
           </Nav>
         </Navbar>
