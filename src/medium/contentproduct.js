@@ -4,13 +4,11 @@ import {
   Container,
   Row,
   Col,
-  Card,
   CardImg,
-  CardTitle,
   } from 'reactstrap';
 
 const box = {
-  marginTop: "20px",
+  marginTop: "50px",
   marginBottom: "25px",
   position: "relative",
   fontFamily: "Merriweather",
@@ -29,48 +27,33 @@ class ContentProduct extends Component {
   return (
     <Container style={box}>
      <div>
-     <CardTitle>Langkah Membeli Snack Favorite Kamu</CardTitle>
+     <h4 className="text-info">Langkah Menjadi Reseller</h4>
       <Row>
-         <Col xs={6} sm={6} md={6} lg={3}>
-           <Card body style={borderproduct}>
-           <CardTitle>Langkah 1</CardTitle>
-           <CardImg width="70%" src={require(`../assets/clipboard.png`)} alt="Card image cap" />
+         <Col xs={3} sm={3} md={3} lg={3}>
+
+           <CardImg style={borderproduct} width="70%" src={require(`../assets/clipboard.png`)} alt="Card image cap" />
            <br/>
-           <CardTitle>Daftar</CardTitle>
-           <p>Daftarkan Diri Kamu Untuk Memulai Pembelian Snack </p>
-           </Card>
+           <p style={borderproduct}>DAFTAR</p>
          </Col>
-         <Col xs={6} sm={6} md={6} lg={3}>
-            <Card body style={borderproduct}>
-             <CardTitle>Langkah 2</CardTitle>
-             <CardImg top width="100%" src={require(`../assets/whatsapp.png`)} alt="Card image cap" />
+         <Col xs={3} sm={3} md={3} lg={3}>
+             <CardImg style={borderproduct} top width="100%" src={require(`../assets/whatsapp.png`)} alt="Card image cap" />
              <br/>
-             <CardTitle>Verifikasi</CardTitle>
-             <p>Kami Akan Segera Menghubungi Kamu Melalui Whatsapp  </p>
-             </Card>
+             <p style={borderproduct}>VERIFIKASI</p>
          </Col>
-         <Col xs={6} sm={6} md={6} lg={3}>
-             <Card body style={borderproduct}>
-              <CardTitle>Langkah 3</CardTitle>
-              <CardImg top width="100%" src={require(`../assets/menu.png`)} alt="Card image cap" />
+         <Col xs={3} sm={3} md={3} lg={3}>
+              <CardImg style={borderproduct} top width="100%" src={require(`../assets/menu.png`)} alt="Card image cap" />
               <br/>
-              <CardTitle>Pilih Produk</CardTitle>
-              <p>Kamu Bebas Untuk Memilih Produk Snack Favorite </p>
-              </Card>
+              <p style={borderproduct}>PESAN</p>
            </Col>
-          <Col xs={6} sm={6} md={6} lg={3}>
-             <Card body style={borderproduct}>
-              <CardTitle>Langkah 4</CardTitle>
-              <CardImg top width="100%" src={require(`../assets/order.png`)} alt="Card image cap" />
+          <Col xs={3} sm={3} md={3} lg={3}>
+              <CardImg style={borderproduct} top width="100%" src={require(`../assets/order.png`)} alt="Card image cap" />
               <br/>
-              <CardTitle>Pengiriman</CardTitle>
-              <p>Kami Akan Mengirimkan Produk ke Kamu</p>
-             </Card>
+              <p style={borderproduct}>KIRIM</p>
           </Col>
        </Row>
       </div>
-      <br/>
-      <p>Ingin Berbelanja Snack Favorite Kamu? Daftarkan Diri Kamu dengan Klik Dibawah Ini</p>
+
+      <p className="text-info">Ingin Menjadi Reseller Produk Snack? Daftarkan Diri Kamu dengan Klik Dibawah Ini</p>
       <Button
        href="/signup"
        color="danger"
