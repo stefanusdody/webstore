@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-         CardImg,
+         CardImg
          } from 'reactstrap';
 
 import Adirasa from "../assets/head.png";
@@ -24,7 +24,7 @@ class CarouselProduct extends Component {
       <div style={box}>
        <CardImg top width="100%" src={Adirasa} alt="Card image cap" />
        <h4 className="text-info" style={box}>Platform Grosir Snack Online</h4>
-       <p>Kami Menyediakan Snack Terbaik dan Dengan Pembelian Minimal Rp 100.000,- Kamu Akan Terdaftar Sebagai Reseller Produk Snack Kami</p>
+       <p>Kami Menyediakan Snack Terbaik dan Dengan Pembelian Minimal Rp 100.000,- Kamu Akan Terdaftar Sebagai MITRA Produk Snack Kami</p>
       </div>
     )
   }

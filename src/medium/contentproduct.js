@@ -4,6 +4,7 @@ import {
   Container,
   Row,
   Col,
+  Card,
   CardImg,
   } from 'reactstrap';
 
@@ -27,29 +28,32 @@ class ContentProduct extends Component {
   return (
     <Container style={box}>
      <div>
-     <h4 className="text-info">Langkah Menjadi Reseller</h4>
+     <h4 className="text-info">Langkah Menjadi Mitra Kami</h4>
       <Row>
-         <Col xs={3} sm={3} md={3} lg={3}>
-
-           <CardImg style={borderproduct} width="70%" src={require(`../assets/clipboard.png`)} alt="Card image cap" />
-           <br/>
-           <p style={borderproduct}>DAFTAR</p>
+         <Col xs={4} sm={4} md={4} lg={4}>
+             <CardImg style={borderproduct} width="70%" src={require(`../assets/clipboard.png`)} alt="Card image cap" />
+             <p style={borderproduct}>DAFTAR</p>
          </Col>
-         <Col xs={3} sm={3} md={3} lg={3}>
+         <Col xs={4} sm={4} md={4} lg={4}>
              <CardImg style={borderproduct} top width="100%" src={require(`../assets/whatsapp.png`)} alt="Card image cap" />
-             <br/>
              <p style={borderproduct}>VERIFIKASI</p>
          </Col>
-         <Col xs={3} sm={3} md={3} lg={3}>
+         <Col xs={4} sm={4} md={4} lg={4}>
               <CardImg style={borderproduct} top width="100%" src={require(`../assets/menu.png`)} alt="Card image cap" />
-              <br/>
               <p style={borderproduct}>PESAN</p>
-           </Col>
-          <Col xs={3} sm={3} md={3} lg={3}>
+         </Col>
+         <Col xs={4} sm={4} md={4} lg={4}>
+               <CardImg style={borderproduct} top width="100%" src={require(`../assets/credit-card.png`)} alt="Card image cap" />
+               <p style={borderproduct}>PEMBAYARAN</p>
+         </Col>
+         <Col xs={4} sm={4} md={4} lg={4}>
               <CardImg style={borderproduct} top width="100%" src={require(`../assets/order.png`)} alt="Card image cap" />
-              <br/>
               <p style={borderproduct}>KIRIM</p>
-          </Col>
+         </Col>
+         <Col xs={4} sm={4} md={4} lg={4}>
+              <CardImg style={borderproduct} top width="100%" src={require(`../assets/shop.png`)} alt="Card image cap" />
+              <p style={borderproduct}>JUAL</p>
+         </Col>
        </Row>
       </div>
 
