@@ -52,42 +52,10 @@ class ContentProduct extends Component {
 
        </Row>
       </div>
+      <div>
+       <CardImg style={borderproduct} top width="100%" src={require(`../assets/langkah.png`)} alt="Card image cap" />
+      </div>
       <br/>
-      <Table>
-        <thead>
-          <tr className="text-info">
-            <th>No</th>
-            <th>Langkah</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Daftarkan Diri Kamu Untuk Memulai Menjadi Mitra Produk Snack Kami</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Kami Akan Segera Melakukan Verifikasi Dengan Menghubungi Kamu</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Setelah Dilakukan Verifikasi Kamu Dapat Memesan Snack Favorite Kamu</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>Setelah Melakukan Pemesanan Produk, Kamu Dapat Melakukan Proses Pembayaran</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>Setelah Kami Menerima Pembayaran, Kami Akan Segar Memproses Pengiriman Produk Pesanan Dalam Waktu 2x24 Jam</td>
-          </tr>
-          <tr>
-            <th scope="row">6</th>
-            <td>Mitra Kami Bebas Melakukan Penjualan Dimana Saja Tanpa Biaya Apapun</td>
-          </tr>
-        </tbody>
-      </Table>
       <p className="text-info">Ingin Menjadi MITRA Produk Snack Kami? Daftarkan Diri Kamu dengan Klik Dibawah Ini</p>
       <Button
        href="/signup"

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import "../App.css";
 
 const box = {
-  marginTop: "50px",
+  marginTop: "-10px",
   marginBottom: "25px",
   position: "relative",
   fontFamily: "Merriweather",
@@ -25,7 +25,7 @@ const box = {
 
 class Product extends Component {
   render () {
-    const {id, name, img, taste, weight } = this.props.product;
+    const {id, name, img, taste, weight, price } = this.props.product;
     return (
 
      <Col key={id} xs={12} sm={12} md={12}lg={4}>
@@ -38,7 +38,7 @@ class Product extends Component {
             <tbody>
               <tr>
                 <th scope="row">Harga</th>
-                <td>Rp 5.000,-</td>
+                <td>Rp {price}</td>
               </tr>
               <tr>
                 <th scope="row">Rasa</th>
