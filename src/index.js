@@ -11,6 +11,7 @@ import LogIn from "./pages/login";
 import SignUp from "./pages/signup";
 import ProductList from "./pages/productlist";
 import ProductDetail from "./medium/detail";
+import ModalSignUp from "./medium/modal"
 import {ProductProvider} from "./context"
 
 
@@ -28,6 +29,7 @@ const Root = () => (
        <Route component={SignUp} path="/signup" />
        <Route component={ProductList} path="/product" />
        <Route component={ProductDetail} path="/productdetail" />
+       <Route component={ModalSignUp} path="/modal" />
      </Switch>
      <NavigationBottom/>
      </React.Fragment>

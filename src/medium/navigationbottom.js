@@ -6,6 +6,8 @@ import {
   CardTitle,
   } from 'reactstrap';
 
+import { Link } from 'react-router-dom'
+
   const box = {
     marginTop: "20px",
     marginBottom: "25px",
@@ -32,6 +34,23 @@ const NavigationBottom = (props) => {
          <CardTitle className="text-info">Support</CardTitle>
          <p> Senin - Jumat : 10.00 - 17.00 </p>
          <p> <img src={require(`../assets/whatsapp.png`)} height="20px" alt="" /> : 081294086512 </p>
+         <CardTitle className="text-info">Temukan kami di</CardTitle>
+          <Row>
+          <Col xs={3} sm={3} md={3} lg={3}>
+
+          </Col>
+          <Col xs={3} sm={3} md={3} lg={3}>
+            <Link to="https://www.kulina.id">
+              <img  src={require(`../assets/facebook.png`)} height="50px" alt="" />
+            </Link>
+          </Col>
+          <Col xs={3} sm={3} md={3} lg={3}>
+          <img src={require(`../assets/instagram.png`)} height="50px" alt="" />
+          </Col>
+
+
+
+          </Row>
       </Col>
       <Col xs={12} sm={12} md={12} lg={4}>
          <br/>

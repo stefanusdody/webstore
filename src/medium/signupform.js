@@ -33,7 +33,7 @@ class SignUpForm extends Component {
       name:"",
       address:"",
       phone: "",
-      email: ""
+      email: "",
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeAddress = this.handleChangeAddress.bind(this);
@@ -41,6 +41,12 @@ class SignUpForm extends Component {
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.submitForm = this.submitForm.bind(this);
  }
+
+ toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
 
  handleChangeName(event){
    let value = event.target.value;
@@ -87,14 +93,13 @@ submitForm(event) {
       this.props.history.push(`/api/users/${id}`);
   })
   .catch(error => {
-      alert("Selamat Anda Telah Terdaftar ");
+      alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami..Selanjutnya Kami akan Menghubungi Kamu Melalui whatsapp");
       console.log(error.res);
     });
 }
 
 
 render() {
-
 
   return (
     <Container>
