@@ -93,7 +93,7 @@ submitForm(event) {
       this.props.history.push(`/api/users/${id}`);
   })
   .catch(error => {
-      alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami..Selanjutnya Kami akan Menghubungi Kamu Melalui whatsapp");
+      alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami, Kami akan Menghubungi Kamu Melalui whatsapp");
       console.log(error.res);
     });
 }
