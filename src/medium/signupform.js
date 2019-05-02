@@ -7,6 +7,10 @@ import {
    Form,
    FormGroup,
    Label,
+   Modal,
+   ModalHeader,
+   ModalBody,
+   ModalFooter,
    Input} from 'reactstrap';
 
 import axios from "axios";
@@ -27,8 +31,8 @@ const box = {
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 class SignUpForm extends Component {
- constructor(){
-   super();
+ constructor(props){
+   super(props);
     this.state={
       name:"",
       address:"",
@@ -42,11 +46,6 @@ class SignUpForm extends Component {
     this.submitForm = this.submitForm.bind(this);
  }
 
- toggle() {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
-  }
 
  handleChangeName(event){
    let value = event.target.value;
@@ -93,9 +92,10 @@ submitForm(event) {
       this.props.history.push(`/api/users/${id}`);
   })
   .catch(error => {
-      alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami, Kami akan Menghubungi Kamu Melalui whatsapp");
+      alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami, Kami akan Melakukan Verifikasi Melalui whatsapp");
       console.log(error.res);
     });
+  this.setState({ text: "" });
 }
 
 
@@ -157,12 +157,15 @@ render() {
              block
              onClick={this.submitForm}> Daftar Sekarang
           </Button>
+          <br/>
           <Button
              href="/"
-             outline color="warning"
+             outline color="info"
              size="lg"
-             block> Kembali
+             block
+             >Kembali
           </Button>
+
 
       </Form>
       <Col xs={12} sm={12} md={12} lg={12}>
