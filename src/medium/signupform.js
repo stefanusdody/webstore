@@ -7,10 +7,6 @@ import {
    Form,
    FormGroup,
    Label,
-   Modal,
-   ModalHeader,
-   ModalBody,
-   ModalFooter,
    Input} from 'reactstrap';
 
 import axios from "axios";
@@ -78,24 +74,30 @@ class SignUpForm extends Component {
  // submitForm(event) {
  // event.preventdefault();
 //}
-submitForm(event) {
+async submitForm(event) {
   event.preventDefault();
-  axios
-  .post(`${API_URL}/api/users`, {
-    name: this.state.name,
-    address: this.state.address,
-    phone: this.state.phone,
-    email: this.state.email
-  })
-  .then(res => {
-    const id = res.data.data.id;
-      this.props.history.push(`/api/users/${id}`);
-  })
-  .catch(error => {
-      alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami, Kami akan Melakukan Verifikasi Melalui whatsapp");
-      console.log(error.res);
-    });
-  this.setState({ text: "" });
+  const name = await this.state.name;
+  const address = await this.state.address;
+  const phone = await this.state.phone;
+  const email = await this.state.email;
+  if ( name !=="" || address !=="" || phone !=="" || email !=="") {
+    await axios
+    .post(`${API_URL}/api/users`, {
+      name: name,
+      address: address,
+      phone: phone,
+      email: email,
+    })
+    .then(res => {
+      const id = res.data.data.id;
+        this.props.history.push(`/api/users/${id}`);
+    })
+    .catch(error => {
+        alert("Terima Kasih Sudah Mendaftar Sebagai Mitra Kami, Kami akan Melakukan Verifikasi Melalui whatsapp");
+        console.log(error.res);
+      });
+    this.setState({ name: "", address: "" , phone: "", email: ""});
+  }
 }
 
 

@@ -4,9 +4,8 @@ import {
   Row,
   Col,
   CardTitle,
+  NavLink
   } from 'reactstrap';
-
-import { Link } from 'react-router-dom'
 
   const box = {
     marginTop: "20px",
@@ -40,12 +39,10 @@ const NavigationBottom = (props) => {
 
           </Col>
           <Col xs={3} sm={3} md={3} lg={3}>
-            <Link to="https://www.kulina.id">
-              <img  src={require(`../assets/facebook.png`)} height="50px" alt="" />
-            </Link>
+            <NavLink href="https://business.facebook.com/AdirasaSnack/"><img  src={require(`../assets/facebook.png`)} height="50px" alt="" /></NavLink>
           </Col>
           <Col xs={3} sm={3} md={3} lg={3}>
-          <img src={require(`../assets/instagram.png`)} height="50px" alt="" />
+            <NavLink href="https://www.instagram.com/adirasa_snack/"><img src={require(`../assets/instagram.png`)} height="50px" alt="" /></NavLink>
           </Col>
 
 
