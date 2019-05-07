@@ -33,7 +33,7 @@ class NavigationBarBottom extends Component {
          </Col>
          <Col xs={6} sm={6} md={6} lg={6}>
           <Button
-           href="/signup"
+           href="http://bit.ly/adirasa_snack"
            outline color="danger"
            size="lg"> Daftar Sekarang </Button>
          </Col>
