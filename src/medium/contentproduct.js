@@ -58,9 +58,9 @@ class ContentProduct extends Component {
       <br/>
       <p className="text-info">Ingin Menjadi MITRA Produk Snack Kami? Daftarkan Diri Kamu dengan Klik Dibawah Ini</p>
       <Button
-       href="/signup"
+       href="http://bit.ly/adirasa_snack"
        color="danger"
-       size="lg"> Daftar Sekarang</Button>
+       size="lg"> <img width="8%" src={require(`../assets/whatsapp.png`)} alt="Card"/> Daftar Sekarang</Button>
     </Container>
   );
  };

@@ -31,7 +31,7 @@ render() {
       <Col xs={6} sm={12} md={12} lg={3}>
 
           <CardImg top width="100%" src={require(`../assets/keripik.png`)} alt="Card image cap" />
-      
+
       </Col>
       <Col xs={6} sm={12} md={12} lg={3}>
           <CardImg top width="100%" src={require(`../assets/kacang.png`)} alt="Card image cap" />
@@ -46,7 +46,7 @@ render() {
     <br/>
     <Button
       href="/product"
-      color="info"
+      color="danger"
       size="block"> Lihat Produk </Button>
    </div>
   )};
