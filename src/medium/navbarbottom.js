@@ -35,7 +35,7 @@ class NavigationBarBottom extends Component {
           <Button
            href="http://bit.ly/adirasa_snack"
            outline color="danger"
-           size="block"> Daftar Sekarang </Button>
+           size="lg"> Daftar Sekarang </Button>
          </Col>
         </Row>
     </Navbar>
