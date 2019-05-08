@@ -35,7 +35,7 @@ class NavigationBarBottom extends Component {
           <Button
            href="http://bit.ly/adirasa_snack"
            outline color="danger"
-           size="block"> <img width="15%" src={require(`../assets/whatsapp.png`)} alt="Card"/> Daftar Sekarang </Button>
+           size="block"> Daftar Sekarang </Button>
          </Col>
         </Row>
     </Navbar>
