@@ -29,7 +29,6 @@ const Root = () => (
        <Route component={SignUp} path="/signup" />
        <Route component={ProductList} path="/product" />
        <Route component={ProductDetail} path="/productdetail" />
-
      </Switch>
      <NavigationBottom/>
      </React.Fragment>

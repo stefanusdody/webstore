@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Button,
+
   Container,
   Col,
-  Card,
+
   CardImg,
   Row,
-  Table
+
   } from 'reactstrap';
 
 const box = {
@@ -29,38 +29,18 @@ class ContentProduct extends Component {
   return (
     <Container style={box}>
      <div>
-     <h4 className="text-info">Langkah Menjadi Mitra Kami</h4>
       <Row>
-         <Col xs={4} sm={4} md={4} lg={4}>
-             <CardImg style={borderproduct} width="100%" src={require(`../assets/daftar.png`)} alt="Card image cap" />
+         <Col xs={12} sm={4} md={4} lg={4}>
+             <CardImg style={borderproduct} width="100%" src={require(`../assets/produk.png`)} alt="Card image cap" />
          </Col>
-         <Col xs={4} sm={4} md={4} lg={4}>
-             <CardImg style={borderproduct} top width="100%" src={require(`../assets/verifikasi.png`)} alt="Card image cap" />
+         <Col xs={12} sm={4} md={4} lg={4}>
+             <CardImg style={borderproduct} width="100%" src={require(`../assets/mutu.png`)} alt="Card image cap" />
          </Col>
-         <Col xs={4} sm={4} md={4} lg={4}>
-              <CardImg style={borderproduct} top width="100%" src={require(`../assets/pesan.png`)} alt="Card image cap" />
+         <Col xs={12} sm={4} md={4} lg={4}>
+             <CardImg style={borderproduct} top width="100%" src={require(`../assets/pengiriman.png`)} alt="Card image cap" />
          </Col>
-         <Col xs={4} sm={4} md={4} lg={4}>
-               <CardImg style={borderproduct} top width="100%" src={require(`../assets/pembayaran.png`)} alt="Card image cap" />
-         </Col>
-         <Col xs={4} sm={4} md={4} lg={4}>
-              <CardImg style={borderproduct} top width="100%" src={require(`../assets/pengiriman.png`)} alt="Card image cap" />
-         </Col>
-         <Col xs={4} sm={4} md={4} lg={4}>
-              <CardImg style={borderproduct} top width="100%" src={require(`../assets/jual.png`)} alt="Card image cap" />
-         </Col>
-
        </Row>
       </div>
-      <div>
-       <CardImg style={borderproduct} top width="100%" src={require(`../assets/langkah.png`)} alt="Card image cap" />
-      </div>
-      <br/>
-      <p className="text-info">Ingin Menjadi MITRA Produk Snack Kami? Daftarkan Diri Kamu dengan Klik Dibawah Ini</p>
-      <Button
-       href="http://bit.ly/adirasa_snack"
-       color="danger"
-       size="lg"> <img width="8%" src={require(`../assets/whatsapp.png`)} alt="Card"/> Daftar Sekarang</Button>
     </Container>
   );
  };

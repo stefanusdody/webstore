@@ -14,6 +14,7 @@ const SignIn = (props) => {
   return (
     <Container>
       <Form className="loginForm text-info">
+       <h4>LOG IN</h4>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
           <Input type="email" name="email" id="exampleEmail" placeholder="Insert Your Email" />
@@ -23,8 +24,9 @@ const SignIn = (props) => {
           <Input type="password" name="password" id="examplePassword" placeholder="Insert Your Password" />
         </FormGroup>
         <br/>
-        <Button outline color="danger" size="lg" block> Sign In </Button>
+        <Button outline color="danger" size="lg" block> LOG IN</Button>
         <br/>
+        <p>Belum Punya Account ?</p>
         <Button href="/signup" outline color="info" size="lg" block> Sign Up </Button>
       </Form>
     </Container>

@@ -29,14 +29,9 @@ class NavigationBarBottom extends Component {
     <Navbar color="light fixed-bottom" light expand="md">
         <Row>
          <Col xs={6} sm={6} md={6} lg={6}>
-          <NavbarBrand  href="/"><img src={require(`../assets/back.png`)} height="40px" alt="" /> </NavbarBrand>
+          <NavbarBrand  href="/"><img src={require(`../assets/back.png`)} height="25px" alt="" /> </NavbarBrand>
          </Col>
-         <Col xs={6} sm={6} md={6} lg={6}>
-          <Button
-           href="http://bit.ly/adirasa_snack"
-           outline color="danger"
-           size="lg"> Daftar Sekarang </Button>
-         </Col>
+
         </Row>
     </Navbar>
     );

@@ -159,24 +159,7 @@ render() {
              block
              onClick={this.submitForm}> Daftar Sekarang
           </Button>
-          <br/>
-          <Button
-             href="/"
-             outline color="info"
-             size="lg"
-             block
-             >Kembali
-          </Button>
-
-
       </Form>
-      <Col xs={12} sm={12} md={12} lg={12}>
-         <Card outline color="info" body style={box}>
-         <p>Setelah Melakukan Pendaftaran, Kami Akan Segera Menghubungi Kamu Melalui WhatsApp</p>
-         <h4> <img width="8%" src={require(`../assets/whatsapp.png`)} alt="Card"/> 081294086512</h4>
-         </Card>
-      </Col>
-
     </Container>
    );
  };

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
-import NavigationBar from '../medium/navbar';
 import SignUpForm from '../medium/signupform';
+import NavigationBarBottom from "../medium/navbarbottom"
 
 class SignUp extends Component {
   render() {
      return (
      <div>
-       <NavigationBar/>
        <SignUpForm />
+       <NavigationBarBottom/>
      </div>
      );
   }

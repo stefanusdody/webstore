@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 
-import { Card,
+import { Button,
+         Card,
          CardImg,
          CardBody,
+         CardTitle,
          Col,
          Table
          } from 'reactstrap';
@@ -32,13 +34,13 @@ class Product extends Component {
       <Card style={box}>
         <CardImg top width="5%" src={img} alt="Card image cap" />
         <CardBody>
-          <h4>{name}</h4>
+          <CardTitle>{name}</CardTitle>
           <br/>
           <Table>
             <tbody>
               <tr>
                 <th scope="row">Harga</th>
-                <td>Rp {price}</td>
+                <td>Rp {price} </td>
               </tr>
               <tr>
                 <th scope="row">Rasa</th>
@@ -50,6 +52,11 @@ class Product extends Component {
               </tr>
             </tbody>
          </Table>
+         <Button
+           href="http://bit.ly/adirasa_snack"
+           outline color="info"
+           size="block"> BELI
+         </Button>
        </CardBody>
       </Card>
      </Col>
