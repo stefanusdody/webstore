@@ -27,7 +27,7 @@ const box = {
 
 class Product extends Component {
   render () {
-    const {id, name, img, taste, weight, price } = this.props.product;
+    const {id, name, img, taste, weight, weight1, price, price1 } = this.props.product;
     return (
 
      <Col key={id} xs={12} sm={12} md={12}lg={4}>
@@ -39,16 +39,24 @@ class Product extends Component {
           <Table>
             <tbody>
               <tr>
-                <th scope="row">Harga</th>
-                <td>Rp {price} </td>
-              </tr>
-              <tr>
                 <th scope="row">Rasa</th>
                 <td>{taste}</td>
               </tr>
               <tr>
-                <th scope="row">Berat</th>
-                <td>{weight} gram</td>
+                <th scope="row">Harga (Retail)</th>
+                <td>Rp {price} </td>
+              </tr>
+              <tr>
+                <th scope="row">Berat (Retail)</th>
+                <td> {weight} gram</td>
+              </tr>
+              <tr>
+                <th scope="row">Harga (Grosir)</th>
+                <td>Rp {price1}</td>
+              </tr>
+              <tr>
+                <th scope="row">Berat (Grosir)</th>
+                <td> {weight1} Kg</td>
               </tr>
             </tbody>
          </Table>
