@@ -6,7 +6,7 @@ import App from "./pages/App";
 import CartProduct from "./medium/cart";
 import NavigationBar from "./medium/navbar";
 import NavigationBottom from "./medium/navigationbottom";
-import LogIn from "./pages/login";
+import SignIn from "./user/signin";
 import SignUp from "./pages/signup";
 import ProductList from "./pages/productlist";
 import ProductDetail from "./medium/detail";
@@ -21,7 +21,7 @@ const Routes = () => {
      <Switch>
        <Route component={App} exact path="/" />
        <Route component={CartProduct} exact path="/cart" />
-       <Route component={LogIn} path="/login" />
+       <Route component={SignIn} path="/signin" />
        <Route component={SignUp} path="/signup" />
        <Route component={ProductList} path="/product" />
        <Route component={ProductDetail} path="/productdetail" />

@@ -18,7 +18,8 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import {signout, isAuthenticated } from '../auth/index';
+import {itemTotal} from './carthelpers';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -32,7 +33,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-    marginLeft: theme.spacing(1),
   },
   sectionDesktop: {
     display: 'none',
@@ -56,6 +56,7 @@ const NavigationBar = () => {
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const { user } = isAuthenticated()
 
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
@@ -95,7 +96,7 @@ const NavigationBar = () => {
 
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge color="primary"  className={classes.margin}>
+          <Badge color="primary" badgeContent={itemTotal()} className={classes.margin}>
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -109,7 +110,7 @@ const NavigationBar = () => {
         <IconButton aria-label="show 11 new notifications" color="inherit">
             <StorefrontIcon />
         </IconButton>
-          <Link color="inherit"variant="body2" className={classes.link} href="/shop" >
+          <Link color="inherit"variant="body2" className={classes.link} href="/product" >
              <ListItemText>Shop</ListItemText>
           </Link>
       </MenuItem>
@@ -123,6 +124,8 @@ const NavigationBar = () => {
           </Link>
       </MenuItem>
 
+
+      {isAuthenticated() && isAuthenticated().user.role === 0 && (
         <div>
         <MenuItem>
           <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -133,7 +136,11 @@ const NavigationBar = () => {
            </Link>
         </MenuItem>
         </div>
+      )}
 
+
+
+      {isAuthenticated() && isAuthenticated().user.role === 1 && (
         <div>
         <MenuItem>
           <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -144,7 +151,12 @@ const NavigationBar = () => {
            </Link>
         </MenuItem>
         </div>
+      )}
 
+
+
+
+      {!isAuthenticated() && (
            <div>
            <MenuItem onClick={handleProfileMenuOpen}>
              <IconButton
@@ -174,7 +186,11 @@ const NavigationBar = () => {
               </Link>
            </MenuItem>
            </div>
+         )}
 
+
+
+        {isAuthenticated() && (
           <MenuItem>
             <IconButton aria-label="show 11 new notifications" color="inherit">
                 <ExitToAppIcon />
@@ -184,12 +200,12 @@ const NavigationBar = () => {
               variant="body2"
               className={classes.link}
               href="/"
-
+              onClick={() => signout(() => { window.history.pushState(null, null,"/")})}
               >
               <ListItemText>Sign Out</ListItemText>
              </Link>
           </MenuItem>
-
+        )}
     </Menu>
   );
 
@@ -197,10 +213,7 @@ const NavigationBar = () => {
     <div className={classes.grow}>
       <AppBar position="fixed" color="default">
         <Toolbar>
-        <div>
-          <img src={require(`../assets/logo adirasa.png`)} width="40px" alt=""/>
-        </div>
-       <Link color="inherit"variant="body2" className={classes.link} href="/" >
+         <Link color="inherit"variant="body2" className={classes.link} href="/" >
            <Typography className={classes.title} variant="h6" noWrap>
              Adirasa Snack
            </Typography>
@@ -208,7 +221,7 @@ const NavigationBar = () => {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-             <Badge className={classes.margin}  color="primary">
+             <Badge className={classes.margin} badgeContent={itemTotal()} color="primary">
                <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
                  <Typography className={classes.title} component="p">
                   Cart
@@ -218,7 +231,7 @@ const NavigationBar = () => {
             </IconButton>
 
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Link color="inherit"variant="body2" className={classes.link} href="/shop" >
+              <Link color="inherit"variant="body2" className={classes.link} href="/product" >
                   <Typography className={classes.title} component="p">
                    Shop
                   </Typography>
@@ -236,7 +249,7 @@ const NavigationBar = () => {
               </IconButton>
 
 
-
+            {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <IconButton aria-label="show 17 new notifications" color="inherit">
                 <Link color="inherit"variant="body2" className={classes.link} href="/user/dashboard" >
                   <Typography className={classes.title} component="p">
@@ -244,9 +257,9 @@ const NavigationBar = () => {
                   </Typography>
                 </Link>
               </IconButton>
+            )}
 
-
-
+            {isAuthenticated() && isAuthenticated().user.role === 1 && (
               <IconButton aria-label="show 17 new notifications" color="inherit">
                 <Link color="inherit"variant="body2" className={classes.link} href="/admin/dashboard" >
                   <Typography className={classes.title} component="p">
@@ -254,7 +267,11 @@ const NavigationBar = () => {
                    </Typography>
                 </Link>
               </IconButton>
+            )}
 
+
+
+             {!isAuthenticated() && (
                <div>
                 <IconButton
                   edge="end"
@@ -286,16 +303,22 @@ const NavigationBar = () => {
                   </Link>
                 </IconButton>
               </div>
+             )}
 
+
+             {isAuthenticated() && (
                <IconButton
                 aria-label="exit application"
                 color="inherit"
                 href="/"
+                onClick={() => signout(() => { window.history.pushState(null, null,"/")})}
                 >
                    <Typography className={classes.title} component="p">
                     Sign Out
                    </Typography>
                </IconButton>
+             )}
+
 
 
 

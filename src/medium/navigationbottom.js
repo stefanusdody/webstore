@@ -23,11 +23,7 @@ const NavigationBottom = (props) => {
   <div style={box}>
    <Container>
     <Row>
-      <Col xs={12} sm={12} md={12} lg={4}>
-         <br/>
-         <img src={require(`../assets/logo adirasa.png`)} height="90px" alt="" />
-         <CardTitle>Adirasa Snack</CardTitle>
-      </Col>
+      
       <Col xs={12} sm={12} md={12} lg={4}>
          <br/>
          <CardTitle className="text-info">Support</CardTitle>
@@ -49,7 +45,7 @@ const NavigationBottom = (props) => {
 
           </Row>
       </Col>
-      
+
     </Row>
   </Container>
   </div>
