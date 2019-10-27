@@ -12,7 +12,7 @@ import Adirasa from "../assets/head.png";
 const box = {
   paddingRight: "10px",
   paddingLeft: "10px",
-  marginTop: "20px",
+  marginTop: "70px",
   marginBottom: "25px",
   position: "relative",
   fontFamily: "sans-serif",

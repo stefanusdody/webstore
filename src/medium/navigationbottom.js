@@ -49,14 +49,7 @@ const NavigationBottom = (props) => {
 
           </Row>
       </Col>
-      <Col xs={12} sm={12} md={12} lg={4}>
-         <br/>
-         <CardTitle className="text-info">Toko Offline Retail Kami</CardTitle>
-         <p className="text-info"> Mall Bassura City, Lantai 1 </p>
-         <p>Jl. Basuki Rahmat No.1A, RT.8/RW.10, Cipinang Besar Sel., Jatinegara, Kota Jakarta Timur</p>
-         <p className="text-info"> Cityplaza Jatinegara, Lantai 1  </p>
-         <p>Jl. Matraman Raya No.173-175, RT.7/RW.6, Bali Mester, Jatinegara, Kota Jakarta Timur</p>
-      </Col>
+      
     </Row>
   </Container>
   </div>
