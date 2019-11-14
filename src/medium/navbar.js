@@ -213,11 +213,9 @@ const NavigationBar = () => {
     <div className={classes.grow}>
       <AppBar position="fixed" color="default">
         <Toolbar>
-         <Link color="inherit"variant="body2" className={classes.link} href="/" >
            <Typography className={classes.title} variant="h6" noWrap>
-             Adirasa Snack
+             Adirasa
            </Typography>
-        </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">

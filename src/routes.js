@@ -26,7 +26,6 @@ const Routes = () => {
        <Route component={ProductList} path="/product" />
        <Route component={ProductDetail} path="/productdetail" />
      </Switch>
-     <NavigationBottom/>
      </React.Fragment>
     </Router>
   </ProductProvider>

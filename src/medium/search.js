@@ -104,10 +104,10 @@ const SearchItem = () => {
         <TextField
          fullWidth
          type="text"
-         label="Search Product Snack"
+         label="Cari Snack Favorite "
          className="form-control"
          onChange={handleChange('search')}
-         placeholder="Search Product Snack"
+         placeholder="e.g. Telur Gabus Keju"
         />
       </Grid>
     </Grid>
