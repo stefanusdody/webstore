@@ -9,13 +9,15 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginTop: theme.spacing(8),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3)
   },
   message:{
     textAlign: 'center',
+
   },
   search: {
     position: 'relative',
