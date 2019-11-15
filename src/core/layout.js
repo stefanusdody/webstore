@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import {
          CardImg,
-         CardText,
-         Container,
-         Row,
-         Col
+         Container
          } from 'reactstrap';
 
 import Adirasa from "../assets/head.png";
@@ -29,9 +26,8 @@ const textBox = {
 class Layout extends Component {
   render () {
     return (
-      <Container style={box}>
+     <Container style={box}>
        <CardImg top width="100%" src={Adirasa} alt="Card image cap" />
-       
       </Container>
     )
   }

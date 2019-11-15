@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Layout from '../medium/layout';
-import SearchItem from '../medium/search';
+import Layout from './layout';
+import SearchItem from './search';
 
-class App extends Component {
+class Home extends Component {
   render() {
     return (
      <div>
@@ -13,4 +13,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;

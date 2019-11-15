@@ -1,34 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.min.css";
-import App from "./pages/App";
-import CartProduct from "./medium/cart";
-import NavigationBar from "./medium/navbar";
-import NavigationBottom from "./medium/navigationbottom";
+import Home from "./core/home";
 import SignIn from "./user/signin";
-import SignUp from "./pages/signup";
-import ProductList from "./pages/productlist";
-import ProductDetail from "./medium/detail";
-import {ProductProvider} from "./context"
+import SignUp from "./user/signup";
+import NavigationBar from "./core/navbar";
 
 const Routes = () => {
  return(
-  <ProductProvider>
-    <Router>
-     <React.Fragment>
+  <Router>
+   <React.Fragment>
      <NavigationBar/>
      <Switch>
-       <Route component={App} exact path="/" />
-       <Route component={CartProduct} exact path="/cart" />
+       <Route component={Home} exact path="/" />
        <Route component={SignIn} path="/signin" />
        <Route component={SignUp} path="/signup" />
-       <Route component={ProductList} path="/product" />
-       <Route component={ProductDetail} path="/productdetail" />
      </Switch>
-     </React.Fragment>
-    </Router>
-  </ProductProvider>
+   </React.Fragment>
+  </Router>
  );
 };
 
