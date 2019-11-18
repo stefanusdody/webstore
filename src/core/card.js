@@ -208,34 +208,39 @@ return (
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
 
-          <Typography paragraph>Snack Product:</Typography>
+          <Typography variant="body2" color="textSecondary" component="p" >Snack Product:</Typography>
           <Typography paragraph>
             {product.name}
           </Typography>
 
-          <Typography paragraph>Rasa:</Typography>
+          <Typography variant="body2" color="textSecondary" component="p" >Rasa:</Typography>
           <Typography paragraph>
             {product.taste}
           </Typography>
 
-          <Typography paragraph>Berat Bersih:</Typography>
+          <Typography variant="body2" color="textSecondary" component="p" >Berat Bersih:</Typography>
           <Typography paragraph>
             {product.weight} Gram
           </Typography>
 
-          <Typography paragraph>Price:</Typography>
+          <Typography variant="body2" color="textSecondary" component="p" >Price:</Typography>
           <Typography paragraph>
             Rp {product.price}
           </Typography>
 
+          <Typography variant="body2" color="textSecondary" component="p" >Komposisi:</Typography>
           <Typography paragraph>
+            {product.ingredients}
+          </Typography>
+
+          <Typography variant="body2" color="textSecondary" component="p" >
              Description:
           </Typography>
           <Typography paragraph>
              {product.description.substring(0,1000)}
           </Typography>
 
-          <Typography paragraph>
+          <Typography variant="body2" color="textSecondary" component="p" >
              Stock Available:
           </Typography>
           <Typography paragraph>
