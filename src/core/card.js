@@ -220,7 +220,7 @@ return (
 
           <Typography paragraph>Berat Bersih:</Typography>
           <Typography paragraph>
-            {product.weight} Kg
+            {product.weight} Gram
           </Typography>
 
           <Typography paragraph>Price:</Typography>

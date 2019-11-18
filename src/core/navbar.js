@@ -14,7 +14,8 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import PaymentIcon from '@material-ui/icons/Payment';
-import StorefrontIcon from '@material-ui/icons/Storefront';
+import StoreIcon from '@material-ui/icons/Store';
+
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -108,9 +109,9 @@ const NavigationBar = () => {
 
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-            <StorefrontIcon />
+            <StoreIcon />
         </IconButton>
-          <Link color="inherit"variant="body2" className={classes.link} href="/product" >
+          <Link color="inherit"variant="body2" className={classes.link} href="/shop" >
              <ListItemText>Shop</ListItemText>
           </Link>
       </MenuItem>
@@ -218,7 +219,16 @@ const NavigationBar = () => {
            </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+
+          <IconButton aria-label="show home" color="inherit">
+            <Link color="inherit"variant="body2" className={classes.link} href="/" >
+                <Typography className={classes.title} component="p">
+                 Home
+                </Typography>
+            </Link>
+          </IconButton>
+
+            <IconButton aria-label="show cart" color="inherit">
              <Badge className={classes.margin} badgeContent={itemTotal()} color="primary">
                <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
                  <Typography className={classes.title} component="p">
@@ -228,8 +238,8 @@ const NavigationBar = () => {
              </Badge>
             </IconButton>
 
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Link color="inherit"variant="body2" className={classes.link} href="/product" >
+            <IconButton aria-label="show shop" color="inherit">
+              <Link color="inherit"variant="body2" className={classes.link} href="/shop" >
                   <Typography className={classes.title} component="p">
                    Shop
                   </Typography>
@@ -237,7 +247,7 @@ const NavigationBar = () => {
             </IconButton>
 
 
-              <IconButton aria-label="show 11 new notifications" color="inherit">
+              <IconButton aria-label="show payment confirmation" color="inherit">
 
                 <Link color="inherit"variant="body2" className={classes.link} href="/paymentconfirmation" >
                   <Typography className={classes.title} component="p">
@@ -248,7 +258,7 @@ const NavigationBar = () => {
 
 
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
-              <IconButton aria-label="show 17 new notifications" color="inherit">
+              <IconButton aria-label="show user dashboard" color="inherit">
                 <Link color="inherit"variant="body2" className={classes.link} href="/user/dashboard" >
                   <Typography className={classes.title} component="p">
                    Dashboard
@@ -258,7 +268,7 @@ const NavigationBar = () => {
             )}
 
             {isAuthenticated() && isAuthenticated().user.role === 1 && (
-              <IconButton aria-label="show 17 new notifications" color="inherit">
+              <IconButton aria-label="show admin dashboard" color="inherit">
                 <Link color="inherit"variant="body2" className={classes.link} href="/admin/dashboard" >
                   <Typography className={classes.title} component="p">
                     Dashboard

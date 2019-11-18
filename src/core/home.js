@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   card: {
     textAlign: "center"
   },
+  search:{
+    marginTop: theme.spacing(8)
+  },
   cardGrid: {
     marginTop: theme.spacing(10),
     height: '30vh',
@@ -57,8 +60,8 @@ const Home = () => {
   }, [])
 
     return (
-     <div>
-       <SearchItem/>
+     <div className={classes.search}>
+       <SearchItem />
        <Container>
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
          New Arrival

@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import Grid from '@material-ui/core/Grid';
-import CardProduct from './card';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import {getCategories, list } from './apicore';
+import {getOrders, list } from './apiadmin';
+
+
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginTop: theme.spacing(1),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -57,82 +57,55 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const SearchItem = () => {
+const SearchOrder = () => {
   const classes = useStyles();
 
   const [data, setData] = useState({
-    categories: [],
-    category: '',
+    orders: [],
+    order_id: '',
     search: '',
     results: [],
     searched: false
   });
 
-  const {categories, category, search, results, searched} = data
+  const {orders, order_id, search, results, searched} = data
 
-  const loadCategories = () => {
-    getCategories().then(data => {
+  const loadOrders = () => {
+    getOrders().then(data => {
       if(data.error) {
         console.log(data.error)
       } else {
-        setData({...data, categories: data})
+        setData({...data, orders: data})
       }
     })
   }
 
   useEffect(() => {
-    loadCategories()
+    loadOrders()
   }, [])
 
   const searchData = () => {
-    console.log(search, category);
+    // console.log(search, order);
     if(search) {
-      list({search: search || undefined, category: category})
+      list({search: search || undefined, order_id:order_id})
       .then(response => {
         if(response.error) {
-          console.log(response.error);
+          console.log(response.error)
         } else {
-          setData({...data, results: response, searched: true });
+          setData({...data, results: response, searched: true})
         }
       })
     }
   };
 
   const searchSubmit = (e) => {
-     e.preventDefault()
-     searchData()
+   e.preventDefault()
+   searchData()
   };
 
   const handleChange = (name) => event => {
    setData({...data, [name]: event.target.value, searched: false});
   };
-
-  const searchMessage = (searched, results) => {
-  if(searched && results.length > 0) {
-    return `Found ${results.length} products`
-   }
-   if(searched && results.length < 1) {
-     return `Products Not Found`
-    }
-}
-
-  const searchProducts = (results = []) => {
-   return (
-    <div>
-      <Typography className={classes.message} component="h1" variant="h5">
-         {searchMessage(searched, results)}
-      </Typography>
-      <br/>
-         <Grid container spacing={4}>
-          {results.map((product, i) => (
-            <Grid key={i} item xs={12} sm={4} md={3}>
-              <CardProduct product={product} showViewDescriptions={false} showViewCategories={false}/>
-            </Grid>
-           ))}
-         </Grid>
-    </div>
-    )
-  }
 
   const searchForm = () => (
     <form className={classes.container} noValidate autoComplete="off" onSubmit={searchSubmit}>
@@ -141,10 +114,10 @@ const SearchItem = () => {
         <TextField
          fullWidth
          type="search"
-         label="Search Your Favourite Snack"
+         label="Search Order"
          className="form-control"
          onChange={handleChange('search')}
-         placeholder="e.g Telur Gabus Keju"
+         placeholder="search by order Id"
         />
       </Grid>
     </Grid>
@@ -158,15 +131,15 @@ const SearchItem = () => {
   return (
     <div>
        <div className="container mb-3">
-        {searchForm()}
+         {searchForm()}
        </div>
        <br/>
        <div className="container-fluid mb-3">
-        {searchProducts(results)}
+
        </div>
        <br/>
     </div>
   )
 }
 
-export default SearchItem;
+export default SearchOrder;

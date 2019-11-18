@@ -11,20 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { signin, authenticate, isAuthenticated } from "../auth"
 
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -64,13 +52,28 @@ const SignIn = () => {
 
  const { email, password, loading, error, redirectToReferrer } = values;
 
-
+ const { user } = isAuthenticated()
 
   const handleChange = name => event => {
      setValues({ ...values, error: false , [name]: event.target.value });
  };
 
-
+ const clickSubmit = (event) => {
+   event.preventDefault();
+    setValues({ ...values, error: false, loading: true});
+    signin({ email, password }).then(data => {
+      if(data.error){
+        setValues({ ...values, error: data.error, loading: false})
+      } else {
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            redirectToReferrer : true
+          });
+        });
+      }
+    });
+ };
 
   const signInForm = () => (
     <form className={classes.form} noValidate>
@@ -113,7 +116,7 @@ const SignIn = () => {
         variant="contained"
         color="primary"
         className={classes.submit}
-
+        onClick={clickSubmit}
       >
         Sign In
       </Button>
@@ -133,7 +136,15 @@ const SignIn = () => {
       </Typography>)
   );
 
-
+  const redirectUser = () => {
+    if(redirectToReferrer) {
+      if(user && user.role === 1 ){
+        return <Redirect to="/admin/dashboard" />;
+      } else {
+        return <Redirect to="/user/dashboard" />;
+      }
+    }
+  };
 
 
   return (
@@ -150,11 +161,15 @@ const SignIn = () => {
        {showLoading()}
        {showError()}
        {signInForm()}
-
+       {redirectUser()}
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
+      <Grid container>
+        <Grid item>
+          <Link href="/signup" variant="body2">
+              {"Don't have an account? Sign Up"}
+          </Link>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
