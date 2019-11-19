@@ -46,7 +46,9 @@ const AddProduct = () => {
   const classes = useStyles();
   const [values, setValues] = useState({
     name: "",
-    schedule: "",
+    taste:"",
+    weight:"",
+    ingredients:"",
     price: "",
     categories: [],
     category: "",
@@ -65,7 +67,9 @@ const AddProduct = () => {
 
   const {
         name,
-        schedule,
+        taste,
+        weight,
+        ingredients,
         price,
         categories,
         category,
@@ -117,7 +121,9 @@ useEffect(() => {
           setValues({
             ...values,
             name: "",
-            schedule: "",
+            taste:"",
+            weight:"",
+            ingredients:"",
             photo: "",
             description: "",
             price: "",
@@ -172,19 +178,52 @@ useEffect(() => {
 
         <Grid item xs={12} >
           <TextField
-            autoComplete="schedule"
-            name="schedule"
+            autoComplete="taste"
+            name="taste"
             type="text"
             variant="outlined"
             required
             fullWidth
-            id="schedule"
-            label="Product Schedule"
+            id="taste"
+            label="Product Taste"
             autoFocus
-            value={schedule}
-            onChange={handleChange("schedule")}
+            value={taste}
+            onChange={handleChange('taste')}
           />
         </Grid>
+
+        <Grid item xs={12} >
+          <TextField
+            autoComplete="weight"
+            name="weight"
+            type="number"
+            variant="outlined"
+            required
+            fullWidth
+            id="weight"
+            label="Product Weight"
+            autoFocus
+            value={weight}
+            onChange={handleChange('weight')}
+          />
+        </Grid>
+
+        <Grid item xs={12} >
+          <TextField
+            autoComplete="ingredients"
+            name="ingredients"
+            type="text"
+            variant="outlined"
+            required
+            fullWidth
+            id="ingredients"
+            label="Product Ingredients"
+            autoFocus
+            value={ingredients}
+            onChange={handleChange('ingredients')}
+          />
+        </Grid>
+
 
         <Grid item xs={12} >
           <TextField

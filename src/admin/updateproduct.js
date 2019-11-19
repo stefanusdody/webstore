@@ -47,7 +47,9 @@ const UpdateProduct = ({match}) => {
   const classes = useStyles();
   const [values, setValues] = useState({
     name: "",
-    schedule: "",
+    taste:"",
+    weight:"",
+    ingredients:"",
     description: "",
     price: "",
     categories: [],
@@ -66,7 +68,9 @@ const UpdateProduct = ({match}) => {
 
   const {
         name,
-        schedule,
+        taste,
+        weight,
+        ingredients,
         description,
         price,
         categories,
@@ -89,7 +93,9 @@ const UpdateProduct = ({match}) => {
             setValues({
                ...values,
                name: data.name,
-               schedule: data.schedule,
+               taste: data.taste,
+               weight: data.weight,
+               ingredients: data.ingredients,
                description: data.description,
                price: data.price,
                category: data.category._id,
@@ -140,7 +146,9 @@ useEffect(() => {
           setValues({
             ...values,
             name: "",
-            schedule: "",
+            taste: "",
+            weight: "",
+            ingredients: "",
             description: "",
             photo: "",
             price: "",
@@ -192,19 +200,50 @@ useEffect(() => {
         </Grid>
 
         <Grid item xs={12} >
-          <h4>Update Product Schedule</h4>
+          <h4>Update Product Taste</h4>
           <TextField
-            autoComplete="schedule"
-            name="schedule"
+            autoComplete="ftaste"
+            name="taste"
             type="text"
             variant="outlined"
             fullWidth
-            id="schedule"
+            id="taste"
             autoFocus
-            value={schedule}
-            onChange={handleChange("schedule")}
+            value={taste}
+            onChange={handleChange("taste")}
           />
         </Grid>
+
+        <Grid item xs={12} >
+          <h4>Update Product Weight</h4>
+          <TextField
+            autoComplete="fweight"
+            name="weight"
+            type="text"
+            variant="outlined"
+            fullWidth
+            id="weight"
+            autoFocus
+            value={weight}
+            onChange={handleChange("weight")}
+          />
+        </Grid>
+
+        <Grid item xs={12} >
+          <h4>Update Product Ingredients</h4>
+          <TextField
+            autoComplete="fingredients"
+            name="ingredients"
+            type="text"
+            variant="outlined"
+            fullWidth
+            id="ingredients"
+            autoFocus
+            value={ingredients}
+            onChange={handleChange("ingredients")}
+          />
+        </Grid>
+
 
         <Grid item xs={12} >
           <h4>Update Product Description</h4>

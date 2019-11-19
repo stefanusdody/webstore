@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {isAuthenticated} from '../auth';
 import {emptyCart} from "./carthelpers"
 import {getBraintreeClientToken, processPayment, createOrder} from "./apicore";
-import DropIn from "braintree-web-drop-in-react"
+
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -243,9 +243,6 @@ const showNext = () => {
     </div>
   </Grid>
      <Grid item xs={12} sm={12} md={12}>
-       <DropIn
-          options={{ authorization: data.clientToken }}
-          onInstance={instance => (data.instance = instance)}/>
        <Button
         type="submit"
         fullWidth
