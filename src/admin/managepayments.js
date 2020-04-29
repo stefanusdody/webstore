@@ -12,7 +12,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import LabelImportantSharpIcon from '@material-ui/icons/LabelImportantSharp';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
-import UpdateIcon from '@material-ui/icons/Update';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';

@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Redirect} from "react-router-dom";
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import EventAvailableSharpIcon from '@material-ui/icons/EventAvailableSharp';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LabelImportantSharpIcon from '@material-ui/icons/LabelImportantSharp';
 import { makeStyles } from '@material-ui/core/styles';
-import {listOrders, getStatusValues, updateOrderStatus, getOrders} from './apiadmin';
+import {listOrders, getStatusValues, updateOrderStatus } from './apiadmin';
 import { isAuthenticated } from '../auth'
 import moment from 'moment';
 

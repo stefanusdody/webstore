@@ -2,33 +2,32 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import AdminRoute from "./auth/adminroute";
 import PrivateRoute from "./auth/privateroute";
-
 import AddCategory from "./admin/addcategory";
 import AddProduct from "./admin/addproduct";
+import ManageProducts from "./admin/manageproducts";
+import ManagePayments from "./admin/managepayments";
+import Orders from "./admin/orders";
+import UpdateProduct from "./admin/updateproduct";
+import Profile from "./user/profile";
+import PurchaseHistory from "./user/purchasehistory";
+import SignIn from "./user/signin";
+import SignUp from "./user/signup";
+import Dashboard from "./user/dashboard";
+import AdminDashboard from "./user/admindashboard";
 import Cart from "./core/cart";
 import CheckOut from "./core/checkout";
 import Home from "./core/home";
-import ManageProducts from "./admin/manageproducts";
-import ManagePayments from "./admin/managepayments";
-import NavigationBar from "./core/navbar";
-import Orders from "./admin/orders";
 import PaymentConfirmation from "./core/paymentconfirmation";
-import Profile from "./user/profile";
-import PurchaseHistory from "./user/purchasehistory";
 import Review from "./core/review";
-import SignIn from "./user/signin";
-import SignUp from "./user/signup";
 import Shop from "./core/shop";
-import UpdateProduct from "./admin/updateproduct";
-
-import Dashboard from "./user/dashboard";
-import AdminDashboard from "./user/admindashboard";
+import NavigationBar from "./core/navbar";
+import Product from './core/product';
 
 const Routes = () => {
  return(
   <Router>
    <React.Fragment>
-     <NavigationBar/>
+   <NavigationBar />
      <Switch>
        <Route exact path="/" component={Home}/>
        <Route path="/cart" exact component={Cart}/>
@@ -37,6 +36,7 @@ const Routes = () => {
        <Route path="/signup" component={SignUp}/>
        <Route path="/shop" component={Shop}/>
        <Route path="/reviewcart" exact component={Review}/>
+       <Route path="/product/:productId" exact component={Product} />
        <PrivateRoute
           path="/paymentconfirmation"
           component={PaymentConfirmation}/>

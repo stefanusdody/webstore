@@ -3,7 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import CardProduct from './card';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
+import {fade, makeStyles } from '@material-ui/core/styles';
 import {getCategories, list } from './apicore';
 
 const useStyles = makeStyles(theme => ({
@@ -55,6 +57,13 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }))
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: grey[800] }, // Purple and green play nicely together.
+  },
+  typography: { useNextVariants: true },
+});
 
 
 const SearchItem = () => {
@@ -112,7 +121,11 @@ const SearchItem = () => {
     return `Found ${results.length} products`
    }
    if(searched && results.length < 1) {
-     return `Products Not Found`
+     return (
+         <Typography className={classes.message} component="h1" variant="h5" color="secondary">
+            Product tidak ditemukan
+         </Typography>
+     )
     }
 }
 
@@ -138,14 +151,20 @@ const SearchItem = () => {
     <form className={classes.container} noValidate autoComplete="off" onSubmit={searchSubmit}>
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12}>
+      <MuiThemeProvider theme={theme}>
         <TextField
+         id="filled-full-width"
+         className={classes.textField}
+         placeholder="Cari Jenis Bunga"
          fullWidth
-         type="search"
-         label="Search Your Favourite Snack"
-         className="form-control"
+         margin="normal"
+         InputLabelProps={{
+           shrink: true,
+         }}
+         variant="outlined"
          onChange={handleChange('search')}
-         placeholder="e.g Telur Gabus Keju"
         />
+      </MuiThemeProvider>
       </Grid>
     </Grid>
     <div

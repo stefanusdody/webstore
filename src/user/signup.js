@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -40,6 +40,8 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
   const classes = useStyles();
+  const [progress, setProgress] = React.useState(0);
+
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -48,7 +50,7 @@ const SignUp = () => {
     success: false
   })
 
-  const {name, email, password, error, success } = values
+  const {name, email, password, loading, error, success } = values
 
   const handleChange = name => event => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -56,10 +58,10 @@ const SignUp = () => {
 
   const clickSubmit = event => {
     event.preventDefault();
-    setValues({ ...values, error: false});
+    setValues({ ...values, error: false, loading: true});
     signup({ name, email, password }).then(data => {
       if(data.error) {
-        setValues({ ...values, error: data.error, success: false })
+        setValues({ ...values, error: data.error, success: false , loading: false })
       } else {
         setValues({
           ...values,
@@ -67,11 +69,24 @@ const SignUp = () => {
           email: "",
           password: "",
           error: "",
+          loading: false,
           success: true
         });
       }
     })
   };
+
+  React.useEffect(() => {
+     function tick() {
+       // reset when reaching 100%
+       setProgress((oldProgress) => (oldProgress >= 100 ? 0 : oldProgress + 1));
+     }
+
+     const timer = setInterval(tick, 20);
+     return () => {
+       clearInterval(timer);
+     };
+   }, []);
 
   const signUpForm = () => (
     <form className={classes.form} noValidate>
@@ -127,7 +142,7 @@ const SignUp = () => {
         type="submit"
         fullWidth
         variant="contained"
-        color="primary"
+        color="secondary"
         className={classes.submit}
         onClick={clickSubmit}
       >
@@ -144,6 +159,11 @@ const SignUp = () => {
     }
   }
 
+  const showLoading = () => (
+    loading && (
+        <CircularProgress variant="determinate" value={progress} />
+    )
+  );
 
   const showSuccess = () => (
     <Typography fontWeight="fontWeightBold" m={1} style={{display: success ? "" : "none"}} color="primary">
@@ -164,6 +184,7 @@ const SignUp = () => {
           Sign up
         </Typography>
         <br/>
+        {showLoading()}
         {showSuccess()}
         {showError()}
         {signUpForm()}

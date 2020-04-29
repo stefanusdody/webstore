@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -18,8 +18,6 @@ const useStyles = makeStyles(theme => ({
 
 const OrderBoxes = ({ orderstatus, handleFilters }) => {
   const classes = useStyles();
-
-  const [value, setValue] = useState(0)
 
   const handleChange = () => {
 

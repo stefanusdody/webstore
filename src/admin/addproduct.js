@@ -156,7 +156,6 @@ useEffect(() => {
                autoFocus
                onChange={handleChange("photo")}
                type="file"
-               name="photo"
                accept="image/*" />
         </Grid>
 

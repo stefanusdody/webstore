@@ -4,17 +4,10 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import HomeIcon from '@material-ui/icons/Home';
-import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AppBar from '@material-ui/core/AppBar';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import CreditCardSharpIcon from '@material-ui/icons/CreditCardSharp';
-import LabelImportantSharpIcon from '@material-ui/icons/LabelImportantSharp';
-import EventAvailableSharpIcon from '@material-ui/icons/EventAvailableSharp';
-import ScheduleSharpIcon from '@material-ui/icons/ScheduleSharp';
-import LocalShippingSharpIcon from '@material-ui/icons/LocalShippingSharp';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
@@ -31,10 +24,8 @@ import Grid from '@material-ui/core/Grid';
 import CardOrder from './ordercard';
 import OrderBoxes from './ordersbox';
 import {orderstatus} from './fixedstatus';
-import {listOrders, getStatusValues, updateOrderStatus, getOrders, read} from './apiadmin';
+import {listOrders, getStatusValues, updateOrderStatus} from './apiadmin';
 import {signout, isAuthenticated } from '../auth'
-import moment from 'moment';
-
 
 const drawerWidth = 240;
 
@@ -232,23 +223,6 @@ const Orders = () => {
       }
     })
   };
-
-
-  const showStatus = (o) => (
-    <div className="form-group">
-       <ListItemText>
-          Update Status : {o.status}
-       </ListItemText>
-       <select className="form-control" onChange={(e) => handleStatusChange(e, o._id)}>
-         <option>Update Status</option>
-         {statusValues.map((status, index) => (
-           <option key={index} value={status}>
-            {status}
-           </option>
-         ))}
-       </select>
-    </div>
-  )
 
   return (
     <div className={classes.root}>

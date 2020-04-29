@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Link from '@material-ui/core/Link';
-import clsx from 'clsx';
-import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import { fade, makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
+import Container from '@material-ui/core/Container';
 import HomeIcon from '@material-ui/icons/Home';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -10,14 +10,10 @@ import Badge from '@material-ui/core/Badge';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,8 +21,12 @@ import AppBar from '@material-ui/core/AppBar';
 import SearchItem from './search';
 import CheckBoxes from "./checkbox";
 import CardProduct from "./card";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import Slide from '@material-ui/core/Slide';
 import { signout } from '../auth';
 import { getCategories, getFilteredProducts } from './apicore';
+import {prices} from './fixedprices';
 import {itemTotal} from './carthelpers';
 
 
@@ -35,7 +35,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(3),
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -56,6 +56,10 @@ const useStyles = makeStyles(theme => ({
   },
   hide: {
     display: 'none',
+  },
+  container: {
+    textAlign: "center",
+    marginTop: theme.spacing(5),
   },
   card: {
     textAlign: "center",
@@ -97,6 +101,30 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 10,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   inputRoot: {
     color: 'inherit',
   },
@@ -108,21 +136,42 @@ const useStyles = makeStyles(theme => ({
       width: 200,
     },
   },
+  img: {
+    width: "60%"
+  },
+  toolbarSecondary: {
+    justifyContent: 'space-between',
+    overflowX: 'auto',
+  },
+  toolbarLink: {
+    padding: theme.spacing(1),
+    flexShrink: 0,
+  },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: grey[800] }, // Purple and green play nicely together.
+  },
+  typography: { useNextVariants: true },
+});
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Shop = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  function handleDrawerOpen() {
+  const handleClickOpen = () => {
     setOpen(true);
-  }
+  };
 
-  function handleDrawerClose() {
+  const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: []}
@@ -182,9 +231,27 @@ const Shop = () => {
     const newFilters = {...myFilters};
     newFilters.filters[filterBy] = filters;
 
+    if(filterBy === "price") {
+      let priceValue = handlePrice(filters)
+      newFilters.filters[filterBy] = priceValue;
+    }
     loadFilteredResults(myFilters.filters)
     setMyFilters(newFilters);
   };
+
+  const handlePrice = value => {
+    const data = prices
+    let array = []
+
+    for(let key in data) {
+      if(data[key]._id === parseInt(value)) {
+        array = data[key].array
+      }
+    }
+    return array;
+  };
+
+
 
   const filtersLinks = () => {
     return (
@@ -217,31 +284,21 @@ const Shop = () => {
           </Link>
         </ListItem>
       ))}
+    </List>
 
-      {['My Chart'].map((text, index) => (
+    <List>
+      {['My Cart'].map((text, index) => (
         <ListItem button key={text}>
-          <ListItemIcon>{index % 2 === 0 ?
-            <Badge className={classes.margin} badgeContent={itemTotal()} color="primary">
-              <ShoppingCartIcon />
-            </Badge>
-            :
-            <ShoppingCartIcon />}</ListItemIcon>
+          <ListItemIcon>{index % 2 === 0 ? <ShoppingCartIcon /> : <ShoppingCartIcon />}</ListItemIcon>
           <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
-            <ListItemText primary={text} />
-          </Link>
-          </ListItem>
-      ))}
-
-
-      {['Sign Out'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>{index % 2 === 0 ? <ExitToAppIcon /> : <ExitToAppIcon /> }</ListItemIcon>
-          <Link color="inherit"variant="body2" className={classes.link} onClick={() => signout(() => { window.history.pushState(null, null,"/")})} href="/" >
+            <Badge badgeContent={itemTotal()} color="primary">
               <ListItemText primary={text} />
+            </Badge>
           </Link>
-          </ListItem>
+        </ListItem>
       ))}
     </List>
+
     </div>
     )
   }
@@ -260,65 +317,52 @@ const Shop = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-
+      <MuiThemeProvider theme={theme}>
       <AppBar
         position="fixed"
-        color="default"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
+        color="primary"
       >
+
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+           aria-label="show more"
+           aria-haspopup="true"
+           onClick={handleClickOpen}
+           color="inherit"
           >
             <MenuIcon />
           </IconButton>
-          <Link color="inherit"variant="body2" className={classes.link} href="/" >
-            <Typography className={classes.title} variant="h6" noWrap>
-              Adirasa
-            </Typography>
-         </Link>
         </Toolbar>
-      </AppBar>
 
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        {navLinks()}
-        <Divider />
-        {filtersLinks()}
-      </Drawer>
-       <main
-         className={clsx(classes.content, {
-           [classes.contentShift]: open,
-           })}
+
+        <Dialog
+         open={open}
+         TransitionComponent={Transition}
+         keepMounted
+         onClose={handleClose}
+         aria-labelledby="alert-dialog-slide-title"
+         aria-describedby="alert-dialog-slide-description"
        >
-       <div>
+
+         {navLinks()}
+         <Divider />
+         {filtersLinks()}
+         <DialogActions>
+           <Button onClick={handleClose} color="primary">
+             Close
+           </Button>
+         </DialogActions>
+       </Dialog>
+      </AppBar>
+    </MuiThemeProvider>
+
+    <Container>
+       <div className={classes.container}>
+         <SearchItem/>
        </div>
-         <SearchItem />
-       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
-           Pilih Snack Favorite Kamu
-       </Typography>
-        <Grid container spacing={4}>
+        <Grid container spacing={2} className={classes.card}>
           {filteredResults.map((product, i) => (
-            <Grid key={i} item xs={12} sm={3} md={3}>
+            <Grid key={i} item xs={6} sm={3} md={3}>
               <CardProduct
                product={product}
                showViewImage= {true}
@@ -326,13 +370,13 @@ const Shop = () => {
                showViewDescriptions={false}
                showViewCategories={false}
                showAddedProduct={false}
+               showDetailProduct={false}
                />
             </Grid>
           ))}
         </Grid>
-        <br/>
         {loadMoreButton()}
-       </main>
+       </Container>
     </div>
   );
 }

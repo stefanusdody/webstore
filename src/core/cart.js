@@ -7,8 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import {getCart} from "./carthelpers";
-import {isAuthenticated} from '../auth'
-
+import {isAuthenticated} from '../auth';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -20,46 +19,80 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
   cardGrid: {
-    height: '10%',
+    height: '50%',
+    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
+  },
+  shownext: {
+    marginBottom: theme.spacing(10),
   }
 }))
 
+
 const Cart = () => {
   const classes = useStyles();
-
   const [ items, setItems ] = useState([]);
+  const [run, setRun] = useState(false);
 
   useEffect(() => {
     setItems(getCart());
   }, []);
 
+  const showNext = () => {
+    return isAuthenticated() ? (
+      <Button
+       type="submit"
+       fullWidth
+       variant="contained"
+       size="small"
+       color="primary"
+       href="/reviewcart"
+       className={classes.shownext}
+       >
+        Next
+      </Button>
+    ):(
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        size="small"
+        href="/signin"
+        color="secondary"
+        className={classes.shownext}
+        >
+        Sign In to Next
+      </Button>
+    )
+  }
+
   const showItems = (items) => {
     return(
       <div>
-      <Grid container spacing={4}>
-       {items.map((product, i) => (
-        <Grid key={i} item xs={12} sm={12} md={12}>
-         <CardProduct
-           className={classes.cardGrid}
-           key={i}
-           product={product}
-           showViewProductButton={false}
-           showViewPrice={false}
-           showViewDescriptions={false}
-           showViewCategories={false}
-           showAddedProduct={false}
-           showViewAddCart={false}
-           cartUpdate={true}
-           showRemoveProductButton={true}
+      <Container className={classes.cardGrid} maxWidth="md">
+        <Grid container spacing={4}>
+         {items.map((product, i) => (
+           <Grid key={i}  setRun={setRun} item xs={6} sm={6} md={6}>
+            <CardProduct
+              key={i}
+             product={product}
+             showViewProductButton={false}
+             showViewPrice={false}
+             showViewDescriptions={false}
+             showViewCategories={false}
+             showAddedProduct={false}
+             showViewAddCart={false}
+             cartUpdate={true}
+             showRemoveProductButton={true}
            />
         </Grid>
          ))}
        </Grid>
+      </Container>
       </div>
     )
-  }
+  };
 
   const noItemMessage = () => (
     <Typography color="secondary" className={classes.card} gutterBottom variant="h5" component="h1">
@@ -77,43 +110,15 @@ const Cart = () => {
     </Grid>
   );
 
-  const showNext = () => {
-    return isAuthenticated() ? (
-      <Button
-       type="submit"
-       fullWidth
-       variant="contained"
-       size="small"
-       color="primary"
-       href="/reviewcart"
-       >
-        Next
-      </Button>
-    ):(
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        size="small"
-        href="/signin"
-        color="secondary">
-        Sign In to Next
-      </Button>
-    )
-  }
-
   return (
     <Container maxWidth="sm">
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
-         Your Cart List
+         Your cart has {`${items.length}`} items
       </Typography>
        {items.length > 0 ? showItems(items) : noItemMessage()}
        <br/>
-       {goBack()}
-       <br/>
-       <div>
-       {showNext()}
-       </div>
+        {showNext()}
+        {goBack()}
     </Container>
   )
 }

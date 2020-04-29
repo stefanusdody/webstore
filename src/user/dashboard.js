@@ -1,37 +1,41 @@
 import React, {useState, useEffect} from 'react';
 import Link from '@material-ui/core/Link';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import HistoryIcon from '@material-ui/icons/History';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
+import Button from '@material-ui/core/Button';
 import HomeIcon from '@material-ui/icons/Home';
 import Box from '@material-ui/core/Box';
-import MapIcon from '@material-ui/icons/Map';
-import PhoneIcon from '@material-ui/icons/Phone';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LabelIcon from '@material-ui/icons/Label';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import StoreIcon from '@material-ui/icons/Store';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import MailIcon from '@material-ui/icons/Mail';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import Slide from '@material-ui/core/Slide';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+import EditIcon from '@material-ui/icons/Edit';
+import ShopIcon from '@material-ui/icons/Shop';
 import { signout, isAuthenticated } from '../auth';
 import {itemTotal} from '../core/carthelpers';
-import {getPurchaseHistory} from './apiuser'
+import {getPurchaseHistory} from './apiuser';
 import moment from 'moment'
 
 
@@ -100,25 +104,34 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: grey[800] }, // Purple and green play nicely together.
+  },
+  typography: { useNextVariants: true },
+});
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Dashboard = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
   const [history, setHistory] = useState([])
 
   const { user: { _id, name, email, role }} = isAuthenticated();
 
   const token = isAuthenticated().token
 
-  function handleDrawerOpen() {
+  const handleClickOpen = () => {
     setOpen(true);
-  }
+  };
 
-  function handleDrawerClose() {
+  const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   const init = (userId, token) => {
     getPurchaseHistory(userId, token).then(data => {
@@ -134,7 +147,7 @@ const Dashboard = () => {
     init(_id, token)
   }, [])
 
-  const userLinks = () => {
+const userLinks = () => {
     return (
     <div>
       <List>
@@ -166,17 +179,6 @@ const Dashboard = () => {
       </List>
 
       <List>
-        {['Purchase History'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon><HistoryIcon /></ListItemIcon>
-            <Link color="inherit"variant="body2" className={classes.link} href="/user/purchasehistory" >
-              <ListItemText primary={text} />
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-
-      <List>
         {['Update Profile'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon><AccountCircle /></ListItemIcon>
@@ -201,7 +203,7 @@ const Dashboard = () => {
     )
   }
 
-  const navLinks = () => {
+const navLinks = () => {
     return (
     <div>
     <List>
@@ -219,12 +221,21 @@ const Dashboard = () => {
     )
   }
 
-  const userInfo = () => {
+const userInfo = () => {
     return (
       <Box component="span" m={1}>
-        <Typography variant="h6">
-         User Information
+
+      <ListItem button>
+        <Typography variant="h6" >
+          User Information
         </Typography>
+        <Link color="inherit"variant="body2" className={classes.link} href={`/profile/${_id}`} >
+        <ListItemIcon>
+          <EditIcon />
+        </ListItemIcon>
+        </Link>
+      </ListItem>
+
 
         <List>
           {[''].map((text, index) => (
@@ -257,59 +268,110 @@ const Dashboard = () => {
     )
   }
 
+const userPurchaseHistory = () => {
+  return (
+    <Box component="span" m={1}>
+      <ListItem button>
+        <Typography variant="h6">
+         Purchase History
+        </Typography>
+      </ListItem>
+      {history.map((h, i) => {
+          return (
+            <List key={i} component="nav" aria-label="secondary mailbox folders">
+              <Paper>
+                  <ListItem button>
+                    <ListItemText className={classes.itemText}>Order Status: {h.status}</ListItemText>
+                  </ListItem>
+                  {h.products.map((p, i) => {
+                      return (
+                          <div key={i}>
+                             <ListItem button>
+                               <ListItemIcon>
+                                <ShopIcon />
+                               </ListItemIcon>
+                               <ListItemText>
+                                 {p.name}
+                               </ListItemText>
+                             </ListItem>
+
+                             <ListItem button>
+                               <ListItemIcon>
+                                <MonetizationOnIcon />
+                               </ListItemIcon>
+                               <ListItemText>
+                                 Rp {p.price}
+                               </ListItemText>
+                             </ListItem>
+
+                             <ListItem button>
+                               <ListItemIcon>
+                                <CalendarTodayIcon />
+                               </ListItemIcon>
+                               <ListItemText>
+                                 {moment(h.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+                               </ListItemText>
+                             </ListItem>
+                            <Divider/>
+                          </div>
+                      );
+                  })}
+              </Paper>
+            </List>
+          );
+      })}
+    </Box>
+  )
+}
+
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        color="default"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
+      <MuiThemeProvider theme={theme}>
+      <AppBar position="fixed" color="primary" >
+         <Toolbar>
+           <IconButton
+            aria-label="show more"
+            aria-haspopup="true"
+            onClick={handleClickOpen}
             color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        {navLinks()}
-        <Divider />
-        {userLinks()}
-      </Drawer>
-        <main
-          className={clsx(classes.content, {
-          [classes.contentShift]: open,
-         })}
-        >
-        {userInfo()}
+           >
+              <MenuIcon />
+           </IconButton>
+           <Typography className={classes.title} variant="h6" noWrap>
+            User Profile
+           </Typography>
 
-      </main>
+        </Toolbar>
+
+
+        <Dialog
+         open={open}
+         TransitionComponent={Transition}
+         keepMounted
+         onClose={handleClose}
+         aria-labelledby="alert-dialog-slide-title"
+         aria-describedby="alert-dialog-slide-description"
+       >
+
+         {navLinks()}
+         <Divider />
+         {userLinks()}
+         <DialogActions>
+           <Button onClick={handleClose} color="primary">
+             Close
+           </Button>
+         </DialogActions>
+       </Dialog>
+      </AppBar>
+    </MuiThemeProvider>
+
+       <Container>
+         {userInfo()}
+          <Divider />
+         {userPurchaseHistory()}
+       </Container>
     </div>
   );
 }

@@ -1,23 +1,23 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import CreateIcon from '@material-ui/icons/Create';
+import InputIcon from '@material-ui/icons/Input';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import PaymentIcon from '@material-ui/icons/Payment';
 import StoreIcon from '@material-ui/icons/Store';
-
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import ListItemText from '@material-ui/core/ListItemText';
 import {signout, isAuthenticated } from '../auth/index';
 import {itemTotal} from './carthelpers';
@@ -49,12 +49,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: grey[800] }, // Purple and green play nicely together.
+  },
+  typography: { useNextVariants: true },
+});
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const NavigationBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [open, setOpen] = React.useState(false);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const { user } = isAuthenticated()
@@ -63,28 +73,37 @@ const NavigationBar = () => {
     setAnchorEl(event.currentTarget);
   }
 
-  function handleMobileMenuClose() {
-    setMobileMoreAnchorEl(null);
-  }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  function handleMobileMenuOpen(event) {
-    setMobileMoreAnchorEl(event.currentTarget);
-  }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const menuId = 'primary-search-account-menu';
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
   const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-slide-title"
+      aria-describedby="alert-dialog-slide-description"
     >
+
+      <MenuItem>
+         <IconButton aria-label="show 11 new notifications" color="inherit">
+           <AccountCircle />
+         </IconButton>
+         <Link color="inherit"variant="body2" className={classes.link} href="/user/dashboard" >
+          <ListItemText>Profile</ListItemText>
+         </Link>
+      </MenuItem>
+
 
       <MenuItem>
          <IconButton aria-label="show 4 new mails" color="inherit">
@@ -126,37 +145,6 @@ const NavigationBar = () => {
       </MenuItem>
 
 
-      {isAuthenticated() && isAuthenticated().user.role === 0 && (
-        <div>
-        <MenuItem>
-          <IconButton aria-label="show 11 new notifications" color="inherit">
-              <DashboardIcon />
-          </IconButton>
-          <Link color="inherit"variant="body2" className={classes.link} href="/user/dashboard" >
-            <ListItemText>Dashboard</ListItemText>
-           </Link>
-        </MenuItem>
-        </div>
-      )}
-
-
-
-      {isAuthenticated() && isAuthenticated().user.role === 1 && (
-        <div>
-        <MenuItem>
-          <IconButton aria-label="show 11 new notifications" color="inherit">
-              <DashboardIcon />
-          </IconButton>
-          <Link color="inherit"variant="body2" className={classes.link} href="/admin/dashboard" >
-            <ListItemText>Dashboard</ListItemText>
-           </Link>
-        </MenuItem>
-        </div>
-      )}
-
-
-
-
       {!isAuthenticated() && (
            <div>
            <MenuItem onClick={handleProfileMenuOpen}>
@@ -166,24 +154,10 @@ const NavigationBar = () => {
                aria-haspopup="true"
                color="inherit"
              >
-                <AccountCircle />
+                <InputIcon />
              </IconButton>
               <Link color="inherit"variant="body2" className={classes.link} href="/signin" >
                  <ListItemText>Sign In</ListItemText>
-              </Link>
-           </MenuItem>
-
-           <MenuItem onClick={handleProfileMenuOpen}>
-             <IconButton
-               aria-label="account of current user"
-               aria-controls="primary-search-account-menu"
-               aria-haspopup="true"
-               color="inherit"
-             >
-                <CreateIcon />
-             </IconButton>
-              <Link color="inherit"variant="body2" className={classes.link} href="/signup" >
-                 <ListItemText>Sign Up</ListItemText>
               </Link>
            </MenuItem>
            </div>
@@ -207,12 +181,13 @@ const NavigationBar = () => {
              </Link>
           </MenuItem>
         )}
-    </Menu>
+    </Dialog>
   );
 
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed" color="default">
+    <MuiThemeProvider theme={theme}>
+      <AppBar position="fixed" color="primary">
         <Toolbar>
            <Typography className={classes.title} variant="h6" noWrap>
              Adirasa
@@ -256,27 +231,13 @@ const NavigationBar = () => {
                 </Link>
               </IconButton>
 
-
-            {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <IconButton aria-label="show user dashboard" color="inherit">
                 <Link color="inherit"variant="body2" className={classes.link} href="/user/dashboard" >
                   <Typography className={classes.title} component="p">
-                   Dashboard
+                   Profile
                   </Typography>
                 </Link>
               </IconButton>
-            )}
-
-            {isAuthenticated() && isAuthenticated().user.role === 1 && (
-              <IconButton aria-label="show admin dashboard" color="inherit">
-                <Link color="inherit"variant="body2" className={classes.link} href="/admin/dashboard" >
-                  <Typography className={classes.title} component="p">
-                    Dashboard
-                   </Typography>
-                </Link>
-              </IconButton>
-            )}
-
 
 
              {!isAuthenticated() && (
@@ -295,24 +256,8 @@ const NavigationBar = () => {
                    </Typography>
                 </Link>
                 </IconButton>
-
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <Link color="inherit"variant="body2" className={classes.link} href="/signup" >
-                   <Typography className={classes.title} component="p">
-                     Sign Up
-                   </Typography>
-                  </Link>
-                </IconButton>
               </div>
              )}
-
 
              {isAuthenticated() && (
                <IconButton
@@ -327,24 +272,22 @@ const NavigationBar = () => {
                </IconButton>
              )}
 
-
-
-
           </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
+      <div className={classes.sectionMobile}>
+        <IconButton
+          aria-label="show more"
+          aria-controls={mobileMenuId}
+          aria-haspopup="true"
+          onClick={handleClickOpen}
+          color="inherit"
+        >
               <MoreIcon />
-            </IconButton>
+        </IconButton>
           </div>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
+    </MuiThemeProvider>
     </div>
   );
 }

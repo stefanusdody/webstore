@@ -1,23 +1,19 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
+import Paper from '@material-ui/core/Paper';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import pink from '@material-ui/core/colors/pink';
+import { createMuiTheme } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-
 import {Redirect} from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import ShowImage from './showimage';
@@ -27,8 +23,15 @@ import {isAuthenticated} from '../auth'
 
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    maxWidth: 345,
+    textAlign: "center",
+  },
   card: {
     maxWidth: "100%",
+  },
+  image: {
+    marginTop: theme.spacing(3)
   },
   media: {
     height: 0,
@@ -44,27 +47,32 @@ const useStyles = makeStyles(theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
   desc: {
     textAlign: "center"
   }
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: pink[500] }, // Purple and green play nicely together.
+  },
+  typography: { useNextVariants: true },
+});
+
 const CardProduct = ({
       product,
       showViewAddCart = true,
-      showViewProductButton = true,
       showViewDescriptions = true,
       showViewCategories = true,
       cartUpdate= false,
+      showBuyButton=true,
       showRemoveProductButton=false
     }) => {
 
   const classes = useStyles();
   const [redirect , setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
+  const preventDefault = (event) => event.preventDefault();
   const [state, setState] = useState({
     open: true
   })
@@ -96,18 +104,6 @@ const CardProduct = ({
     );
   };
 
-
-const showStock = (quantity) => {
-    return quantity > 0 ?
-      <Typography variant="body2" color="textSecondary" component="p">
-          Stock : {product.quantity}
-      </Typography>
-      :
-      <Typography variant="body2" color="textSecondary" component="p">
-         Sold Out
-      </Typography>
-
-  }
 
 const showRemoveButton = (showRemoveProductButton) => {
     return(
@@ -157,119 +153,34 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
     }
   }
 
-  const showBuy = () => {
-    return isAuthenticated() ? (
-      <div>
-       {showAddToChartButton(showViewAddCart)}
-      </div>
-    ):(
-      <Button
-        type="submit"
-        fullWidth
-        size="small"
-        href="/signin"
-        color="secondary">
-        Sign In to Buy
-      </Button>
-    )
-  }
-
-  const showNext = () => {
-    return isAuthenticated() ? (
-      <IconButton
-        className={clsx(classes.expand, {
-          [classes.expandOpen]: expanded,
-        })}
-        onClick={handleExpandClick}
-        aria-expanded={expanded}
-        aria-label="show more"
-      >
-        <ExpandMoreIcon />
-      </IconButton>
-    ):(
-      <Button
-        type="submit"
-        fullWidth
-        size="small"
-        href="/signin"
-        color="secondary">
-        Sign In to See
-      </Button>
-    )
-  }
-
 return (
     <Grid>
-    <Card className={classes.card}>
-    <CardHeader
-      avatar={
-        <Avatar aria-label="recipe" className={classes.avatar}>
-          <FavoriteBorderIcon/>
-        </Avatar>
-      }
-      title={product.name}
-    />
-    <ShowImage item={product} url="product"/>
-     <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p" className={classes.desc}>
-          {product.description.substring(0,1000)}
-        </Typography>
-        {cartShowCartUpdateOptions(cartUpdate)}
-        <br/>
-        {showRemoveButton(showRemoveProductButton)}
-      </CardContent>
-      <CardActions disableSpacing>
-          {showBuy()}
-          {showNext()}
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
 
-          <Typography variant="body2" color="textSecondary" component="p" >Snack Product:</Typography>
-          <Typography paragraph>
-            {product.name}
-          </Typography>
+        <Paper elevation={3} className={classes.root} >
+          <CardActionArea>
+            <Link href={`/product/${product._id}`}>
+             <ShowImage item={product} url="product" />
+            </Link>
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {product.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Rp {product.price}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Stock : {product.quantity}
+                </Typography>
+               {cartShowCartUpdateOptions(cartUpdate)}
+                <br/>
+               {showRemoveButton(showRemoveProductButton)}
+              </CardContent>
+          </CardActionArea>
+          <CardActions disableSpacing>
+             {showAddToChartButton(showViewAddCart)}
+          </CardActions>
+      </Paper >
 
-          <Typography variant="body2" color="textSecondary" component="p" >Rasa:</Typography>
-          <Typography paragraph>
-            {product.taste}
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" component="p" >Berat Bersih:</Typography>
-          <Typography paragraph>
-            {product.weight} Gram
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" component="p" >Price:</Typography>
-          <Typography paragraph>
-            Rp {product.price}
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" component="p" >Komposisi:</Typography>
-          <Typography paragraph>
-            {product.ingredients}
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" component="p" >
-             Description:
-          </Typography>
-          <Typography paragraph>
-             {product.description.substring(0,1000)}
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" component="p" >
-             Stock Available:
-          </Typography>
-          <Typography paragraph>
-             {product.quantity} Packs
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" component="p">
-            Added on {moment(product.createdAt).fromNow()}
-          </Typography>
-        </CardContent>
-      </Collapse>
-      </Card>
     </Grid>
     );
 }

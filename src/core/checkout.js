@@ -1,20 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import AddLocationIcon from '@material-ui/icons/AddLocation';
 import TextField from '@material-ui/core/TextField';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MailIcon from '@material-ui/icons/Mail';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PhoneIcon from '@material-ui/icons/Phone';
+import Link from '@material-ui/core/Link';
+import List from '@material-ui/core/List';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {isAuthenticated} from '../auth';
 import {emptyCart} from "./carthelpers"
 import {getBraintreeClientToken, processPayment, createOrder} from "./apicore";
-
+import DropIn from 'braintree-web-drop-in-react';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -25,283 +24,174 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
 
   },
-  text:{
+  listItem: {
+    padding: theme.spacing(1, 0),
+  },
+  title:{
     textAlign: "center",
   }
 }))
 
-const CheckOut = ({products}) => {
-  const classes = useStyles();
+const CheckOut = ({products, setRun = f => f, run = undefined}) => {
+const classes = useStyles();
+const [shipping, setShipping] = useState(products.shipping);
 
-  const { user: { _id, name, email, role}} = isAuthenticated();
-
-  const [ data, setData ] = useState({
-    loading: false,
-    success: false,
-    clientToken: null,
-    error: "",
-    instance: {},
-    address: ""
-  })
-
-  // braintree
-  const userId = isAuthenticated() && isAuthenticated().user._id
-  const token = isAuthenticated() && isAuthenticated().token
-
-  const getToken = (userId, token) => {
-    getBraintreeClientToken(userId, token).then(data => {
-      if(data.error) {
-        setData({...data, error: data.error})
-      } else {
-        setData({clientToken: data.clientToken})
-      }
-    })
-  }
-
-  useEffect(() => {
-   getToken(userId, token)
-   },[])
-
-   const handleAddress = event => {
-     setData({...data, address: event.target.value})
-   };
-
-  const getTotal = () => {
-    return products.reduce((currentValue, nextValue) => {
-      return currentValue + nextValue.count * nextValue.price
-    },0)
-  }
-
-  let deliveryAddress = data.address
-
-  const buy = () => {
-  // send the nonce to your server
-  // nonce = data.instance.requestPaymentMethod()
-  let nonce;
-  let getNonce = data.instance
-  .requestPaymentMethod()
-  .then(data => {
-    // console.log(data)
-    nonce = data.nonce;
-    // once you have nonce(card type, card number) send nonce as "paymentMethodNonce"
-    // and also total to be charged
-    // console.log('send nonce and total to process: ', nonce, getTotal(products));
-    const paymentData = {
-      paymentMethodNonce: nonce,
-      amount: getTotal(products)
-    }
-    processPayment(userId, token, paymentData)
-    .then(response => {
-      console.log(response);
-      // empty cart
-      // create order
-
-      const createOrderData = {
-        products: products,
-        transaction_id: response.transaction.id,
-        amount: response.transaction.amount,
-        address: deliveryAddress
-      }
-
-      createOrder(userId, token, createOrderData)
-       .then(response => {
-         emptyCart(() => {
-           console.log("payment success and empty cart");
-           setData({ loading: false, success: true });
-         })
-       })
-       .catch(error => {
-         console.log(error);
-         setData({ loading: false });
-       });
-
-    })
-    .catch(error => {
-      console.log(error);
-      setData({ loading: false});
+const [data, setData] = useState({
+        loading: false,
+        success: false,
+        clientToken: null,
+        error: '',
+        instance: {},
+        address: ''
     });
 
-  })
+const userId = isAuthenticated() && isAuthenticated().user._id;
+const token = isAuthenticated() && isAuthenticated().token;
 
+const getToken = (userId, token) => {
+        getBraintreeClientToken(userId, token).then(data => {
+            if (data.error) {
+                console.log(data.error);
+                setData({ ...data, error: data.error });
+            } else {
+                console.log(data);
+                setData({ clientToken: data.clientToken });
+            }
+        });
+    };
 
-  .catch(error => {
-    // console.log('dropin error: ', error)
-    setData({ ...data, error: error.message});
-  });
+useEffect(() => {
+      getToken(userId, token);
+  }, []);
+
+const handleAddress = event => {
+    setData({ ...data, address: event.target.value });
+};
+
+const getTotal = () => {
+  return products.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.count * nextValue.price
+  }, 0)
 }
 
-
-const showNext = () => {
-  return isAuthenticated() ? (
-    <div>{showDropIn()}</div>
-  ):(
-    <Button
-      type="submit"
-      fullWidth
-      variant="contained"
-      size="small"
-      href="/signin"
-      color="secondary">
-      Sign In to Next
-    </Button>
-  )
+const getNetTotal = () => {
+  return getTotal() + 9000
 }
 
-  //braintree
-  const showDropIn = () => (
-  <div>
-    {data.clientToken !== null && products.length > 0 ? (
-    <Grid container spacing={4}>
-     <Grid item xs={12} sm={12} md={12}>
-     <div>
-       <Typography variant="h6" gutterBottom>
-         Shipping Address
-       </Typography>
-         <ListItem button>
-           <ListItemIcon>
-              <AccountCircleIcon/>
-           </ListItemIcon>
-           <ListItemText> {name}  </ListItemText>
-         </ListItem>
+const handleChange = () => event => {
+  setShipping(event.target.value)
+}
 
-         <ListItem button>
-            <ListItemIcon>
-               <MailIcon />
-            </ListItemIcon>
-            <ListItemText> {email} </ListItemText>
-         </ListItem>
+const showCheckout = () => {
+    return isAuthenticated() ? (
+            <div>{showDropIn()}</div>
+    ) : (
+            <Link to="/signin">
+                <button className="btn btn-primary">Sign in to checkout</button>
+            </Link>
+        );
+};
 
-         <ListItem button>
-            <ListItemIcon>
-               <PhoneIcon />
-            </ListItemIcon>
-            <ListItemText> 08902012974920 </ListItemText>
-         </ListItem>
+let deliveryAddress = data.address;
 
-          <ListItem button>
-             <ListItemIcon>
-                <AddLocationIcon/>
-             </ListItemIcon>
-             <ListItemText>
-                <TextField
-                 fullWidth
-                 label="Input Your Address"
-                 onChange={handleAddress}
-                 className='form-control'
-                  value={data.address}
-                />
-             </ListItemText>
-          </ListItem>
+const createOrderData = {
+    products: products,
+    transaction_id: products.id,
+    amount: products.amount,
+    address: deliveryAddress
+};
 
-          <ListItem button>
-             <ListItemIcon>
-                <AddLocationIcon/>
-             </ListItemIcon>
-             <ListItemText>
-                <TextField
-                 required
-                 id="city"
-                 name="city"
-                 label="City"
-                 fullWidth
-                 autoComplete="billing address-level2"
-                />
-             </ListItemText>
-          </ListItem>
 
-          <ListItem button>
-             <ListItemIcon>
-                <AddLocationIcon/>
-             </ListItemIcon>
-             <ListItemText>
-                <TextField
-                required
-                id="zip"
-                name="zip"
-                label="Zip / Postal code"
-                fullWidth
-                autoComplete="billing postal-code"
-                />
-             </ListItemText>
-          </ListItem>
+const buy = () => {
+        setData({ loading: true });
+        createOrder(userId, token, createOrderData)
+            .then(response => {
+                emptyCart(() => {
+                    setRun(!run); // run useEffect in parent Cart
+                    console.log('payment success and empty cart');
+                    setData({
+                        loading: false,
+                        success: true
+                    });
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                setData({ loading: false });
+            });
+    };
 
-          <ListItem button>
-             <ListItemIcon>
-                <AddLocationIcon/>
-             </ListItemIcon>
-             <ListItemText>
-                <TextField
-                required
-                id="country"
-                name="country"
-                label="Country"
-                fullWidth
-                autoComplete="billing country"
-                />
-             </ListItemText>
-          </ListItem>
-    </div>
-  </Grid>
-     <Grid item xs={12} sm={12} md={12}>
-       <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        fullWidth
-        size="small"
-        color="secondary"
-        onClick={buy}
-        >
-        Order Now
-        </Button>
-    </Grid>
-  </Grid>
-    ) : null}
- </div>
-)
+    const showDropIn = () => (
+        <div onBlur={() => setData({ ...data, error: '' })}>
+                <div>
+                <Typography variant="h6" gutterBottom className={classes.title}>
+                   Shipping address
+                </Typography>
+                 <Grid container spacing={3}>
+                   <Grid item xs={12}>
+                    <TextField
+                     required
+                     id="address1"
+                     name="address1"
+                     label="Address"
+                     fullWidth
+                     autoComplete="billing address-line1"
+                     value={data.address}
+                     onChange={handleAddress}
+                    />
+                  </Grid>
+                </Grid>
+                <br/>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={buy}
+                >
+                  Order
+                </Button>
+                </div>
+        </div>
+    );
 
-const showError = error => (
- <Typography variant="h4" gutterBottom color='secondary' className={classes.text}  style={{display: error ? "" : "none"}}>
-    {error}
- </Typography>
-);
+  const showError = error => (
+              <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+                  {error}
+              </div>
+          );
 
-const showSuccess = success => (
- <Typography variant="h4" gutterBottom color='primary' className={classes.text}  style={{display: success ? "" : "none"}}>
-    Thanks! Your Order was succesful!
- </Typography>
-);
+  const showSuccess = success => (
+              <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
+                  Thanks! Your payment was successful!
+              </div>
+          );
+
+  const showLoading = loading => loading && <h2 className="text-danger">Loading...</h2>;
 
 return (
-    <React.Fragment>
-
-         <Grid  container spacing={4}>
-             <Grid item xs={12} sm={12} md={12}>
-             {showSuccess(data.success)}
-             {showError(data.error)}
-             <Typography variant="h6" gutterBottom className={classes.title}>
-               Order Summary
-             </Typography>
-               <ListItem>
-                  <ListItemText>Total</ListItemText>
-                  <Typography variant="body2">Rp {getTotal()}</Typography>
-               </ListItem>
-               <ListItem >
-                  <ListItemText>Shipping</ListItemText>
-                  <Typography variant="body2" >Free</Typography>
-               </ListItem>
-               <hr/>
-               <ListItem >
-                  <ListItemText>Total Payment </ListItemText>
-                  <Typography variant="body2">Rp {getTotal()}</Typography>
-               </ListItem>
-               <hr/>
-               </Grid>
-               <Grid item xs={12} sm={12} md={12}>
-            </Grid>
-        </Grid>
-        {showNext()}
-    </React.Fragment>
+  <Paper>
+  <Container disablePadding onBlur={() => setData({ ...data, error: '' })}>
+     <ListItem className={classes.listItem}>
+         <ListItemText> Total Order</ListItemText>
+         <Typography variant="body2">Rp. {getTotal()}</Typography>
+         <Typography variant="body2">{products.name}</Typography>
+     </ListItem>
+     <ListItem className={classes.listItem}>
+         <ListItemText> Shipping</ListItemText>
+         <Typography variant="body2" value={shipping} onChange={handleChange()}>Rp. 9000</Typography>
+     </ListItem>
+     <ListItem className={classes.listItem}>
+         <ListItemText> Total Payment </ListItemText>
+         <Typography variant="body2" value={shipping} onChange={handleChange()}>Rp. {getNetTotal()}</Typography>
+     </ListItem>
+     {showLoading(data.loading)}
+     {showSuccess(data.success)}
+     {showError(data.error)}
+     {showCheckout()}
+     <br/>
+  </Container>
+  </Paper>
   )
 }
 

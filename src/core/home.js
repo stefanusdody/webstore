@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import SearchItem from './search';
+import Layout from './layout';
 import CardProduct from './card';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -61,19 +62,20 @@ const Home = () => {
 
     return (
      <div className={classes.search}>
-       <SearchItem />
-       <Container>
+      <Layout/>
+      <Container>
+      <SearchItem />
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
          New Arrival
       </Typography>
         <Grid container spacing={2}>
            {productsByArrival.map((product, i) => (
-             <Grid  key={i} item xs={12} sm={6} md={3}>
+             <Grid  key={i} item xs={6} sm={6} md={3}>
                  <CardProduct
                   product={product}
                   showViewImage= {true}
-                  showViewImageCarousel={false}
                   showViewDescriptions={false}
+                  showViewAddCart={false}
                   />
              </Grid>
            ))}
@@ -87,15 +89,12 @@ const Home = () => {
       </Typography>
        <Grid container spacing={4}>
           {productsBySell.map((product, i) => (
-            <Grid  key={i} item xs={12} sm={6} md={3}>
+            <Grid  key={i} item xs={6} sm={6} md={3}>
               <CardProduct
-               className={classes.cardSize}
                product={product}
                showViewImage= {true}
-               showViewImageCarousel={false}
                showViewDescriptions={false}
-               showViewCategories={false}
-               showAddedProduct={false}
+               showViewAddCart={false}
                />
              </Grid>
           ))}

@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
+import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 import {Redirect} from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { signin, authenticate, isAuthenticated } from "../auth"
 
@@ -20,6 +21,9 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.common.white,
     },
   },
+  errorText: {
+    textAlign: "center",
+  },
   paper: {
     marginTop: theme.spacing(15),
     display: 'flex',
@@ -28,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -37,10 +41,22 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  }
 }));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: blueGrey[500] }, // Purple and green play nicely together.
+  },
+  typography: { useNextVariants: true },
+});
 
 const SignIn = () => {
   const classes = useStyles();
+  const [progress, setProgress] = React.useState(0);
 
   const [values, setValues] = useState({
    email: "",
@@ -53,6 +69,18 @@ const SignIn = () => {
  const { email, password, loading, error, redirectToReferrer } = values;
 
  const { user } = isAuthenticated()
+
+ React.useEffect(() => {
+    function tick() {
+      // reset when reaching 100%
+      setProgress((oldProgress) => (oldProgress >= 100 ? 0 : oldProgress + 1));
+    }
+
+    const timer = setInterval(tick, 20);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleChange = name => event => {
      setValues({ ...values, error: false , [name]: event.target.value });
@@ -74,6 +102,8 @@ const SignIn = () => {
       }
     });
  };
+
+
 
   const signInForm = () => (
     <form className={classes.form} noValidate>
@@ -109,7 +139,7 @@ const SignIn = () => {
           />
         </Grid>
       </Grid>
-
+      <MuiThemeProvider theme={theme}>
       <Button
         type="submit"
         fullWidth
@@ -120,20 +150,20 @@ const SignIn = () => {
       >
         Sign In
       </Button>
+      </MuiThemeProvider>
     </form>
   );
 
   const showError = () => (
-    <Typography fontWeight="fontWeightBold" m={1} style={{display: error ? "" : "none"}} color="secondary">
+    <Typography fontWeight="fontWeightBold" m={1} style={{display: error ? "" : "none"}} color="secondary" className={classes.errorText}>
      {error}
     </Typography>
   );
 
   const showLoading = () => (
     loading && (
-      <Typography fontWeight="fontWeightBold" m={1} color="secondary">
-        Loading..
-      </Typography>)
+        <CircularProgress variant="determinate" value={progress} />
+    )
   );
 
   const redirectUser = () => {
@@ -151,12 +181,15 @@ const SignIn = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+
+        <Avatar>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign In
-        </Typography>
+
+         <Typography component="h1" variant="h5">
+           Sign In
+         </Typography>
+
         <br/>
        {showLoading()}
        {showError()}
