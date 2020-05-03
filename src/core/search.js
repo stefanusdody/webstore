@@ -155,7 +155,7 @@ const SearchItem = () => {
         <TextField
          id="filled-full-width"
          className={classes.textField}
-         placeholder="Cari Jenis Bunga"
+         placeholder="Cari Product Favorite"
          fullWidth
          margin="normal"
          InputLabelProps={{
