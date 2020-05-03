@@ -1,4 +1,5 @@
 import {API} from "../config";
+import {KEY} from "../config";
 import queryString from 'query-string';
 
 export const getProducts = (sortBy) => {
@@ -16,6 +17,21 @@ export const getProducts = (sortBy) => {
 export const getCategories = () => {
   return fetch(`${API}/categories`, {
      method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
+export const getShippment = () => {
+  return fetch(`https://api.rajaongkir.com/starter/city`, {
+     method: "GET",
+     headers: {
+       Key: `${KEY}`,
+     },
      })
   .then(response => {
     return response.json()
@@ -98,6 +114,7 @@ export const getBraintreeClientToken = (userId, token) => {
   })
   .catch(err => console.log(err));
 };
+
 
 export const processPayment = (userId, token, paymentData) => {
   return fetch(`${API}/braintree/payment/${userId}`, {

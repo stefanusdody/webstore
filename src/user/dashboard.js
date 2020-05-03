@@ -329,7 +329,7 @@ const userPurchaseHistory = () => {
     <div className={classes.root}>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
-      <AppBar position="fixed" color="primary" >
+      <AppBar position="fixed" color="inherit" >
          <Toolbar>
            <IconButton
             aria-label="show more"

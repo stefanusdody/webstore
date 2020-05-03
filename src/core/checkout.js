@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {isAuthenticated} from '../auth';
 import {emptyCart} from "./carthelpers"
-import {getBraintreeClientToken, processPayment, createOrder} from "./apicore";
+import {getBraintreeClientToken, processPayment, createOrder, getShippment} from "./apicore";
 import DropIn from 'braintree-web-drop-in-react';
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +34,9 @@ const useStyles = makeStyles(theme => ({
 
 const CheckOut = ({products, setRun = f => f, run = undefined}) => {
 const classes = useStyles();
-const [shipping, setShipping] = useState(products.shipping);
+const [ shipping, setShipping ] = useState(products.shipping);
+const [ error, setError ] = useState(false);
+
 
 const [data, setData] = useState({
         loading: false,
@@ -125,7 +127,7 @@ const buy = () => {
         <div onBlur={() => setData({ ...data, error: '' })}>
                 <div>
                 <Typography variant="h6" gutterBottom className={classes.title}>
-                   Shipping address
+                   Shipping Address
                 </Typography>
                  <Grid container spacing={3}>
                    <Grid item xs={12}>

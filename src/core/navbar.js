@@ -187,10 +187,10 @@ const NavigationBar = () => {
   return (
     <div className={classes.grow}>
     <MuiThemeProvider theme={theme}>
-      <AppBar position="fixed" color="primary">
+      <AppBar position="fixed" color="inherit">
         <Toolbar>
            <Typography className={classes.title} variant="h6" noWrap>
-             Adirasa
+             TokoTukuAda.com
            </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

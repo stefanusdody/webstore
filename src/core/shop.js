@@ -320,9 +320,8 @@ const Shop = () => {
       <MuiThemeProvider theme={theme}>
       <AppBar
         position="fixed"
-        color="primary"
+        color="inherit"
       >
-
         <Toolbar>
           <IconButton
            aria-label="show more"

@@ -154,8 +154,6 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
   }
 
 return (
-    <Grid>
-
         <Paper elevation={3} className={classes.root} >
           <CardActionArea>
             <Link href={`/product/${product._id}`}>
@@ -180,8 +178,6 @@ return (
              {showAddToChartButton(showViewAddCart)}
           </CardActions>
       </Paper >
-
-    </Grid>
     );
 }
 
