@@ -171,7 +171,7 @@ const userLinks = () => {
               </Badge>
               :
               <ShoppingCartIcon />}</ListItemIcon>
-            <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
+            <Link color="inherit"variant="body2" className={classes.link} href="/checkout" >
               <ListItemText primary={text} />
             </Link>
             </ListItem>
@@ -312,6 +312,7 @@ const userPurchaseHistory = () => {
                                  {moment(h.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a")}
                                </ListItemText>
                              </ListItem>
+
                             <Divider/>
                           </div>
                       );

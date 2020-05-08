@@ -1,200 +1,131 @@
-import React, {useState, useEffect} from 'react';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import List from '@material-ui/core/List';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {isAuthenticated} from '../auth';
-import {emptyCart} from "./carthelpers"
-import {getBraintreeClientToken, processPayment, createOrder, getShippment} from "./apicore";
-import DropIn from 'braintree-web-drop-in-react';
+import {Redirect} from "react-router-dom";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Paper from '@material-ui/core/Paper';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
+import Cart from './cart';
+import Address from './addressone';
+import Review from './review'
 
-const useStyles = makeStyles(theme => ({
-  card: {
-    textAlign: "center",
-    marginTop: theme.spacing(10),
-  },
-  cardGrid: {
-    marginTop: theme.spacing(2),
 
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    position: 'relative',
   },
-  listItem: {
-    padding: theme.spacing(1, 0),
+  layout: {
+    width: 'auto',
+    marginTop: theme.spacing(8),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
-  title:{
-    textAlign: "center",
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
+  stepper: {
+    padding: theme.spacing(3, 0, 5),
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+const steps = ['Your Cart', 'Shipping Address', 'Review your order'];
+
+function getStepContent(step) {
+  switch (step) {
+    case 0:
+      return <Cart />;
+    case 1:
+      return <Address />;
+    case 2:
+      return <Review />;
+    default:
+      throw new Error('Unknown step');
   }
-}))
-
-const CheckOut = ({products, setRun = f => f, run = undefined}) => {
-const classes = useStyles();
-const [ shipping, setShipping ] = useState(products.shipping);
-const [ error, setError ] = useState(false);
-
-
-const [data, setData] = useState({
-        loading: false,
-        success: false,
-        clientToken: null,
-        error: '',
-        instance: {},
-        address: ''
-    });
-
-const userId = isAuthenticated() && isAuthenticated().user._id;
-const token = isAuthenticated() && isAuthenticated().token;
-
-const getToken = (userId, token) => {
-        getBraintreeClientToken(userId, token).then(data => {
-            if (data.error) {
-                console.log(data.error);
-                setData({ ...data, error: data.error });
-            } else {
-                console.log(data);
-                setData({ clientToken: data.clientToken });
-            }
-        });
-    };
-
-useEffect(() => {
-      getToken(userId, token);
-  }, []);
-
-const handleAddress = event => {
-    setData({ ...data, address: event.target.value });
-};
-
-const getTotal = () => {
-  return products.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.count * nextValue.price
-  }, 0)
 }
 
-const getNetTotal = () => {
-  return getTotal() + 9000
-}
+const Checkout = () => {
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = React.useState(0);
 
-const handleChange = () => event => {
-  setShipping(event.target.value)
-}
+  const handleNext = () => {
+    setActiveStep(activeStep + 1);
+  };
 
-const showCheckout = () => {
-    return isAuthenticated() ? (
-            <div>{showDropIn()}</div>
-    ) : (
-            <Link to="/signin">
-                <button className="btn btn-primary">Sign in to checkout</button>
-            </Link>
-        );
-};
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
 
-let deliveryAddress = data.address;
-
-const createOrderData = {
-    products: products,
-    transaction_id: products.id,
-    amount: products.amount,
-    address: deliveryAddress
-};
-
-
-const buy = () => {
-        setData({ loading: true });
-        createOrder(userId, token, createOrderData)
-            .then(response => {
-                emptyCart(() => {
-                    setRun(!run); // run useEffect in parent Cart
-                    console.log('payment success and empty cart');
-                    setData({
-                        loading: false,
-                        success: true
-                    });
-                });
-            })
-            .catch(error => {
-                console.log(error);
-                setData({ loading: false });
-            });
-    };
-
-    const showDropIn = () => (
-        <div onBlur={() => setData({ ...data, error: '' })}>
-                <div>
-                <Typography variant="h6" gutterBottom className={classes.title}>
-                   Shipping Address
-                </Typography>
-                 <Grid container spacing={3}>
-                   <Grid item xs={12}>
-                    <TextField
-                     required
-                     id="address1"
-                     name="address1"
-                     label="Address"
-                     fullWidth
-                     autoComplete="billing address-line1"
-                     value={data.address}
-                     onChange={handleAddress}
-                    />
-                  </Grid>
-                </Grid>
-                <br/>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={buy}
-                >
-                  Order
-                </Button>
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <main className={classes.layout}>
+        <Paper className={classes.paper}>
+          <Typography component="h1" variant="h4" align="center">
+            Checkout
+          </Typography>
+          <Stepper activeStep={activeStep} className={classes.stepper}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <React.Fragment>
+            {activeStep === steps.length ? (
+              <React.Fragment>
+                <Redirect to="/"/>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                {getStepContent(activeStep)}
+                <div className={classes.buttons}>
+                  {activeStep !== 0 && (
+                    <Button onClick={handleBack} className={classes.button}>
+                      Back
+                    </Button>
+                  )}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === steps.length - 1 ? 'Home' : 'Next'}
+                  </Button>
                 </div>
-        </div>
-    );
-
-  const showError = error => (
-              <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-                  {error}
-              </div>
-          );
-
-  const showSuccess = success => (
-              <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-                  Thanks! Your payment was successful!
-              </div>
-          );
-
-  const showLoading = loading => loading && <h2 className="text-danger">Loading...</h2>;
-
-return (
-  <Paper>
-  <Container disablePadding onBlur={() => setData({ ...data, error: '' })}>
-     <ListItem className={classes.listItem}>
-         <ListItemText> Total Order</ListItemText>
-         <Typography variant="body2">Rp. {getTotal()}</Typography>
-         <Typography variant="body2">{products.name}</Typography>
-     </ListItem>
-     <ListItem className={classes.listItem}>
-         <ListItemText> Shipping</ListItemText>
-         <Typography variant="body2" value={shipping} onChange={handleChange()}>Rp. 9000</Typography>
-     </ListItem>
-     <ListItem className={classes.listItem}>
-         <ListItemText> Total Payment </ListItemText>
-         <Typography variant="body2" value={shipping} onChange={handleChange()}>Rp. {getNetTotal()}</Typography>
-     </ListItem>
-     {showLoading(data.loading)}
-     {showSuccess(data.success)}
-     {showError(data.error)}
-     {showCheckout()}
-     <br/>
-  </Container>
-  </Paper>
-  )
+              </React.Fragment>
+            )}
+          </React.Fragment>
+        </Paper>
+      </main>
+    </React.Fragment>
+  );
 }
 
-export default CheckOut;
+export default Checkout;

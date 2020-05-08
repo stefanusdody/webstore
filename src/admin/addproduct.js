@@ -83,8 +83,8 @@ const AddProduct = () => {
         formData
       } = values;
 
-      //Load categories and set form data
-        const init = () => {
+//Load categories and set form data
+    const init = () => {
           getCategories().then(data => {
             if(data.error) {
               setValues({

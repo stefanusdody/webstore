@@ -90,14 +90,14 @@ const CardProduct = ({
 
   const shouldRedirect = redirect => {
     if(redirect) {
-      return <Redirect to="/cart"/>
+      return <Redirect to="/checkout"/>
     }
   }
 
   const showAddToChartButton = (showViewAddCart) => {
     return(
       showViewAddCart && (
-        <Button fullWidth onClick={addToCart} size="small" color="secondary" href="/cart">
+        <Button fullWidth onClick={addToCart} size="small" color="secondary" href="/checkout">
           Buy Now
         </Button>
       )
@@ -115,7 +115,7 @@ const showRemoveButton = (showRemoveProductButton) => {
           onClick={() => removeItem(product._id)}
           size="small"
           color="secondary"
-          href="/cart"
+          href="/checkout"
         >
           Remove
         </Button>
@@ -129,7 +129,7 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
         <div className="input-group mb-3">
              <TextField
               id="outlined-number"
-              label="Booking For Persons "
+              label="Unit Buy"
               fullWidth
               value={count}
               onChange={handleChange(product._id)}
@@ -147,7 +147,7 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
   }
 
   const handleChange = productId => event => {
-    setCount(event.target.value < 1 ? 1 : event.target.value)
+    setCount(event.target.value)
     if(event.target.value >= 1) {
       updateItem(productId, event.target.value)
     }

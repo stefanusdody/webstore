@@ -15,13 +15,14 @@ import SignUp from "./user/signup";
 import Dashboard from "./user/dashboard";
 import AdminDashboard from "./user/admindashboard";
 import Cart from "./core/cart";
-import CheckOut from "./core/checkout";
+import Checkout from "./core/checkout";
 import Home from "./core/home";
 import PaymentConfirmation from "./core/paymentconfirmation";
 import Review from "./core/review";
 import Shop from "./core/shop";
 import NavigationBar from "./core/navbar";
 import Product from './core/product';
+import Address from './core/address'
 
 const Routes = () => {
  return(
@@ -30,8 +31,9 @@ const Routes = () => {
    <NavigationBar />
      <Switch>
        <Route exact path="/" component={Home}/>
+       <Route exact path="/address" component={Address}/>
        <Route path="/cart" exact component={Cart}/>
-       <Route path="/checkout" exact component={CheckOut}/>
+       <Route path="/checkout" exact component={Checkout}/>
        <Route path="/signin" component={SignIn}/>
        <Route path="/signup" component={SignUp}/>
        <Route path="/shop" component={Shop}/>

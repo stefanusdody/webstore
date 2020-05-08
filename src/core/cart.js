@@ -73,17 +73,17 @@ const Cart = () => {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
          {items.map((product, i) => (
-           <Grid key={i}  setRun={setRun} item xs={6} sm={6} md={6}>
+           <Grid key={i} item xs={12} sm={12} md={12}>
             <CardProduct
               key={i}
-             product={product}
-             showViewProductButton={false}
-             showViewPrice={false}
-             showViewDescriptions={false}
-             showViewCategories={false}
-             showAddedProduct={false}
-             showViewAddCart={false}
-             cartUpdate={true}
+              product={product}
+              showViewProductButton={false}
+              showViewPrice={false}
+              showViewDescriptions={false}
+              showViewCategories={false}
+              showAddedProduct={false}
+              showViewAddCart={false}
+              cartUpdate={true}
              showRemoveProductButton={true}
            />
         </Grid>
@@ -112,12 +112,8 @@ const Cart = () => {
 
   return (
     <Container maxWidth="sm">
-      <Typography className={classes.card} gutterBottom variant="h5" component="h1">
-         Your cart has {`${items.length}`} items
-      </Typography>
        {items.length > 0 ? showItems(items) : noItemMessage()}
        <br/>
-        {showNext()}
         {goBack()}
     </Container>
   )

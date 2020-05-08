@@ -120,7 +120,7 @@ const NavigationBar = () => {
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
-         <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
+         <Link color="inherit"variant="body2" className={classes.link} href="/checkout" >
            <ListItemText>Cart</ListItemText>
          </Link>
       </MenuItem>
@@ -205,7 +205,7 @@ const NavigationBar = () => {
 
             <IconButton aria-label="show cart" color="inherit">
              <Badge className={classes.margin} badgeContent={itemTotal()} color="primary">
-               <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
+               <Link color="inherit"variant="body2" className={classes.link} href="/checkout" >
                  <Typography className={classes.title} component="p">
                   Cart
                  </Typography>

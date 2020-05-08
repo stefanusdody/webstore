@@ -1,4 +1,4 @@
-export const addItem = (item, next) => {
+export const addItem = (item,next) => {
   let cart = []
   if(typeof window !== 'undefined') {
     if(localStorage.getItem('cart')) {
@@ -81,4 +81,47 @@ export const emptyCart = next => {
     localStorage.removeItem("cart")
     next()
   }
+}
+
+export const emptyAddress = next => {
+  if(typeof window !== "undefined") {
+    localStorage.removeItem("address")
+    next()
+  }
+}
+
+export const addAddress = (item) => {
+  let address = []
+  if(typeof window !== 'undefined') {
+    if(localStorage.getItem('address')) {
+      address = JSON.parse(localStorage.getItem('address'))
+    }
+    address.push({
+      ...item,
+    });
+
+    // remove duplicates
+    // build an Array from new Set and turn it back into array using Array.from
+    // so that later we can re-map it
+    // new set will only allow unique values in it
+    // so pass the ids of each object/product
+    // if the loop tries to add the same value again, it'll get ignored
+    // ...with the array of ids we got on when first map() was used
+    // run map() on it again and return the actual product from the cart
+
+
+    address = Array.from(new Set(address.map((p) => (p._id)))).map(id => {
+      return address.find(p => p._id === id);
+    });
+    localStorage.setItem('address', JSON.stringify(address))
+  }
+};
+
+export const getAddress = () => {
+  if(typeof window !== 'undefined') {
+    if(localStorage.getItem('address')) {
+      return JSON.parse(localStorage.getItem('address'));
+    }
+  }
+  return [];
 }

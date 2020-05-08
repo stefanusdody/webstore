@@ -1,5 +1,4 @@
 import {API} from "../config";
-import {KEY} from "../config";
 import queryString from 'query-string';
 
 export const getProducts = (sortBy) => {
@@ -17,21 +16,6 @@ export const getProducts = (sortBy) => {
 export const getCategories = () => {
   return fetch(`${API}/categories`, {
      method: "GET",
-     })
-  .then(response => {
-    return response.json()
-  })
-  .catch(err => {
-    console.log(err);
-  })
-};
-
-export const getShippment = () => {
-  return fetch(`https://api.rajaongkir.com/starter/city`, {
-     method: "GET",
-     headers: {
-       Key: `${KEY}`,
-     },
      })
   .then(response => {
     return response.json()
@@ -171,6 +155,30 @@ export const getStatusValues = (userId, token) => {
        Accept: 'application/json',
        Authorization: `Bearer ${token}`
         }
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
+export const getProvince = () => {
+  return fetch(`${API}/provinsi`, {
+     method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
+export const getCity = (province_id) => {
+  return fetch(`${API}/kota/${province_id}`, {
+     method: "GET",
      })
   .then(response => {
     return response.json()
