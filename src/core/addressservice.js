@@ -26,7 +26,7 @@ const AddressService = ({service}) => {
 
  return (
       <CardActions>
-           <Button fullWidth onClick={addToCart} variant="contained" className={classes.Button} >
+           <Button fullWidth onClick={addToCart} variant="outlined" className={classes.Button} >
              {service.service}/ Rp {service.cost[0].value} / {service.cost[0].etd} hari
            </Button>
       </CardActions>

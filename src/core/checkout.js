@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Cart from './cart';
-import Address from './addressone';
+import Address from './address';
 import Review from './review'
 
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   layout: {
     width: 'auto',
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Your Cart', 'Shipping Address', 'Review your order'];
+const steps = ['Your Cart', 'Shipping Address', 'Review Order'];
 
 function getStepContent(step) {
   switch (step) {
@@ -111,7 +111,7 @@ const Checkout = () => {
                     </Button>
                   )}
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
                     onClick={handleNext}
                     className={classes.button}

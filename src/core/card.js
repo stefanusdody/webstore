@@ -1,55 +1,32 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import {Redirect} from "react-router-dom";
 import pink from '@material-ui/core/colors/pink';
 import { createMuiTheme } from '@material-ui/core/styles';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {Redirect} from "react-router-dom";
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import ShowImage from './showimage';
 import moment from 'moment';
 import {addItem, updateItem, removeItem} from './carthelpers';
 import {isAuthenticated} from '../auth'
+import Card from '@material-ui/core/Card';
+import Link from '@material-ui/core/Link';
+import TextField from '@material-ui/core/TextField';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import ShowImage from './showimage';
+
 
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 345,
-    textAlign: "center",
-  },
-  card: {
-    maxWidth: "100%",
-  },
-  image: {
-    marginTop: theme.spacing(3)
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  desc: {
-    textAlign: "center"
-  }
+   maxWidth: 345,
+ },
+ media: {
+   textAlign: "center"
+ }
 }));
 
 const theme = createMuiTheme({
@@ -97,7 +74,7 @@ const CardProduct = ({
   const showAddToChartButton = (showViewAddCart) => {
     return(
       showViewAddCart && (
-        <Button fullWidth onClick={addToCart} size="small" color="secondary" href="/checkout">
+        <Button fullWidth onClick={addToCart} variant="outlined" size="small" color="secondary" href="/checkout">
           Buy Now
         </Button>
       )
@@ -111,7 +88,7 @@ const showRemoveButton = (showRemoveProductButton) => {
         <Button
           type="submit"
           fullWidth
-          variant="contained"
+          variant="outlined"
           onClick={() => removeItem(product._id)}
           size="small"
           color="secondary"
@@ -154,12 +131,12 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
   }
 
 return (
-        <Paper elevation={3} className={classes.root} >
-          <CardActionArea>
+        <Card elevation={3} className={classes.root} >
+          <CardActionArea className={classes.media}>
             <Link href={`/product/${product._id}`}>
              <ShowImage item={product} url="product" />
             </Link>
-              <CardContent>
+              <CardContent className={classes.media}>
                 <Typography variant="body2" color="textSecondary" component="p">
                   {product.name}
                 </Typography>
@@ -177,7 +154,7 @@ return (
           <CardActions disableSpacing>
              {showAddToChartButton(showViewAddCart)}
           </CardActions>
-      </Paper >
+      </Card >
     );
 }
 

@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   card: {
     textAlign: "center",
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(2),
   },
   cardTwo: {
     textAlign: "center",

@@ -1,14 +1,21 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {API} from "../config";
 
+const useStyles = makeStyles(theme => ({
+ media: {
+   width:"100%"
+ }
+}));
 
 const ShowImage = ({item, url}) => {
+  const classes = useStyles();
 
  return (
    <div className="product-img">
       <img
         src={`${API}/${url}/photo/${item._id}`}
-        style={{ maxHeight: "100%", maxWidth: "100%" }}
+        className={classes.media}
         alt={item.name}
         />
    </div>

@@ -290,7 +290,7 @@ const Shop = () => {
       {['My Cart'].map((text, index) => (
         <ListItem button key={text}>
           <ListItemIcon>{index % 2 === 0 ? <ShoppingCartIcon /> : <ShoppingCartIcon />}</ListItemIcon>
-          <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
+          <Link color="inherit"variant="body2" className={classes.link} href="/checkout" >
             <Badge badgeContent={itemTotal()} color="primary">
               <ListItemText primary={text} />
             </Badge>

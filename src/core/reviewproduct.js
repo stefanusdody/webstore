@@ -100,11 +100,12 @@ const showCheckout = () => {
                 <Button
                   type="submit"
                   fullWidth
-                  variant="contained"
+                  variant="outlined"
                   href="/signin"
-                  color="primary" className="btn btn-primary">
+                  color="secondary"
+                  className={classes.Button}>
                    Sign in to checkout
-               </Button>
+                </Button>
         );
 };
 
@@ -199,7 +200,12 @@ const showDropIn = () => (
 
   const showSuccess = success => (
               <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-                  Thanks! Your payment was successful!
+              <Typography variant="h5" gutterBottom>
+                Terima Kasih telah Berbelanja DI TokoTukuAda.com
+              </Typography>
+              <Typography variant="subtitle1">
+               Kami akan segera melakukan proses pengiriman setelah anda melakukan konfirmasi pembayaran
+              </Typography>
               </div>
           );
 const showLoading = loading => loading && <h2 className="text-danger">Loading...</h2>;
