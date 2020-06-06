@@ -5,13 +5,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
+import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 import FormatListBulletedOutlinedIcon from '@material-ui/icons/FormatListBulletedOutlined';
-import Badge from '@material-ui/core/Badge';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import {itemTotal} from './carthelpers';
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -59,12 +57,12 @@ const NavigationBarBottom = () => {
        <Grid item xs={3} sm={3} md={3}>
          <Link color="inherit" href="/">
            <ListItem>
-              <ListItemText align="center"> <HomeOutlinedIcon /> Home </ListItemText>
+              <ListItemText align="center" variant="caption"> <HomeOutlinedIcon /> Home </ListItemText>
            </ListItem>
          </Link>
        </Grid>
 
-       <Grid item xs={2} sm={2} md={2}>
+       <Grid item xs={3} sm={3} md={3}>
          <Link color="inherit" href="/orderlist ">
             <ListItem>
                <ListItemText align="center"> <FormatListBulletedOutlinedIcon/> Order </ListItemText>
@@ -73,27 +71,14 @@ const NavigationBarBottom = () => {
        </Grid>
 
 
-        <Grid item xs={2} sm={2} md={2}>
+        <Grid item xs={3} sm={3} md={3}>
           <Link color="inherit" href="/shop">
             <ListItem>
-               <ListItemText align="center"> <ShoppingCartOutlinedIcon /> Shop </ListItemText>
+               <ListItemText align="center"> <StorefrontOutlinedIcon /> Shop </ListItemText>
             </ListItem>
           </Link>
         </Grid>
 
-
-
-        <Grid item xs={2} sm={2} md={2}>
-         <Link color="inherit" href="/cart">
-            <ListItem>
-               <ListItemText align="center">
-                  <Badge color="primary" badgeContent={itemTotal()}>
-                     <LocalMallOutlinedIcon/>
-                  </Badge>
-                  Bag </ListItemText>
-            </ListItem>
-         </Link>
-        </Grid>
 
         <Grid item xs={3} sm={3} md={3}>
           <Link color="inherit" href="/user/dashboard">

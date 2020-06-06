@@ -1,12 +1,18 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+import { blue } from '@material-ui/core/colors';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import FreeBreakfastOutlinedIcon from '@material-ui/icons/FreeBreakfastOutlined';
+import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
+import Badge from '@material-ui/core/Badge';
 import {signout, isAuthenticated } from '../auth/index';
+import {itemTotal} from './carthelpers';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -34,6 +40,10 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
+  blue: {
+    color: '#fff',
+    backgroundColor: blue[500],
+  },
 }));
 
 
@@ -53,7 +63,11 @@ const NavigationBar = () => {
 
       <AppBar position="fixed" color="inherit">
         <Toolbar>
-            <Avatar>H</Avatar>
+            <Avatar className={classes.blue}>
+              <FreeBreakfastOutlinedIcon/>
+            </Avatar>
+            <Typography className={classes.toolbarTitle}/>
+
              {!isAuthenticated() && (
                <div>
                 <IconButton
@@ -74,16 +88,23 @@ const NavigationBar = () => {
              )}
 
              {isAuthenticated() && (
+               <div>
+
+                <Link color="inherit" href="/cart">
+                   <Badge color="primary" badgeContent={itemTotal()}>
+                      <LocalMallOutlinedIcon/>
+                   </Badge>
+                </Link>
+
                <IconButton
                 aria-label="exit application"
                 color="inherit"
                 href="/"
                 onClick={() => signout(() => { window.history.pushState(null, null,"/")})}
                 >
-                   <Typography className={classes.title} component="p">
-                    Sign Out
-                   </Typography>
+                   <ExitToAppIcon/>
                </IconButton>
+               </div>
              )}
 
         </Toolbar>

@@ -187,10 +187,8 @@ const Shop = () => {
 return (
    <div className={classes.root}>
       <CssBaseline />
-       <Container>
-           <div className={classes.container}>
-             <SearchItem/>
-           </div>
+       <Container className={classes.container}>
+
            <Fab size="medium" color="secondary" aria-label="add" className={classes.fab} onClick={handleClickOpen}>
               <SearchOutlinedIcon />
            </Fab>
