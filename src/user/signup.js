@@ -8,8 +8,15 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import AppBar from '@material-ui/core/AppBar';
+import StoreIcon from '@material-ui/icons/Store';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import HomeIcon from '@material-ui/icons/Home';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 import { signup } from '../auth'
 
 
@@ -19,6 +26,10 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.common.white,
     },
   },
+  BottomBar: {
+    top: 'auto',
+    bottom: 0,
+  },
   paper: {
     marginTop: theme.spacing(15),
     display: 'flex',
@@ -27,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -40,12 +51,12 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  const [progress, setProgress] = React.useState(0);
 
   const [values, setValues] = useState({
     name: "",
     email: "",
     password: "",
+    loading: false,
     error: "",
     success: false
   })
@@ -76,18 +87,6 @@ const SignUp = () => {
     })
   };
 
-  React.useEffect(() => {
-     function tick() {
-       // reset when reaching 100%
-       setProgress((oldProgress) => (oldProgress >= 100 ? 0 : oldProgress + 1));
-     }
-
-     const timer = setInterval(tick, 20);
-     return () => {
-       clearInterval(timer);
-     };
-   }, []);
-
   const signUpForm = () => (
     <form className={classes.form} noValidate>
       <Grid container spacing={2}>
@@ -116,7 +115,7 @@ const SignUp = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
-            value={email.toLowerCase()}
+            value={email}
             onChange={handleChange("email")}
           />
         </Grid>
@@ -142,7 +141,7 @@ const SignUp = () => {
         type="submit"
         fullWidth
         variant="contained"
-        color="secondary"
+        color="primary"
         className={classes.submit}
         onClick={clickSubmit}
       >
@@ -161,7 +160,7 @@ const SignUp = () => {
 
   const showLoading = () => (
     loading && (
-        <CircularProgress variant="determinate" value={progress} />
+        <CircularProgress />
     )
   );
 
@@ -189,6 +188,49 @@ const SignUp = () => {
         {showError()}
         {signUpForm()}
       </div>
+      <AppBar
+        position="fixed"
+        color="inherit"
+        className={classes.BottomBar}>
+        <Grid container>
+
+          <Grid item xs={3} sm={3}>
+            <Link color="inherit" href="/shop">
+              <ListItem>
+                 <ListItemText align="center"> <StoreIcon/> Belanja </ListItemText>
+              </ListItem>
+            </Link>
+          </Grid>
+
+          <Grid item xs={3} sm={3}>
+           <Link color="inherit" href="/cart">
+              <ListItem>
+                 <ListItemText align="center">
+                    <ShoppingCartIcon/>
+                    Keranjang
+                 </ListItemText>
+              </ListItem>
+           </Link>
+          </Grid>
+
+          <Grid item xs={3} sm={3}>
+            <Link color="inherit" href="/">
+               <ListItem>
+                 <ListItemText align="center"> <HomeIcon/> Home </ListItemText>
+               </ListItem>
+            </Link>
+          </Grid>
+
+          <Grid item xs={3} sm={3}>
+            <Link color="inherit" href="/user/dashboard">
+               <ListItem>
+                  <ListItemText align="center"> <AccountCircle/> Account </ListItemText>
+               </ListItem>
+            </Link>
+          </Grid>
+
+        </Grid>
+      </AppBar>
     </Container>
   );
 }

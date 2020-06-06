@@ -1,33 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import Link from '@material-ui/core/Link';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import HomeIcon from '@material-ui/icons/Home';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import Badge from '@material-ui/core/Badge';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import ShopIcon from '@material-ui/icons/Shop';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import StoreIcon from '@material-ui/icons/Store';
+import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import StorefrontIcon from '@material-ui/icons/Storefront';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import { signout, isAuthenticated } from '../auth';
-import {itemTotal} from '../core/carthelpers';
-import {getPurchaseHistory} from './apiuser'
+import { isAuthenticated } from '../auth';
+import { getPurchaseHistory } from './apiuser'
 import moment from 'moment'
-
 
 const drawerWidth = 240;
 
@@ -41,6 +37,13 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+  },
+  BottomBar: {
+    top: 'auto',
+    bottom: 0,
+  },
+  container: {
+    marginBottom: theme.spacing(5),
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -94,28 +97,21 @@ const useStyles = makeStyles(theme => ({
   },
   itemText: {
     fontStyle: 'italic'
-  }
+  },
+  toolbarTitle: {
+    flex: 1,
+  },
 }));
 
 
 const PurchaseHistory = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
 
   const [history, setHistory] = useState([]);
 
   const {user: {_id }} = isAuthenticated();
 
   const token = isAuthenticated().token
-
-  function handleDrawerOpen() {
-    setOpen(true);
-  }
-
-  function handleDrawerClose() {
-    setOpen(false);
-  }
 
   const init = (userId, token) => {
     getPurchaseHistory(userId, token).then(data => {
@@ -131,173 +127,113 @@ const PurchaseHistory = () => {
     init(_id, token)
   }, [])
 
-  const userLinks = () => {
-    return (
-    <div>
-      <List>
-        {['Shop'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <StorefrontIcon /> : <MailIcon />}</ListItemIcon>
-            <Link color="inherit"variant="body2" className={classes.link} href="/shop" >
-              <ListItemText primary={text} />
-            </Link>
-          </ListItem>
-        ))}
-      </List>
 
-
-      <List>
-        {['My Chart'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ?
-              <Badge className={classes.margin} badgeContent={itemTotal()} color="primary">
-                <ShoppingCartIcon />
-              </Badge>
-              :
-              <ShoppingCartIcon />}</ListItemIcon>
-            <Link color="inherit"variant="body2" className={classes.link} href="/cart" >
-              <ListItemText primary={text} />
-            </Link>
-            </ListItem>
-        ))}
-      </List>
-
-      <List>
-        {['Update Profile'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <AccountCircle /> : <MailIcon />}</ListItemIcon>
-            <Link color="inherit"variant="body2" className={classes.link} href={`/profile/${_id}`} >
-              <ListItemText primary={text} />
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-
-      <List>
-        {['Sign Out'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <ExitToAppIcon /> : <MailIcon />}</ListItemIcon>
-            <Link color="inherit"variant="body2" className={classes.link} onClick={() => signout(() => { window.history.pushState(null, null,"/")})} href="/" >
-              <ListItemText primary={text} />
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-    )
-  }
-
-  const navLinks = () => {
-    return (
-    <div>
-    <List>
-      {['Home'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>{index % 2 === 0 ? <HomeIcon /> : <MailIcon />}</ListItemIcon>
-          <Link color="inherit"variant="body2" className={classes.link} href="/" >
-            <ListItemText primary={text} />
-          </Link>
-        </ListItem>
-      ))}
-    </List>
-
-    </div>
-    )
-  }
-
-
-
-
-  const purchaseHistory = history => {
+const purchaseHistory = history => {
       return (
-          <div className="card mb-5">
-              <h3 className="card-header">Purchase history</h3>
-              <ul className="list-group">
-
-                      {history.map((h, i) => {
+        <Box component="span" m={1}>
+          <ListItem button>
+          </ListItem>
+          { history.map((h, i) => {
+              return (
+                <List key={i} component="nav" aria-label="secondary mailbox folders">
+                  <Paper>
+                      <ListItem button>
+                        <ListItemText className={classes.itemText}>Order Status: {h.status}</ListItemText>
+                      </ListItem>
+                      {h.products.map((p, i) => {
                           return (
-                            <li key={i} className="list-group-item">
-                              <div >
-                                 <ListItemText className={classes.itemText}>Order Status: {h.status}</ListItemText>
-                                   <hr />
-                                  {h.products.map((p, i) => {
-                                      return (
-                                          <div key={i}>
-                                              <ListItemText>Product name: {p.name}</ListItemText>
-                                              <ListItemText>Product price: Rp {p.price}</ListItemText>
-                                              <ListItemText>
-                                                  Purchased On:{" "}
-                                                  {moment(p.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a")}
-                                              </ListItemText>
-                                              <hr />
-                                          </div>
-                                      );
-                                  })}
-                                  <hr />
+                              <div key={i}>
+                                 <ListItem button>
+                                   <ListItemIcon>
+                                    <ShopIcon />
+                                   </ListItemIcon>
+                                   <ListItemText>
+                                     {p.name}
+                                   </ListItemText>
+                                 </ListItem>
 
+                                 <ListItem button>
+                                   <ListItemIcon>
+                                    <MonetizationOnIcon />
+                                   </ListItemIcon>
+                                   <ListItemText>
+                                     Rp {p.price}
+                                   </ListItemText>
+                                 </ListItem>
+
+                                 <ListItem button>
+                                   <ListItemIcon>
+                                    <CalendarTodayIcon />
+                                   </ListItemIcon>
+                                   <ListItemText>
+                                     {moment(h.createdAt).format("dddd , MMMM Do YYYY")}
+                                   </ListItemText>
+                                 </ListItem>
+
+                                <Divider/>
                               </div>
-                              </li>
                           );
                       })}
-
-              </ul>
-          </div>
+                  </Paper>
+                </List>
+              );
+          })}
+        </Box>
       );
   };
 
 
-
-  return (
+return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        color="default"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Purchase History
-          </Typography>
+      <AppBar position="fixed" color="inherit" >
+         <Toolbar className={classes.toolbar}>
+            <Typography
+             component="h2"
+             variant="h5"
+             color="inherit"
+             align="left"
+             noWrap
+             className={classes.toolbarTitle}>
+              Histori Pembelian
+           </Typography>
+           <IconButton href="/">
+             <HomeIcon />
+           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        {navLinks()}
-        <Divider />
-        {userLinks()}
-      </Drawer>
-        <main
-          className={clsx(classes.content, {
-          [classes.contentShift]: open,
-         })}
-        >
+
+      <Container className={classes.container}>
         {purchaseHistory(history)}
-      </main>
+      </Container>
+
+      <AppBar
+        position="fixed"
+        color="inherit"
+        className={classes.BottomBar}>
+        <Grid container>
+
+          <Grid item xs={6} sm={6}>
+           <Link color="inherit" href="/shop">
+              <ListItem>
+                 <ListItemText align="center">
+                    <StoreIcon/>
+                     Belanja </ListItemText>
+              </ListItem>
+           </Link>
+          </Grid>
+
+          <Grid item xs={6} sm={6}>
+            <Link color="inherit" href="/user/dashboard">
+               <ListItem>
+                 <ListItemText align="center"> <AccountCircle/> Profile </ListItemText>
+               </ListItem>
+            </Link>
+          </Grid>
+
+        </Grid>
+      </AppBar>
+
     </div>
   );
 }

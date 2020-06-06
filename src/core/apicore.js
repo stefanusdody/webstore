@@ -13,6 +13,18 @@ export const getProducts = (sortBy) => {
   })
 };
 
+export const getPromoLayouts = () => {
+  return fetch(`${API}/promolayouts`, {
+     method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
 export const getCategories = () => {
   return fetch(`${API}/categories`, {
      method: "GET",
@@ -179,6 +191,22 @@ export const getProvince = () => {
 export const getCity = (province_id) => {
   return fetch(`${API}/kota/${province_id}`, {
      method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
+export const listOrders = (userId, token) => {
+  return fetch(`${API}/order/list/${userId}`, {
+     method: "GET",
+     headers: {
+       Accept: 'application/json',
+       Authorization: `Bearer ${token}`
+        }
      })
   .then(response => {
     return response.json()

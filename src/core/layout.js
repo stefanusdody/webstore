@@ -1,99 +1,52 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { UncontrolledCarousel } from 'reactstrap';
+import {API} from "../config";
 
-const tutorialSteps = [
+const items = [
   {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
-    imgPath:
-      'https://media3.picsearch.com/is?LUWe5Gmm7ylJXzynzFhQj0nzaHSZBX7qbJ2zS_hytMc&height=229',
+    src: `${API}/promolayout/photo/5ebcc98f7550120a5788de1e`,
+    altText: 'Slide 1',
+    caption: '',
+    header: '',
+    key: '1'
   },
   {
-    label: 'Bird',
-    imgPath:
-      'https://media4.picsearch.com/is?gypHCyhg8IXgg3tdwifo8JJnZW32hz3tnoOOj_ikXY0&height=232',
+    src: `${API}/promolayout/photo/5ebce0483f23730dc5848c92`,
+    altText: 'Slide 2',
+    caption: '',
+    header: '',
+    key: '2'
   },
   {
-    label: 'Bali, Indonesia',
-    imgPath:
-      'https://media1.picsearch.com/is?ONyZOLXHds3zUh76U-oPAqfzzMrMuZFLuwdriTrUS1o&height=227',
+    src: `${API}/promolayout/photo/5ebce9e43f23730dc5848c93`,
+    altText: 'Slide 3',
+    caption: '',
+    header: '',
+    key: '3'
   },
   {
-    label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
-    imgPath:
-      'https://media3.picsearch.com/is?giwJD7YVFXhUBBszJv-oudVd34rzN3ahG-dVbeZuzbk&height=172',
+    src: `${API}/promolayout/photo/5ebceadb3f23730dc5848c94`,
+    altText: 'Slide 4',
+    caption: '',
+    header: '',
+    key: '4'
   },
   {
-    label: 'Goč, Serbia',
-    imgPath:
-      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-  },
+    src: `${API}/promolayout/photo/5ebcec063f23730dc5848c95`,
+    altText: 'Slide 5',
+    caption: '',
+    header: '',
+    key: '5'
+  }
 ];
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: '100%',
-    flexGrow: 1,
-  },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    height: 50,
-    paddingLeft: theme.spacing(4),
-    backgroundColor: theme.palette.background.default,
-  },
-  img: {
-    height: '50%',
-    overflow: 'hidden',
-    display: 'block',
-    width: '100%',
-  },
-}));
 
-const Layout = () => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = tutorialSteps.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  return (
-    <div className={classes.root}>
-      <img
-        className={classes.img}
-        src={tutorialSteps[activeStep].imgPath}
-        alt={tutorialSteps[activeStep].label}
-      />
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        variant="dots"
-        activeStep={activeStep}
-        nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-            Next
-            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            Back
-          </Button>
-        }
-      />
+const Layout =  (props) => {
+  return(
+    <div>
+      <UncontrolledCarousel items={items} />
     </div>
-  );
+  )
 }
 
 export default Layout;

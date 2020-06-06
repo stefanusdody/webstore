@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import blueGrey from '@material-ui/core/colors/blueGrey';
+import { makeStyles } from '@material-ui/core/styles';
 import {Redirect} from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +11,14 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { signin, authenticate, isAuthenticated } from "../auth"
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import AppBar from '@material-ui/core/AppBar';
+import StoreIcon from '@material-ui/icons/Store';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import HomeIcon from '@material-ui/icons/Home';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import { signin, authenticate, isAuthenticated } from "../auth";
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,18 +27,22 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.common.white,
     },
   },
+  BottomBar: {
+    top: 'auto',
+    bottom: 0,
+  },
   errorText: {
     textAlign: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
   },
   paper: {
     marginTop: theme.spacing(15),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -47,16 +57,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: blueGrey[500] }, // Purple and green play nicely together.
-  },
-  typography: { useNextVariants: true },
-});
-
 const SignIn = () => {
   const classes = useStyles();
-  const [progress, setProgress] = React.useState(0);
 
   const [values, setValues] = useState({
    email: "",
@@ -66,23 +68,11 @@ const SignIn = () => {
    redirectToReferrer: false,
  });
 
- const { email, password, loading, error, redirectToReferrer } = values;
+const { email, password, loading, error, redirectToReferrer } = values;
 
- const { user } = isAuthenticated()
+const { user } = isAuthenticated()
 
- React.useEffect(() => {
-    function tick() {
-      // reset when reaching 100%
-      setProgress((oldProgress) => (oldProgress >= 100 ? 0 : oldProgress + 1));
-    }
-
-    const timer = setInterval(tick, 20);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  const handleChange = name => event => {
+const handleChange = name => event => {
      setValues({ ...values, error: false , [name]: event.target.value });
  };
 
@@ -107,7 +97,6 @@ const SignIn = () => {
 
   const signInForm = () => (
     <form className={classes.form} noValidate>
-
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -139,18 +128,17 @@ const SignIn = () => {
           />
         </Grid>
       </Grid>
-      <MuiThemeProvider theme={theme}>
+
       <Button
         type="submit"
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={clickSubmit}
-      >
+        onClick={clickSubmit}>
         Sign In
       </Button>
-      </MuiThemeProvider>
+
     </form>
   );
 
@@ -162,7 +150,7 @@ const SignIn = () => {
 
   const showLoading = () => (
     loading && (
-        <CircularProgress variant="determinate" value={progress} />
+        <CircularProgress />
     )
   );
 
@@ -181,15 +169,12 @@ const SignIn = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-
-        <Avatar>
+        <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-
          <Typography component="h1" variant="h5">
            Sign In
          </Typography>
-
         <br/>
        {showLoading()}
        {showError()}
@@ -198,11 +183,55 @@ const SignIn = () => {
       </div>
       <Grid container>
         <Grid item>
-          <Link href="/signup" variant="body2">
-              {"Don't have an account? Sign Up"}
+          <Link href="/signup" variant="body2" color="secondary">
+              {"Belum Punya Account? Daftar Sekarang"}
           </Link>
         </Grid>
       </Grid>
+
+      <AppBar
+        position="fixed"
+        color="inherit"
+        className={classes.BottomBar}>
+        <Grid container>
+
+          <Grid item xs={3} sm={3}>
+            <Link color="inherit" href="/shop">
+              <ListItem>
+                 <ListItemText align="center"> <StoreIcon/> Belanja </ListItemText>
+              </ListItem>
+            </Link>
+          </Grid>
+
+          <Grid item xs={3} sm={3}>
+           <Link color="inherit" href="/cart">
+              <ListItem>
+                 <ListItemText align="center">
+                    <ShoppingCartIcon/>
+                    Keranjang
+                 </ListItemText>
+              </ListItem>
+           </Link>
+          </Grid>
+
+          <Grid item xs={3} sm={3}>
+            <Link color="inherit" href="/">
+               <ListItem>
+                 <ListItemText align="center"> <HomeIcon/> Home </ListItemText>
+               </ListItem>
+            </Link>
+          </Grid>
+
+          <Grid item xs={3} sm={3}>
+            <Link color="inherit" href="/user/dashboard">
+               <ListItem>
+                  <ListItemText align="center"> <AccountCircle/> Account </ListItemText>
+               </ListItem>
+            </Link>
+          </Grid>
+
+        </Grid>
+      </AppBar>
     </Container>
   );
 }

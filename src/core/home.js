@@ -10,27 +10,23 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   card: {
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: theme.spacing(2),
+
   },
-  search:{
-    marginTop: theme.spacing(8)
+  home:{
+    marginTop: theme.spacing(7),
+    marginBottom: theme.spacing(10)
   },
-  cardGrid: {
-    marginTop: theme.spacing(10),
-    height: '30vh',
-    display: 'flex',
-    flexDirection: 'column',
+  gridbottom: {
+    marginBottom: theme.spacing(8)
   },
 
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
 }))
 
 const Home = () => {
   const classes = useStyles();
-  const [productsBySell, setProductsBySell] = useState([])
+  const [productsBySell, setProductsBySell] = useState([]);
   const [productsByArrival, setProductsByArrival] = useState([])
   const [error, setError] = useState(false)
 
@@ -61,16 +57,16 @@ const Home = () => {
   }, [])
 
     return (
-     <div className={classes.search}>
+     <div className={classes.home}>
       <Layout/>
       <Container>
       <SearchItem />
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
-         New Arrival
+         New Products
       </Typography>
         <Grid container spacing={2}>
            {productsByArrival.map((product, i) => (
-             <Grid  key={i} item xs={6} sm={6} md={3}>
+             <Grid  key={i} item xs={6} sm={3} md={3}>
                  <CardProduct
                   product={product}
                   showViewImage= {true}
@@ -87,9 +83,9 @@ const Home = () => {
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
           Best Seller
       </Typography>
-       <Grid container spacing={4}>
+       <Grid container spacing={2} className={classes.gridbottom}>
           {productsBySell.map((product, i) => (
-            <Grid  key={i} item xs={6} sm={6} md={3}>
+            <Grid  key={i} item xs={6} sm={3} md={3}>
               <CardProduct
                product={product}
                showViewImage= {true}

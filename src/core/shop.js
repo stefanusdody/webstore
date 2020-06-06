@@ -1,165 +1,67 @@
 import React, {useState, useEffect} from 'react';
 import Link from '@material-ui/core/Link';
-import { fade, makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import grey from '@material-ui/core/colors/grey';
+import { makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import HomeIcon from '@material-ui/icons/Home';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Badge from '@material-ui/core/Badge';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AppBar from '@material-ui/core/AppBar';
 import SearchItem from './search';
 import CheckBoxes from "./checkbox";
 import CardProduct from "./card";
+import Fab from '@material-ui/core/Fab';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import Slide from '@material-ui/core/Slide';
-import { signout } from '../auth';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import { getCategories, getFilteredProducts } from './apicore';
 import {prices} from './fixedprices';
-import {itemTotal} from './carthelpers';
 
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     marginTop: theme.spacing(3),
   },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+  rootButton: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
   },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  hide: {
-    display: 'none',
+  BottomBar: {
+    top: 'auto',
+    bottom: 0,
   },
   container: {
     textAlign: "center",
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(4)
   },
   card: {
     textAlign: "center",
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(8),
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+  toolbarTitle: {
+    flex: 1,
   },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 10,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '50%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
-  img: {
-    width: "60%"
+  toolbar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
     overflowX: 'auto',
   },
-  toolbarLink: {
-    padding: theme.spacing(1),
-    flexShrink: 0,
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(12),
+    right: theme.spacing(2),
   },
 }));
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: grey[800] }, // Purple and green play nicely together.
-  },
-  typography: { useNextVariants: true },
-});
-
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const Shop = () => {
   const classes = useStyles();
@@ -252,7 +154,6 @@ const Shop = () => {
   };
 
 
-
   const filtersLinks = () => {
     return (
     <div>
@@ -271,38 +172,6 @@ const Shop = () => {
     )
   }
 
-  const navLinks = () => {
-    return (
-    <div>
-    {/* Navigation Tools */}
-    <List>
-      {['Home'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>{index % 2 === 0 ? <HomeIcon /> : <HomeIcon />}</ListItemIcon>
-          <Link color="inherit"variant="body2" className={classes.link} href="/" >
-            <ListItemText primary={text} />
-          </Link>
-        </ListItem>
-      ))}
-    </List>
-
-    <List>
-      {['My Cart'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>{index % 2 === 0 ? <ShoppingCartIcon /> : <ShoppingCartIcon />}</ListItemIcon>
-          <Link color="inherit"variant="body2" className={classes.link} href="/checkout" >
-            <Badge badgeContent={itemTotal()} color="primary">
-              <ListItemText primary={text} />
-            </Badge>
-          </Link>
-        </ListItem>
-      ))}
-    </List>
-
-    </div>
-    )
-  }
-
   const loadMoreButton = () => {
     return (
       size > 0 && size >= limit && (
@@ -314,66 +183,48 @@ const Shop = () => {
   }
 
 
-  return (
-    <div className={classes.root}>
+
+return (
+   <div className={classes.root}>
       <CssBaseline />
-      <MuiThemeProvider theme={theme}>
-      <AppBar
-        position="fixed"
-        color="inherit"
-      >
-        <Toolbar>
-          <IconButton
-           aria-label="show more"
-           aria-haspopup="true"
-           onClick={handleClickOpen}
-           color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+       <Container>
+           <div className={classes.container}>
+             <SearchItem/>
+           </div>
+           <Fab size="medium" color="secondary" aria-label="add" className={classes.fab} onClick={handleClickOpen}>
+              <SearchOutlinedIcon />
+           </Fab>
+
+           <Dialog
+             open={open}
+             onClose={handleClose}
+             aria-labelledby="alert-dialog-title"
+             aria-describedby="alert-dialog-description"
+            >
+
+            {filtersLinks()}
+            <DialogActions>
+              <Button onClick={handleClose}  autoFocus>
+               Close
+             </Button>
+            </DialogActions>
+          </Dialog>
 
 
-        <Dialog
-         open={open}
-         TransitionComponent={Transition}
-         keepMounted
-         onClose={handleClose}
-         aria-labelledby="alert-dialog-slide-title"
-         aria-describedby="alert-dialog-slide-description"
-       >
-
-         {navLinks()}
-         <Divider />
-         {filtersLinks()}
-         <DialogActions>
-           <Button onClick={handleClose} color="primary">
-             Close
-           </Button>
-         </DialogActions>
-       </Dialog>
-      </AppBar>
-    </MuiThemeProvider>
-
-    <Container>
-       <div className={classes.container}>
-         <SearchItem/>
-       </div>
-        <Grid container spacing={2} className={classes.card}>
-          {filteredResults.map((product, i) => (
-            <Grid key={i} item xs={6} sm={3} md={3}>
-              <CardProduct
-               product={product}
-               showViewImage= {true}
-               showViewImageCarousel={false}
-               showViewDescriptions={false}
-               showViewCategories={false}
-               showAddedProduct={false}
-               showDetailProduct={false}
-               />
-            </Grid>
-          ))}
-        </Grid>
+           <Grid container spacing={2} className={classes.card}>
+               {filteredResults.map((product, i) => (
+                 <Grid key={i} item xs={6} sm={3} md={3}>
+                   <CardProduct
+                     product={product}
+                     showViewImage= {true}
+                     showViewImageCarousel={false}
+                     showViewDescriptions={false}
+                     showViewCategories={false}
+                     showAddedProduct={false}
+                     showDetailProduct={false}/>
+                 </Grid>
+                ))}
+          </Grid>
         {loadMoreButton()}
        </Container>
     </div>

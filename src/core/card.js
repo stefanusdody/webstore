@@ -1,43 +1,30 @@
 import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import {Redirect} from "react-router-dom";
-import pink from '@material-ui/core/colors/pink';
-import { createMuiTheme } from '@material-ui/core/styles';
-import moment from 'moment';
-import {addItem, updateItem, removeItem} from './carthelpers';
-import {isAuthenticated} from '../auth'
+import { makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShowImage from './showimage';
 
-
+import { updateItem, removeItem} from './carthelpers';
 
 const useStyles = makeStyles(theme => ({
   root: {
    maxWidth: 345,
  },
  media: {
-   textAlign: "center"
+   textAlign: "center",
  }
 }));
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: pink[500] }, // Purple and green play nicely together.
-  },
-  typography: { useNextVariants: true },
-});
 
 const CardProduct = ({
       product,
+      showViewMainPicture=true,
+      showViewMainContent=true,
       showViewAddCart = true,
       showViewDescriptions = true,
       showViewCategories = true,
@@ -47,58 +34,26 @@ const CardProduct = ({
     }) => {
 
   const classes = useStyles();
-  const [redirect , setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
-  const preventDefault = (event) => event.preventDefault();
-  const [state, setState] = useState({
-    open: true
-  })
-  const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  const addToCart = () => {
-    addItem(product, () => {
-      setRedirect(true)
-    })
-  }
-
-  const shouldRedirect = redirect => {
-    if(redirect) {
-      return <Redirect to="/checkout"/>
-    }
-  }
-
-  const showAddToChartButton = (showViewAddCart) => {
+  const showMainContent = (showViewMainContent) => {
     return(
-      showViewAddCart && (
-        <Button fullWidth onClick={addToCart} variant="outlined" size="small" color="secondary" href="/checkout">
-          Buy Now
-        </Button>
+      showViewMainContent && (
+        <div>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {product.name}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          Rp {product.price}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          Stock : {product.quantity}
+        </Typography>
+        </div>
       )
     );
   };
 
-
-const showRemoveButton = (showRemoveProductButton) => {
-    return(
-      showRemoveProductButton && (
-        <Button
-          type="submit"
-          fullWidth
-          variant="outlined"
-          onClick={() => removeItem(product._id)}
-          size="small"
-          color="secondary"
-          href="/checkout"
-        >
-          Remove
-        </Button>
-      )
-    );
-  };
 
 const cartShowCartUpdateOptions = (cartUpdate) => {
     return(
@@ -118,6 +73,18 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
               margin="normal"
               variant="outlined"
             />
+            <br/>
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              onClick={() => removeItem(product._id)}
+              size="small"
+              color="secondary"
+              href="/shop"
+            >
+              Remove
+            </Button>
        </div>
       )
     )
@@ -133,27 +100,14 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
 return (
         <Card elevation={3} className={classes.root} >
           <CardActionArea className={classes.media}>
-            <Link href={`/product/${product._id}`}>
+          <Link href={`/product/${product._id}`}>
              <ShowImage item={product} url="product" />
-            </Link>
+          </Link>
               <CardContent className={classes.media}>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Rp {product.price}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Stock : {product.quantity}
-                </Typography>
+               {showMainContent(showViewMainContent)}
                {cartShowCartUpdateOptions(cartUpdate)}
-                <br/>
-               {showRemoveButton(showRemoveProductButton)}
               </CardContent>
           </CardActionArea>
-          <CardActions disableSpacing>
-             {showAddToChartButton(showViewAddCart)}
-          </CardActions>
       </Card >
     );
 }
