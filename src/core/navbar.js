@@ -54,16 +54,6 @@ const NavigationBar = () => {
       <AppBar position="fixed" color="inherit">
         <Toolbar>
             <Avatar>H</Avatar>
-           <Typography
-             component="p"
-             variant="h5"
-             color="inherit"
-             align="left"
-             className={classes.toolbarTitle}
-             noWrap>
-             tokotukuada
-           </Typography>
-
              {!isAuthenticated() && (
                <div>
                 <IconButton
