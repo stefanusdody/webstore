@@ -15,7 +15,10 @@ import Fab from '@material-ui/core/Fab';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import { getCategories, getFilteredProducts } from './apicore';
+import LocalCafeOutlinedIcon from '@material-ui/icons/LocalCafeOutlined';
+import LocalDrinkOutlinedIcon from '@material-ui/icons/LocalDrinkOutlined';
+import Typography from '@material-ui/core/Typography';
+import { getCategories, getFilteredProducts, getAllProducts } from './apicore';
 import {prices} from './fixedprices';
 
 
@@ -42,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     textAlign: "center",
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(8),
   },
   toolbarTitle: {
@@ -63,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const Shop = () => {
+const ShopOne = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -79,6 +82,7 @@ const Shop = () => {
     filters: { category: [], price: []}
   });
 
+  const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
   const [limit, setLimit] = useState(6);
@@ -88,11 +92,11 @@ const Shop = () => {
 
   //Load categories and set form data
   const init = () => {
-    getCategories().then(data => {
+    getAllProducts().then(data => {
       if(data.error) {
         setError(data.error)
       } else {
-        setCategories(data)
+        setProducts(data)
       }
     });
   };
@@ -153,25 +157,6 @@ const Shop = () => {
     return array;
   };
 
-
-  const filtersLinks = () => {
-    return (
-    <div>
-     {/* Filter Tools */}
-      <List>
-        {['Search by Category'].map((text, index) => (
-          <ListItem button key={text}>
-            <Link color="inherit"variant="body2" className={classes.link}>
-              <ListItemText primary={text} />
-              <CheckBoxes categories={categories} handleFilters={filters => handleFilters(filters, "category")} />
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-    )
-  }
-
   const loadMoreButton = () => {
     return (
       size > 0 && size >= limit && (
@@ -182,49 +167,91 @@ const Shop = () => {
     )
   }
 
+const coffeeProduct = products.filter(product => (product.category.name === "Coffee"))
+const nonCoffeeProduct = products.filter(product => (product.category.name === "Non Coffee"))
 
+const coffeeProductMessage = (coffeeProduct) => {
+  if(coffeeProduct.length > 0) {
+    return (
+      <div>
+      <Typography  gutterBottom variant="p" component="h5" align="left">
+         <LocalCafeOutlinedIcon/> Coffee
+      </Typography>
+       <Grid container spacing={2} className={classes.card}>
+           {coffeeProduct.map((product, i) => (
+             <Grid key={i} item xs={12} sm={3} md={3}>
+               <CardProduct
+                 product={product}
+                 showViewImage= {true}
+                 showViewImageCarousel={false}
+                 showViewDescriptions={false}
+                 showViewCategories={false}
+                 showAddedProduct={false}
+                 showDetailProduct={false}/>
+             </Grid>
+            ))}
+      </Grid>
+      </div>
+    )
+   }
+   if( coffeeProduct.length < 1) {
+     return (
+       <div>
+       <Typography  gutterBottom variant="p" component="h5" align="left">
+
+       </Typography>
+       </div>
+     )
+    }
+}
+
+const nonCoffeeProductMessage = (nonCoffeeProduct) => {
+  if(nonCoffeeProduct.length > 0) {
+    return (
+      <div>
+      <Typography  gutterBottom variant="p" component="h5" align="left">
+         <LocalDrinkOutlinedIcon/> Non Coffee
+      </Typography>
+       <Grid container spacing={2} className={classes.card}>
+           {nonCoffeeProduct.map((product, i) => (
+             <Grid key={i} item xs={12} sm={3} md={3}>
+               <CardProduct
+                 product={product}
+                 showViewImage= {true}
+                 showViewImageCarousel={false}
+                 showViewDescriptions={false}
+                 showViewCategories={false}
+                 showAddedProduct={false}
+                 showDetailProduct={false}/>
+             </Grid>
+            ))}
+      </Grid>
+      </div>
+    )
+   }
+   if( nonCoffeeProduct.length < 1) {
+     return (
+       <div>
+       <Typography  gutterBottom variant="p" component="h5" align="left">
+
+       </Typography>
+       </div>
+     )
+    }
+}
 
 return (
    <div className={classes.root}>
       <CssBaseline />
        <Container className={classes.container}>
-
-           <Fab size="medium" color="secondary" aria-label="add" className={classes.fab} onClick={handleClickOpen}>
-              <SearchOutlinedIcon />
-           </Fab>
-
-           <Dialog
-             open={open}
-             onClose={handleClose}
-             aria-labelledby="alert-dialog-title"
-             aria-describedby="alert-dialog-description"
-            >
-
-            {filtersLinks()}
-            <DialogActions>
-              <Button onClick={handleClose}  autoFocus>
-               Close
-             </Button>
-            </DialogActions>
-          </Dialog>
-           <Grid container spacing={2} className={classes.card}>
-               {filteredResults.map((product, i) => (
-                 <Grid key={i} item xs={6} sm={3} md={3}>
-                   <CardProduct
-                     product={product}
-                     showViewImage= {true}
-                     showViewImageCarousel={false}
-                     showViewDescriptions={false}
-                     showViewCategories={false}
-                     showAddedProduct={false}
-                     showDetailProduct={false}/>
-                 </Grid>
-                ))}
-          </Grid>
+          <SearchItem/>
+          <br/>
+          {coffeeProductMessage(coffeeProduct)}
+          {nonCoffeeProductMessage(nonCoffeeProduct)}
         {loadMoreButton()}
        </Container>
     </div>
   );
 }
 
-export default Shop;
+export default ShopOne;

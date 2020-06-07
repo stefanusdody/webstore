@@ -53,7 +53,7 @@ const Pickers = () => {
        </Typography>
          <form className={classes.container} noValidate>
            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={6} align="center">
                  <TextField
                   id="date"
                   fullWidth
@@ -65,7 +65,7 @@ const Pickers = () => {
                   }}
                  />
               </Grid>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={6} align="center">
                  <TextField
                   id="time"
                   label="Waktu Pengambilan"

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
   },
   relatedProduct: {
-    marginBottom: theme.spacing(8)
+    marginBottom: theme.spacing(10)
   },
   layout: {
     width: 'auto',
@@ -121,45 +121,33 @@ return (
       <Paper className={classes.paper}>
       {product && product.description && (
         <Container>
-
          <ShowImage item={product} url="product" />
          <br/>
            {showCartButton(product.quantity)}
          <List disablePadding>
-          <br/>
-          <Typography variant="body2" component="p">
-           Deskripsi product :
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-           {product.name}
-          </Typography>
-           <br/>
-           <Typography variant="body2" component="p">
-             Deskripsi product :
-           </Typography>
-           <Typography variant="body2" color="textSecondary" component="p">
-             {product.description}
-           </Typography>
+              <br/>
+                 <Typography variant="body2" component="p">
+                   Deskripsi product :
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                   {product.name}
+                </Typography>
+                <br/>
+                <Typography variant="body2" component="p">
+                   Deskripsi product :
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                   {product.description}
+                </Typography>
 
-           <ListItem className={classes.listItem}>
-             <ListItemText primary="Ukuran" />
-             <Typography variant="body2">S</Typography>
-           </ListItem>
 
-           <ListItem className={classes.listItem}>
-             <ListItemText primary="harga" />
-             <Typography variant="body2">Rp {product.price}</Typography>
-           </ListItem>
+               <ListItem className={classes.listItem}>
+                 <ListItemText primary="harga" />
+                 <Typography variant="body2">Rp {product.price}</Typography>
+               </ListItem>
 
-           <ListItem className={classes.listItem}>
-             <ListItemText primary="berat" />
-             <Typography variant="body2">{product.weight} gram</Typography>
-           </ListItem>
-
-           {showStock(product.quantity)}
-
+               {showStock(product.quantity)}
          </List>
-
         </Container>
        )}
       </Paper>
@@ -172,7 +160,7 @@ return (
     <br/>
      <Grid container spacing={2} className={classes.relatedProduct}>
        {relatedProduct.map((p, i) => (
-         <Grid key={i} item xs={4} sm={12} md={12}>
+         <Grid key={i} item xs={12} sm={12} md={12}>
            <CardProduct
              product={p}
              showViewProductButton={false}

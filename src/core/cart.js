@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     marginBottom: theme.spacing(10),
+  },
+  button: {
+    marginBottom: theme.spacing(2)
   }
 }))
 
@@ -65,12 +68,23 @@ const Cart = () => {
               showAddedProduct={false}
               showViewAddCart={false}
               cartUpdate={true}
-             showRemoveProductButton={true}
+              showRemoveProductButton={true}
            />
         </Grid>
          ))}
        </Grid>
        <br/>
+       <Button
+         className={classes.button}
+         fullWidth
+         variant="contained"
+         size="small"
+         color="primary"
+         href="/pickers"
+         onClick={getEmpty}
+         >
+         Pickup
+       </Button>
        <Button
          fullWidth
          variant="contained"
@@ -79,7 +93,7 @@ const Cart = () => {
          href="/address"
          onClick={getEmpty}
          >
-         Checkout
+         Delivery
        </Button>
       </Container>
       </div>

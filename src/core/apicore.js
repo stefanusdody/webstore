@@ -13,6 +13,18 @@ export const getProducts = (sortBy) => {
   })
 };
 
+export const getAllProducts = () => {
+  return fetch(`${API}/products`, {
+     method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
 export const getPromoLayouts = () => {
   return fetch(`${API}/promolayouts`, {
      method: "GET",

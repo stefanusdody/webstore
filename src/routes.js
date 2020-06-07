@@ -10,6 +10,7 @@ import Cart from "./core/cart";
 import Home from "./core/home";
 import Review from "./core/review";
 import Shop from "./core/shop";
+import ShopOne from "./core/shopone";
 import NavigationBar from "./core/navbar";
 import NavigationBarBottom from "./core/navbottom"
 import Product from './core/product';
@@ -30,6 +31,7 @@ const Routes = () => {
        <Route path="/signin" component={SignIn}/>
        <Route path="/signup" component={SignUp}/>
        <Route path="/shop" component={Shop}/>
+       <Route path="/shopone" component={ShopOne}/>
        <Route path="/reviewcart" exact component={Review}/>
        <Route path="/product/:productId" exact component={Product} />
        <PrivateRoute
