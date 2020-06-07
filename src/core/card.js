@@ -116,7 +116,7 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
               onClick={() => removeItem(product._id)}
               size="small"
               color="secondary"
-              href="/shop"
+              href="/shopone"
             >
               Remove
             </Button>
@@ -143,9 +143,11 @@ return (
         <div className={classes.details}>
           <CardContent className={classes.content}>
            {showMainContent(showViewMainContent)}
-           {cartShowCartUpdateOptions(cartUpdate)}
+          {cartShowCartUpdateOptions(cartUpdate)}
           </CardContent>
+
         </div>
+
       </Card >
     </Link>
     );

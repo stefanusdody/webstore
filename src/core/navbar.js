@@ -70,6 +70,12 @@ const NavigationBar = () => {
 
              {!isAuthenticated() && (
                <div>
+               <Link color="inherit" href="/cart">
+                  <Badge color="primary" badgeContent={itemTotal()}>
+                     <LocalMallOutlinedIcon/>
+                  </Badge>
+               </Link>
+
                 <IconButton
                   edge="end"
                   aria-label="account of current user"
@@ -102,7 +108,9 @@ const NavigationBar = () => {
                 href="/"
                 onClick={() => signout(() => { window.history.pushState(null, null,"/")})}
                 >
-                   <ExitToAppIcon/>
+                <Typography className={classes.title} component="p">
+                 Sign out
+                </Typography>
                </IconButton>
                </div>
              )}

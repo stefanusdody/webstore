@@ -25,6 +25,18 @@ export const getAllProducts = () => {
   })
 };
 
+export const getAllOutlets = () => {
+  return fetch(`${API}/outlets`, {
+     method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
 export const getPromoLayouts = () => {
   return fetch(`${API}/promolayouts`, {
      method: "GET",

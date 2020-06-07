@@ -65,7 +65,7 @@ const Home = () => {
       </Typography>
         <Grid container spacing={2}>
            {productsByArrival.map((product, i) => (
-             <Grid  key={i} item xs={12} sm={3} md={3}>
+             <Grid  key={i} item xs={12} sm={6} md={3}>
                  <CardProduct
                   product={product}
                   showViewImage= {true}
@@ -84,7 +84,7 @@ const Home = () => {
       </Typography>
        <Grid container spacing={2} className={classes.gridbottom}>
           {productsBySell.map((product, i) => (
-            <Grid  key={i} item xs={12} sm={3} md={3}>
+            <Grid  key={i} item xs={12} sm={6} md={3}>
               <CardProduct
                product={product}
                showViewImage= {true}

@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   card: {
     textAlign: "center",
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(10),
   },
   toolbarTitle: {
     flex: 1,
@@ -179,7 +179,7 @@ const coffeeProductMessage = (coffeeProduct) => {
       </Typography>
        <Grid container spacing={2} className={classes.card}>
            {coffeeProduct.map((product, i) => (
-             <Grid key={i} item xs={12} sm={3} md={3}>
+             <Grid key={i} item xs={12} sm={6} md={3}>
                <CardProduct
                  product={product}
                  showViewImage= {true}
@@ -214,7 +214,7 @@ const nonCoffeeProductMessage = (nonCoffeeProduct) => {
       </Typography>
        <Grid container spacing={2} className={classes.card}>
            {nonCoffeeProduct.map((product, i) => (
-             <Grid key={i} item xs={12} sm={3} md={3}>
+             <Grid key={i} item xs={12} sm={6} md={3}>
                <CardProduct
                  product={product}
                  showViewImage= {true}

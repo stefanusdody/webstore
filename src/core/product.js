@@ -109,9 +109,9 @@ const showCartButton = (quantity) => {
        Pesan
      </Button>
        :
-       <Button variant="contained" color="secondary" fullWidth>
+      <Button variant="contained" color="secondary" fullWidth>
          SOLD OUT
-       </Button>
+      </Button>
    }
 
 return (
