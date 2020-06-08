@@ -95,7 +95,7 @@ const NavigationBar = () => {
              {isAuthenticated() && (
                <div>
 
-                <Link  href="/cart">
+                <Link color="inherit" href="/cart">
                    <Badge color="secondary"  badgeContent={itemTotal()}>
                       <LocalMallOutlinedIcon/>
                    </Badge>
