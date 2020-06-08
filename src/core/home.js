@@ -5,6 +5,7 @@ import CardProduct from './card';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ShowImage from './showimage';
 import {getProducts} from './apicore';
 import { makeStyles } from '@material-ui/core/styles';
 

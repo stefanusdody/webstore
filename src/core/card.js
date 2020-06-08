@@ -107,7 +107,7 @@ const CardProduct = ({
     return(
       showViewMainContent && (
         <div>
-        <Typography component="h5" variant="h5" align="left">
+        <Typography variant="subtitle1" variant="subtitle1" align="left">
           {product.name}
         </Typography>
           {showStock(product.quantity)}
