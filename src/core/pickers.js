@@ -69,112 +69,93 @@ const Pickers = () => {
     init()
   }, [])
 
-  const statusOutlet = (outlets) => {
-    if(outlets.role > 0) {
-      return (
-        <div className={classes.message}>
-          <Typography gutterBottom variant="p" component="h6" align="center">
-            Buka
-          </Typography>
-        </div>
-      )
-     } else {
-       return (
-         <div className={classes.message}>
-           <Typography gutterBottom variant="p" component="h6" align="center" color="secondary">
-             Tutup
-           </Typography>
-         </div>
-       )
-      }
-  }
+  const showStatus = (status) => {
+      return status.role > 0 ?
+      <Typography gutterBottom variant="p" component="h6" align="center">
+        Status Toko : Buka
+      </Typography>
+        :
+      <Typography gutterBottom variant="p" color="secondary" component="h6" align="center">
+        Status Toko : Tutup
+      </Typography>
+     }
 
-  const statusButton = (outlets) => {
-    if(outlets.role > 0) {
-      return (
-        <div>
-        <Button
-          variant="outlined"
-          color="primary"
-          fullWidth
-        >
-          Submit
-        </Button>
-        </div>
-      )
-     } else {
-       return (
-         <div>
-         <Button
-           variant="outlined"
-           color="secondary"
-           fullWidth
-           align="center"
-         >
-           Outlet Tutup
-         </Button>
-         </div>
-       )
-      }
-  }
+
+  const statusButton = (status) => {
+    return status.role > 0 ?
+      <Button
+        variant="outlined"
+        color="primary"
+        fullWidth
+      >
+       Submit
+      </Button>
+      :
+      <Button
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        align="center"
+      >
+        Outlet Tutup
+      </Button>
+   }
 
 
   return (
     <Container className={classes.layout}>
        <Paper className={classes.paper}>
-       <Typography gutterBottom variant="h5" component="h1" align="center">
-         Jadwal Pengambilan
-       </Typography>
-
-       <br/>
-         {outlets.map((outlet, i) => (
-           <Grid key={i} item xs={12} sm={12} md={12}>
-             <Typography gutterBottom variant="p" component="h6" align="center">
-               {outlet.name}
-             </Typography>
-             <Typography gutterBottom variant="p" component="h6" align="center">
-               {outlet.address}
-             </Typography>
-             <Typography gutterBottom variant="p" component="h6" align="center">
-               {outlet.city}
-             </Typography>
-             {statusOutlet(outlets)}
-         </Grid>
-
-         ))}
-         <form className={classes.container} noValidate>
-           <Grid container spacing={2}>
-              <Grid item xs={12} sm={12} md={6} align="center">
-                 <TextField
-                  id="date"
-                  fullWidth
-                  label="Tanggal Pengambilan"
-                  type="date"
-                  className={classes.textField}
-                  InputLabelProps={{
-                  shrink: true,
-                  }}
-                 />
+          <Typography gutterBottom variant="h5" component="h1" align="center">
+           Jadwal Pengambilan
+          </Typography>
+          <form className={classes.container} noValidate>
+           {outlets.map((outlet, i) => (
+            <Grid key={i} item xs={12} sm={12} md={12}>
+              <Typography gutterBottom variant="p" component="h6" align="center">
+                {outlet.name}
+              </Typography>
+              <Typography gutterBottom variant="p" component="h6" align="center">
+                {outlet.address}
+              </Typography>
+              <Typography gutterBottom variant="p" component="h6" align="center">
+                {outlet.city}
+              </Typography>
+              <br/>
+              {showStatus(outlet.status)}
+              <br/>
+              <Grid container spacing={2}>
+                 <Grid item xs={12} sm={12} md={6} align="center">
+                     <TextField
+                      id="date"
+                      fullWidth
+                      label="Tanggal Pengambilan"
+                      type="date"
+                      className={classes.textField}
+                      InputLabelProps={{
+                      shrink: true,
+                      }}
+                     />
+                 </Grid>
+                 <Grid item xs={12} sm={12} md={6} align="center">
+                     <TextField
+                      id="time"
+                      label="Waktu Pengambilan"
+                      type="time"
+                      className={classes.textField}
+                      InputLabelProps={{
+                      shrink: true,
+                      }}
+                      />
+                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={12} md={6} align="center">
-                 <TextField
-                  id="time"
-                  label="Waktu Pengambilan"
-                  type="time"
-                  className={classes.textField}
-                  InputLabelProps={{
-                  shrink: true,
-                  }}
-                 />
+              <br/>
+              <Grid key={i} item xs={12} sm={12} md={12} align="center">
+                {statusButton(outlet.status)}
               </Grid>
-              <Grid item xs={12} sm={12} md={6} align="center">
-                 {statusButton(outlets)}
-              </Grid>
-
            </Grid>
+          ))}
 
-
-         </form>
+          </form>
        </Paper>
    </Container>
   );
