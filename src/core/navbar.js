@@ -1,12 +1,13 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import OpenInNewOutlinedIcon from '@material-ui/icons/OpenInNewOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import FreeBreakfastOutlinedIcon from '@material-ui/icons/FreeBreakfastOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
@@ -40,9 +41,9 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
-  blue: {
+  grey: {
     color: '#fff',
-    backgroundColor: blue[500],
+    backgroundColor: grey[900],
   },
 }));
 
@@ -63,7 +64,7 @@ const NavigationBar = () => {
 
       <AppBar position="fixed" color="inherit">
         <Toolbar>
-            <Avatar className={classes.blue}>
+            <Avatar className={classes.grey}>
               <FreeBreakfastOutlinedIcon/>
             </Avatar>
             <Typography className={classes.toolbarTitle}/>
@@ -71,7 +72,7 @@ const NavigationBar = () => {
              {!isAuthenticated() && (
                <div>
                <Link color="inherit" href="/cart">
-                  <Badge color="primary" badgeContent={itemTotal()}>
+                  <Badge color="secondary" badgeContent={itemTotal()}>
                      <LocalMallOutlinedIcon/>
                   </Badge>
                </Link>
@@ -85,9 +86,7 @@ const NavigationBar = () => {
                   color="inherit"
                 >
                 <Link color="inherit"variant="body2" className={classes.link} href="/signin" >
-                   <Typography className={classes.title} component="p">
-                    Sign In
-                   </Typography>
+                   <OpenInNewOutlinedIcon/>
                 </Link>
                 </IconButton>
               </div>
@@ -96,8 +95,8 @@ const NavigationBar = () => {
              {isAuthenticated() && (
                <div>
 
-                <Link color="inherit" href="/cart">
-                   <Badge color="primary" badgeContent={itemTotal()}>
+                <Link  href="/cart">
+                   <Badge color="secondary"  badgeContent={itemTotal()}>
                       <LocalMallOutlinedIcon/>
                    </Badge>
                 </Link>
@@ -108,9 +107,7 @@ const NavigationBar = () => {
                 href="/"
                 onClick={() => signout(() => { window.history.pushState(null, null,"/")})}
                 >
-                <Typography className={classes.title} component="p">
-                 Sign out
-                </Typography>
+                  <ExitToAppIcon/>
                </IconButton>
                </div>
              )}

@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import { getCart, emptyCourier, emptyAddress} from "./carthelpers";
+import { getCart, emptyCourier, emptyAddress, updateItem, removeItem} from "./carthelpers";
 
 const useStyles = makeStyles(theme => ({
   BottomBar: {
@@ -19,20 +19,23 @@ const useStyles = makeStyles(theme => ({
   },
   cardGrid: {
     height: '50%',
-    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(2),
   },
   cardTwo: {
     marginTop: theme.spacing(30),
     textAlign: "center",
   },
   container: {
+    marginTop: theme.spacing(10),
     marginBottom: theme.spacing(10),
   },
   button: {
     marginBottom: theme.spacing(2)
+  },
+  listItem: {
+    padding: theme.spacing(1, 0),
   }
 }))
 
@@ -61,8 +64,7 @@ const Cart = () => {
             <CardProduct
               key={i}
               product={product}
-              showViewProductButton={false}
-              showViewPrice={false}
+              showViewHomeContent={false}
               showViewDescriptions={false}
               showViewCategories={false}
               showAddedProduct={false}
@@ -77,23 +79,12 @@ const Cart = () => {
        <Button
          className={classes.button}
          fullWidth
-         variant="contained"
+         variant="outlined"
          size="small"
-         color="primary"
          href="/pickers"
          onClick={getEmpty}
          >
          Pickup
-       </Button>
-       <Button
-         fullWidth
-         variant="contained"
-         size="small"
-         color="primary"
-         href="/address"
-         onClick={getEmpty}
-         >
-         Delivery
        </Button>
       </Container>
       </div>

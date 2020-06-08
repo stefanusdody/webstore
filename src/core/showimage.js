@@ -4,7 +4,7 @@ import {API} from "../config";
 
 const useStyles = makeStyles(theme => ({
  media: {
-   width:"100%"
+   width:"70%",
  }
 }));
 

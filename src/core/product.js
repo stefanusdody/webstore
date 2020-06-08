@@ -105,7 +105,7 @@ const showStock = (quantity) => {
 
 const showCartButton = (quantity) => {
      return quantity > 0 ?
-     <Button onClick={addToCart} variant="outlined" color="secondary" fullWidth href="/shop">
+     <Button onClick={addToCart} variant="outlined" color="secondary" fullWidth href="/shopone">
        Pesan
      </Button>
        :
@@ -120,32 +120,30 @@ return (
     <main className={classes.layout}>
       <Paper className={classes.paper}>
       {product && product.description && (
-        <Container>
+        <Container align="center">
          <ShowImage item={product} url="product" />
          <br/>
            {showCartButton(product.quantity)}
          <List disablePadding>
               <br/>
-                 <Typography variant="body2" component="p">
+                <Typography variant="body2" component="p" align="left">
                    Deskripsi product :
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary" component="p" align="left">
                    {product.name}
                 </Typography>
                 <br/>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2" component="p" align="left">
                    Deskripsi product :
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary" component="p" align="left">
                    {product.description}
                 </Typography>
-
 
                <ListItem className={classes.listItem}>
                  <ListItemText primary="harga" />
                  <Typography variant="body2">Rp {product.price}</Typography>
                </ListItem>
-
                {showStock(product.quantity)}
          </List>
         </Container>
@@ -177,7 +175,7 @@ return (
        <Grid container>
 
          <Grid item xs={12} sm={12}>
-           <Link color="inherit" href="/shop">
+           <Link color="inherit" href="/shopone">
              <ListItem>
                <ListItemText align="center"> <StoreIcon /> Kembali Belanja </ListItemText>
              </ListItem>

@@ -59,7 +59,9 @@ const Home = () => {
     return (
      <div className={classes.home}>
       <Layout/>
+
       <Container>
+      <SearchItem/>
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
          New Products
       </Typography>
@@ -68,7 +70,7 @@ const Home = () => {
              <Grid  key={i} item xs={12} sm={6} md={3}>
                  <CardProduct
                   product={product}
-                  showViewImage= {true}
+                  showMainPictureContent={true}
                   showViewDescriptions={false}
                   showViewAddCart={false}
                   />

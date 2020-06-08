@@ -103,7 +103,8 @@ const SearchItem = () => {
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12}>
         <TextField
-         id="filled-full-width"
+         id="size-small-outlined"
+         size="small"
          className={classes.textField}
          placeholder="Cari Product Favorite"
          fullWidth
