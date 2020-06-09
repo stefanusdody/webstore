@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { getAllOutlets } from './apicore';
-
+import { addTimePickers } from './carthelpers';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   layout: {
     width: 'auto',
     marginTop: theme.spacing(10),
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(20),
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(10),
     padding: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
@@ -54,6 +54,23 @@ const Pickers = () => {
   const classes = useStyles();
   const [outlets, setOutlets] = useState([]);
   const [error, setError] = useState(false);
+
+  const [values, setValues] = useState({
+    date_pickers: "",
+    time_pickers: ''
+  })
+
+  const { date_pickers, time_pickers } = values
+
+  const handleChange = name => event => {
+      setValues({ ...values, [name]: event.target.value });
+    };
+
+    const clickSubmit = event => {
+        event.preventDefault();
+        setValues({ ...values});
+        addTimePickers({ outlets, date_pickers, time_pickers })
+      };
 
   const init = () => {
     getAllOutlets().then(data => {
@@ -87,6 +104,7 @@ const Pickers = () => {
         variant="outlined"
         color="primary"
         fullWidth
+        onClick={clickSubmit}
       >
        Submit
       </Button>
@@ -108,10 +126,16 @@ const Pickers = () => {
           <Typography gutterBottom variant="h5" component="h1" align="center">
            Jadwal Pengambilan
           </Typography>
-          <form className={classes.container} noValidate>
+          <form className={classes.container} noValidate  onSubmit={clickSubmit}>
            {outlets.map((outlet, i) => (
             <Grid key={i} item xs={12} sm={12} md={12}>
-              <Typography gutterBottom variant="p" component="h6" align="center">
+              <Typography
+                gutterBottom
+                variant="p"
+                component="h6"
+                align="center"
+                value={outlet.name}
+                >
                 {outlet.name}
               </Typography>
               <Typography gutterBottom variant="p" component="h6" align="center">
@@ -130,6 +154,8 @@ const Pickers = () => {
                       fullWidth
                       label="Tanggal Pengambilan"
                       type="date"
+                      value={date_pickers}
+                      onChange={handleChange("date_pickers")}
                       className={classes.textField}
                       InputLabelProps={{
                       shrink: true,
@@ -141,12 +167,14 @@ const Pickers = () => {
                       id="time"
                       label="Waktu Pengambilan"
                       type="time"
+                      value={time_pickers}
+                      onChange={handleChange("time_pickers")}
                       className={classes.textField}
                       InputLabelProps={{
                       shrink: true,
-                      }}
-                      />
-                 </Grid>
+                     }}
+                 />
+              </Grid>
               </Grid>
               <br/>
               <Grid key={i} item xs={12} sm={12} md={12} align="center">

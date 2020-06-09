@@ -114,6 +114,23 @@ export const addAddress = (item) => {
   }
 };
 
+export const addTimePickers = (item) => {
+  let timePickers = []
+  if(typeof window !== 'undefined') {
+    if(localStorage.getItem('address')) {
+      timePickers = JSON.parse(localStorage.getItem('timePickers'))
+    }
+    timePickers.push({
+      ...item,
+    });
+
+    timePickers = Array.from(new Set(timePickers.map((p) => (p._id)))).map(id => {
+      return timePickers.find(p => p._id === id);
+    });
+    localStorage.setItem('timePickers', JSON.stringify(timePickers))
+  }
+};
+
 export const getAddress = () => {
   if(typeof window !== 'undefined') {
     if(localStorage.getItem('address')) {

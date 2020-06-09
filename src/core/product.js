@@ -150,7 +150,6 @@ return (
        )}
       </Paper>
     </main>
-
     <Container>
     <Typography component="h1" variant="h4" align="center">
         Related Product
@@ -168,22 +167,6 @@ return (
        ))}
      </Grid>
      </Container>
-     <AppBar
-       position="fixed"
-       color="inherit"
-       className={classes.BottomBar}>
-       <Grid container>
-
-         <Grid item xs={12} sm={12}>
-           <Link color="inherit" href="/shopone">
-             <ListItem>
-               <ListItemText align="center"> <StoreIcon /> Kembali Belanja </ListItemText>
-             </ListItem>
-           </Link>
-         </Grid>
-
-       </Grid>
-     </AppBar>
   </div>
   );
 };
