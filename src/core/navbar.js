@@ -86,7 +86,7 @@ const NavigationBar = () => {
                   color="inherit"
                 >
                 <Link color="inherit"variant="body2" className={classes.link} href="/signin" >
-                   <OpenInNewOutlinedIcon/>
+                   <ExitToAppIcon/>
                 </Link>
                 </IconButton>
               </div>
@@ -107,7 +107,8 @@ const NavigationBar = () => {
                 href="/"
                 onClick={() => signout(() => { window.history.pushState(null, null,"/")})}
                 >
-                  <ExitToAppIcon/>
+                  <OpenInNewOutlinedIcon/>
+
                </IconButton>
                </div>
              )}

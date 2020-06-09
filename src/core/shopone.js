@@ -17,6 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import LocalCafeOutlinedIcon from '@material-ui/icons/LocalCafeOutlined';
 import LocalDrinkOutlinedIcon from '@material-ui/icons/LocalDrinkOutlined';
+import FastfoodOutlinedIcon from '@material-ui/icons/FastfoodOutlined';
 import Typography from '@material-ui/core/Typography';
 import { getCategories, getFilteredProducts, getAllProducts } from './apicore';
 import {prices} from './fixedprices';
@@ -171,6 +172,7 @@ const ShopOne = () => {
 
 const coffeeProduct = products.filter(product => (product.category.name === "Coffee"))
 const nonCoffeeProduct = products.filter(product => (product.category.name === "Non Coffee"))
+const foodsProduct = products.filter(product => (product.category.name === "Foods"))
 
 const coffeeProductMessage = (coffeeProduct) => {
   if(coffeeProduct.length > 0) {
@@ -232,6 +234,41 @@ const nonCoffeeProductMessage = (nonCoffeeProduct) => {
     )
    }
    if( nonCoffeeProduct.length < 1) {
+     return (
+       <div>
+       <Typography  gutterBottom variant="p" component="h5" align="left">
+
+       </Typography>
+       </div>
+     )
+    }
+}
+
+const foodsProductMessage = (foodsProduct) => {
+  if(foodsProduct.length > 0) {
+    return (
+      <div>
+      <Typography  gutterBottom variant="p" component="h5" align="left">
+         <FastfoodOutlinedIcon/> Foods
+      </Typography>
+       <Grid container spacing={2} className={classes.cardNonCoffee}>
+           {foodsProduct.map((product, i) => (
+             <Grid key={i} item xs={12} sm={6} md={3}>
+               <CardProduct
+                 product={product}
+                 showViewImage= {true}
+                 showViewImageCarousel={false}
+                 showViewDescriptions={false}
+                 showViewCategories={false}
+                 showAddedProduct={false}
+                 showDetailProduct={false}/>
+             </Grid>
+            ))}
+      </Grid>
+      </div>
+    )
+   }
+   if( foodsProduct.length < 1) {
      return (
        <div>
        <Typography  gutterBottom variant="p" component="h5" align="left">
