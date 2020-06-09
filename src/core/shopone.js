@@ -44,8 +44,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4)
   },
   card: {
-    textAlign: "center",
     marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(3)
+  },
+  cardNonCoffee: {
     marginBottom: theme.spacing(10),
   },
   toolbarTitle: {
@@ -212,7 +214,7 @@ const nonCoffeeProductMessage = (nonCoffeeProduct) => {
       <Typography  gutterBottom variant="p" component="h5" align="left">
          <LocalDrinkOutlinedIcon/> Non Coffee
       </Typography>
-       <Grid container spacing={2} className={classes.card}>
+       <Grid container spacing={2} className={classes.cardNonCoffee}>
            {nonCoffeeProduct.map((product, i) => (
              <Grid key={i} item xs={12} sm={6} md={3}>
                <CardProduct

@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
+import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
 import FormatListBulletedOutlinedIcon from '@material-ui/icons/FormatListBulletedOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
@@ -74,7 +74,7 @@ const NavigationBarBottom = () => {
         <Grid item xs={3} sm={3} md={3}>
           <Link color="inherit" href="/shopone">
             <ListItem>
-               <ListItemText align="center"> <StorefrontOutlinedIcon /> Shop </ListItemText>
+               <ListItemText align="center"> <MenuBookOutlinedIcon /> Menu </ListItemText>
             </ListItem>
           </Link>
         </Grid>
