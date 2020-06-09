@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react';
 import SearchItem from './search';
 import Layout from './layout';
 import CardProduct from './card';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import ShowImage from './showimage';
-import {getProducts} from './apicore';
+import { ExternalLink } from 'react-external-link';
+import { getProducts,getAllOutlets } from './apicore';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -22,14 +25,28 @@ const useStyles = makeStyles(theme => ({
   gridbottom: {
     marginBottom: theme.spacing(8)
   },
+  button: {
+    marginTop: theme.spacing(2),
+  }
 
 }))
 
 const Home = () => {
   const classes = useStyles();
+  const [outlets, setOutlets] = useState([]);
   const [productsBySell, setProductsBySell] = useState([]);
   const [productsByArrival, setProductsByArrival] = useState([])
   const [error, setError] = useState(false)
+
+  const loadOutlets = () => {
+    getAllOutlets().then(data => {
+      if(data.error) {
+        setError(data.error)
+      } else {
+        setOutlets(data)
+      }
+    })
+  }
 
 
   const loadProductsBySell = () => {
@@ -53,6 +70,7 @@ const Home = () => {
   }
 
   useEffect(() => {
+    loadOutlets()
     loadProductsByArrival()
     loadProductsBySell()
   }, [])
@@ -62,7 +80,22 @@ const Home = () => {
       <Layout/>
 
       <Container>
-      <SearchItem/>
+      {outlets.map((outlet, i) => (
+
+        <Button
+          variant="outlined"
+          color="default"
+          fullWidth
+          className={classes.button}
+          startIcon={<RoomOutlinedIcon />}
+          href={outlet.location}
+        >
+            {outlet.name}
+        </Button>
+
+      ))}
+
+
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
          New Products
       </Typography>
