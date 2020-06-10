@@ -81,7 +81,7 @@ const Cart = () => {
          fullWidth
          variant="outlined"
          size="small"
-         href="/pickers"
+         href="/reviewcart"
          onClick={getEmpty}
          >
          Pickup

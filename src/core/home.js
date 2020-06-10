@@ -83,6 +83,7 @@ const Home = () => {
       {outlets.map((outlet, i) => (
 
         <Button
+          key={i}
           variant="outlined"
           color="default"
           fullWidth
