@@ -237,7 +237,7 @@ return (
              </Input >
         </Grid>
         <br/>
-        <Button type="submit" variant="outlined" fullWidth color="primary" >Cek Ongkos Kirim</Button>
+        <Button type="submit" variant="outlined" fullWidth color="primary" href="/reviewcart">Cek Ongkos Kirim</Button>
          <Typography variant="h6" gutterBottom className={classes.text}>
             Pilih Kurir Pengiriman
           </Typography>

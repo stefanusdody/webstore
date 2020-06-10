@@ -81,11 +81,6 @@ export const emptyCart = () => {
   }
 }
 
-export const emptyAddress = () => {
-  if(typeof window !== "undefined") {
-    localStorage.removeItem("address")
-  }
-}
 
 export const addAddress = (item) => {
   let address = []
@@ -114,6 +109,36 @@ export const addAddress = (item) => {
   }
 };
 
+export const getAddress = () => {
+  if(typeof window !== 'undefined') {
+    if(localStorage.getItem('address')) {
+      return JSON.parse(localStorage.getItem('address'));
+    }
+  }
+  return [];
+}
+
+export const removeAddress = () => {
+  let address = [];
+  if(typeof window !== 'undefined') {
+    if(localStorage.getItem('address')) {
+      address = JSON.parse(localStorage.getItem('address'));
+    }
+    address.map((p, i) => {
+      address.splice(i, 1)
+    })
+
+    localStorage.setItem('address', JSON.stringify(address));
+  }
+  return address;
+};
+
+export const emptyAddress = () => {
+  if(typeof window !== "undefined") {
+    localStorage.removeItem("address")
+  }
+}
+
 export const addTimePickers = (item) => {
   let timePickers = []
   if(typeof window !== 'undefined') {
@@ -131,29 +156,37 @@ export const addTimePickers = (item) => {
   }
 };
 
-export const getAddress = () => {
+export const getTimePickers = () => {
   if(typeof window !== 'undefined') {
-    if(localStorage.getItem('address')) {
-      return JSON.parse(localStorage.getItem('address'));
+    if(localStorage.getItem('timePickers')) {
+      return JSON.parse(localStorage.getItem('timePickers'));
     }
   }
   return [];
 }
 
-export const removeAddress = (productId) => {
-  let address = [];
+export const removeTimePickers = () => {
+  let timePickers = [];
   if(typeof window !== 'undefined') {
-    if(localStorage.getItem('address')) {
-      address = JSON.parse(localStorage.getItem('address'));
+    if(localStorage.getItem('timePickers')) {
+      timePickers = JSON.parse(localStorage.getItem('timePickers'));
     }
-    address.map((p, i) => {
-      address.splice(i, 1)
+    timePickers.map((p, i) => {
+      timePickers.splice(i, 1)
     })
 
-    localStorage.setItem('address', JSON.stringify(address));
+    localStorage.setItem('timePickers', JSON.stringify(timePickers));
   }
-  return address;
+  return timePickers;
 };
+
+export const emptyTimePickers = () => {
+  if(typeof window !== "undefined") {
+    localStorage.removeItem("timePickers")
+  }
+}
+
+
 
 export const addCourier = (item) => {
   let courier = []

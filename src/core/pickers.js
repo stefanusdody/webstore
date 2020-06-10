@@ -57,20 +57,18 @@ const Pickers = () => {
 
   const [values, setValues] = useState({
     date_pickers: "",
-    time_pickers: ''
+    time_pickers: ""
   })
 
   const { date_pickers, time_pickers } = values
 
   const handleChange = name => event => {
       setValues({ ...values, [name]: event.target.value });
-    };
+  };
 
-    const clickSubmit = event => {
-        event.preventDefault();
-        setValues({ ...values});
-        addTimePickers({ outlets, date_pickers, time_pickers })
-      };
+  const addPickers = () => {
+    addTimePickers({ outlets, date_pickers, time_pickers })
+  }
 
   const init = () => {
     getAllOutlets().then(data => {
@@ -104,10 +102,12 @@ const Pickers = () => {
         variant="outlined"
         color="primary"
         fullWidth
-        onClick={clickSubmit}
+        href="/reviewcart"
+        onClick={addPickers}
       >
-       Submit
+        Submit
       </Button>
+
       :
       <Button
         variant="outlined"
@@ -126,7 +126,7 @@ const Pickers = () => {
           <Typography gutterBottom variant="h5" component="h1" align="center">
            Jadwal Pengambilan
           </Typography>
-          <form className={classes.container} noValidate  onSubmit={clickSubmit}>
+          <form className={classes.container} noValidate>
            {outlets.map((outlet, i) => (
             <Grid key={i} item xs={12} sm={12} md={12}>
               <Typography

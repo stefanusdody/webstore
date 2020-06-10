@@ -81,7 +81,7 @@ const Cart = () => {
          fullWidth
          variant="outlined"
          size="small"
-         href="/reviewcart"
+         href="/pickers"
          onClick={getEmpty}
          >
          Pickup
@@ -112,7 +112,7 @@ const Cart = () => {
           className={classes.BottomBar}>
           <Grid container>
             <Grid item xs={12} sm={12}>
-              <Link color="inherit" href="/shop">
+              <Link color="inherit" href="/shopone">
                 <ListItem>
                   <ListItemText align="center"> <StoreIcon /> Kembali Belanja </ListItemText>
                 </ListItem>

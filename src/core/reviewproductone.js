@@ -21,8 +21,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { isAuthenticated} from '../auth';
-import { getCart, emptyCart, getAddress, getCourier, itemTotal, emptyCourier, emptyAddress } from "./carthelpers";
+import { getCart, emptyCart, getAddress, itemTotal, emptyCourier, emptyAddress ,getTimePickers } from "./carthelpers";
 import { createOrder, getAllOutlets} from "./apicore"
+import moment from 'moment'
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,16 +50,17 @@ const classes = useStyles();
 
 
 const [values, setValues] = useState({
-      courier_name: "",
+      outlet_name: "",
       error: '',
-      date_pickers: "",
-      time_pickers: '',
+      date_pickup: "",
+      time_pickup: '',
+      outlet: "",
       loading: false,
       success: false,
 });
 
 const [ outlets, setOutlets ] = useState([]);
-const { loading, success, error, courier_name, date_pickers, time_pickers } = values;
+const { loading, success, error, name, date_pickup, time_pickup, outlet } = values;
 const [ deliveryAddress, setDeliveryAddress ] = useState([]);
 const [ courierService, setCourierService ] = useState([]);
 const [ cart, setCart ] = useState([]);
@@ -70,20 +72,10 @@ const token = isAuthenticated() && isAuthenticated().token;
 
 useEffect(() => {
       setDeliveryAddress(getAddress());
-      setCourierService(getCourier());
       setCart(getCart())
-      init()
+      setOutlets(getTimePickers())
   }, []);
 
-  const init = () => {
-    getAllOutlets().then(data => {
-      if(data.error) {
-        setValues({ ...values, error: data.error, loading: false})
-      } else {
-        setOutlets(data)
-      }
-    });
-  };
 
   const handleChange = name => event => {
       setValues({ ...values, [name]: event.target.value });
@@ -110,73 +102,25 @@ const getNetTotal = () => {
   return getTotal() + getWeight()
 }
 
-const getCourierName = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.courier
-  },[])
-}
-
-const getCourierService = () => {
-  return courierService.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.description
-  },[])
-}
-
-const getCourierFee = () => {
-  return courierService.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.cost[0].value
-  },[])
-}
-
-const getStreetAddress = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.alamat
-  },[])
-}
-
-const getCityAddress = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.kelurahan
-  },[])
-}
-
-const getPostal = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.postal
-  },[])
-}
-
-const getAddressId = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.destination
-  },[])
-}
-
 
 const createOrderData = {
     products: products,
     transaction_id: products.id,
     amount: products.amount,
-    address: getStreetAddress(),
-    city: getCityAddress(),
-    postal_code: getPostal(),
-    courier_name: getCourierName(),
-    courier_service: getCourierService(),
-    courier_fee: getCourierFee(),
-    address_id: getAddressId(),
+    outlet: outlets.name,
     total: getNetTotal()
 };
 
-const buy = () => {
+const buy = (event) => {
+        event.preventDefault();
         setValues({ ...values, error: false, loading: true});
 
-        createOrder(userId, token, createOrderData, {courier_name})
+        createOrder(userId, token, createOrderData, { date_pickup, time_pickup} )
             .then(data => {
               if(data.error){
                 setValues({ ...values, error: data.error, loading: false})
               } else {
                  emptyCart();
-                 emptyCourier();
                  emptyAddress();
                  setValues({
                    ...values,
@@ -242,23 +186,12 @@ const showLoading = () => (
       )
   );
 
-  const showStatus = (status) => {
-      return status.role > 0 ?
-      <Typography variant="caption" display="block" gutterBottom>
-        Status Toko : Buka
-      </Typography>
-        :
-      <Typography variant="caption" display="block" color="secondary" gutterBottom>
-        Status Toko : Tutup
-      </Typography>
-     }
 
 return (
   <Container>
      {showLoading()}
      {showSuccess()}
      {showError()}
-
      {isAuthenticated() && (
        <div>
        <Typography variant="h6" gutterBottom className={classes.card} align="center">
@@ -273,53 +206,45 @@ return (
              variant="p"
              component="h6"
              align="left"
-             value={outlet.name}
              >
-             {outlet.name}
+             {outlet.outlets[0].name}
            </Typography>
            <Typography variant="caption" display="block" gutterBottom>
-             {outlet.address}
+             {outlet.outlets[0].address}
            </Typography>
            <Typography variant="caption" display="block" gutterBottom>
-             {outlet.city}
+             {outlet.outlets[0].city}
            </Typography>
-           <br/>
-           {showStatus(outlet.status)}
 
            <Typography variant="h6" gutterBottom className={classes.card}>
             Jadwal Pengambilan
            </Typography>
+
            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12} md={6} align="center">
-                  <TextField
-                   id="date"
-                   fullWidth
-                   label="Tanggal"
-                   type="date"
-                   value={date_pickers}
-                   onChange={handleChange("date_pickers")}
-                   className={classes.textField}
-                   InputLabelProps={{
-                   shrink: true,
-                   }}
-                  />
+              <Grid item xs={12} sm={12} md={6}>
+                <Typography
+                 gutterBottom
+                 variant="p"
+                 component="h6">
+                  Tanggal :
+                </Typography>
+                <Typography  variant="body2" component="p" color="textSecondary">
+                {moment(outlet.date_pickers).format(" MMMM Do YYYY")}
+                </Typography>
+
               </Grid>
-              <Grid item xs={12} sm={12} md={6} align="center">
-                  <TextField
-                   id="time"
-                   fullWidth
-                   label="Jam"
-                   type="time"
-                   value={time_pickers}
-                   onChange={handleChange("time_pickers")}
-                   className={classes.textField}
-                   InputLabelProps={{
-                   shrink: true,
-                  }}
-              />
+              <Grid item xs={12} sm={12} md={6}>
+                 <Typography
+                  gutterBottom
+                  variant="p"
+                  component="h6">
+                     Jam :
+                 </Typography>
+                 <Typography  variant="body2" component="p" color="textSecondary">
+                   {outlet.time_pickers}
+                 </Typography>
+              </Grid>
            </Grid>
-           </Grid>
-           <br/>
         </Grid>
        ))}
 
@@ -349,12 +274,6 @@ return (
                        <TableCell colSpan={1}>Sub Total</TableCell>
                        <TableCell align="right">{getTotal()}</TableCell>
                     </TableRow>
-                    { courierService.map((r, i) => (
-                    <TableRow key={i}>
-                       <TableCell>Pengiriman</TableCell>
-                       <TableCell align="right" value={r.cost[0].value}>{r.cost[0].value}</TableCell>
-                    </TableRow>
-                    ))}
                     <TableRow>
                        <TableCell >Total</TableCell>
                        <TableCell align="right" value={getNetTotal} onChange={handleTotal}>{getNetTotal()}</TableCell>
