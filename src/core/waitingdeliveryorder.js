@@ -76,7 +76,7 @@ const WaitingDeliveryOrder = () => {
          </Typography>
          <br/>
          <Typography variant="subtitle1" color="textSecondary">
-            Saat Ini Kamu Tidak Memiliki Pesanan dengan Status "Proses Pengiriman"
+            Saat Ini Kamu Tidak Memiliki Pesanan dengan Status "Siap Diambil"
          </Typography>
          </div>
        )
