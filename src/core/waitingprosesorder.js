@@ -75,7 +75,7 @@ const WaitingProsesOrder = () => {
             Halo {name}...
          </Typography>
          <br/>
-         <Typography component="h1" variant="h5">
+         <Typography variant="subtitle1" color="textSecondary">
             Saat Ini Kamu Tidak Memiliki Pesanan dengan Status "Sedang Diproses"
          </Typography>
          </div>
