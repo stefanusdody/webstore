@@ -37,6 +37,7 @@ export const getAllOutlets = () => {
   })
 };
 
+
 export const getPromoLayouts = () => {
   return fetch(`${API}/promolayouts`, {
      method: "GET",

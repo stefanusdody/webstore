@@ -57,7 +57,7 @@ const WaitingDeliveryOrder = () => {
     })
   }
 
-  const orderStatus = history.filter(histories => (histories.status === "Proses Pengiriman"))
+  const orderStatus = history.filter(histories => (histories.status === "Siap Diambil"))
 
   useEffect(() => {
     init(_id, token)

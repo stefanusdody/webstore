@@ -57,7 +57,6 @@ const useStyles = makeStyles(theme => ({
 
 const Product = (props) => {
  const classes = useStyles();
-
  const [product, setProduct] = useState({})
  const [relatedProduct, setRelatedProduct] = useState([])
  const [error, setError] = useState(false)

@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import { getCart, emptyCourier, emptyAddress, updateItem, removeItem} from "./carthelpers";
+import { getCart, emptyCourier, emptyAddress, updateItem, removeItem, emptyTimePickers} from "./carthelpers";
 
 const useStyles = makeStyles(theme => ({
   BottomBar: {
@@ -51,7 +51,8 @@ const Cart = () => {
 
   const getEmpty = () => {
       emptyCourier();
-      emptyAddress()
+      emptyAddress();
+      emptyTimePickers()
   };
 
   const showItems = (items) => {

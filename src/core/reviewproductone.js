@@ -21,7 +21,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { isAuthenticated} from '../auth';
-import { getCart, emptyCart, getAddress, itemTotal, emptyCourier, emptyAddress ,getTimePickers } from "./carthelpers";
+import { getCart, emptyCart, getAddress, itemTotal, emptyCourier, emptyAddress ,getTimePickers, emptyTimePickers } from "./carthelpers";
 import { createOrder, getAllOutlets} from "./apicore"
 import moment from 'moment'
 
@@ -40,12 +40,11 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
   },
   card: {
-    marginTop: theme.spacing(3),
-
+    marginTop: theme.spacing(1)
   }
 }))
 
-const ReviewProduct = ({products}) => {
+const ReviewProduct = ({products,outlets}) => {
 const classes = useStyles();
 
 
@@ -59,12 +58,11 @@ const [values, setValues] = useState({
       success: false,
 });
 
-const [ outlets, setOutlets ] = useState([]);
 const { loading, success, error, name, date_pickup, time_pickup, outlet } = values;
 const [ deliveryAddress, setDeliveryAddress ] = useState([]);
 const [ courierService, setCourierService ] = useState([]);
+const [ timePickers, setTimePickers ] = useState([]);
 const [ cart, setCart ] = useState([]);
-
 
 const userId = isAuthenticated() && isAuthenticated().user._id;
 const token = isAuthenticated() && isAuthenticated().token;
@@ -73,7 +71,7 @@ const token = isAuthenticated() && isAuthenticated().token;
 useEffect(() => {
       setDeliveryAddress(getAddress());
       setCart(getCart())
-      setOutlets(getTimePickers())
+      setTimePickers(getTimePickers())
   }, []);
 
 
@@ -102,12 +100,38 @@ const getNetTotal = () => {
   return getTotal() + getWeight()
 }
 
+const getOutletName = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.outlets[0].name
+  }, [])
+}
+
+const getOutletId = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.outlets[0]._id
+  }, [])
+}
+
+const getDatePickup = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.date_pickers
+  }, [])
+}
+
+const getTimePickup = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.time_pickers
+  }, [])
+}
+
 
 const createOrderData = {
     products: products,
     transaction_id: products.id,
     amount: products.amount,
-    outlet: outlets.name,
+    outlets: getOutletId(),
+    date_pickup: getDatePickup(),
+    time_pickup: getTimePickup(),
     total: getNetTotal()
 };
 
@@ -115,13 +139,14 @@ const buy = (event) => {
         event.preventDefault();
         setValues({ ...values, error: false, loading: true});
 
-        createOrder(userId, token, createOrderData, { date_pickup, time_pickup} )
+        createOrder(userId, token, createOrderData)
             .then(data => {
               if(data.error){
                 setValues({ ...values, error: data.error, loading: false})
               } else {
                  emptyCart();
                  emptyAddress();
+                 emptyTimePickers();
                  setValues({
                    ...values,
                    loading: false,
@@ -188,7 +213,7 @@ const showLoading = () => (
 
 
 return (
-  <Container>
+  <Container className={classes.container}>
      {showLoading()}
      {showSuccess()}
      {showError()}
@@ -198,8 +223,8 @@ return (
          Order Summary
        </Typography>
        <br/>
-       <form className={classes.container} noValidate>
-        {outlets.map((outlet, i) => (
+       <form  noValidate>
+        {timePickers.map((outlet, i) => (
          <Grid key={i} item xs={12} sm={12} md={12}>
            <Typography
              gutterBottom
@@ -310,8 +335,6 @@ return (
        </Button>
       </div>
      )}
-
-
      {showBottomNavigation()}
   </Container>
 

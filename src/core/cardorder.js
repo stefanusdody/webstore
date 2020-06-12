@@ -102,6 +102,7 @@ return (
            </ListItem>
 
 
+
            <ListItem>
               <Grid item xs={12} sm={12} md={12}>
                   <Typography variant="body2" component="p">
@@ -114,20 +115,31 @@ return (
            </ListItem>
 
            <ListItem>
-              <Grid item xs={12} sm={12} md={12}>
-                  <Typography variant="body2" component="p">
-                    Product  :
-                  </Typography>
-                  <Typography  variant="body2" component="p" color="textSecondary">
-                   {order.products[0].name}
-                  </Typography>
-              </Grid>
+             <Grid  item xs={12} sm={12} md={12}>
+               <Typography variant="body2" component="p">
+                 Product  :
+               </Typography>
+            { order.products.map((p, i) => {
+             return (
+                <Typography key={i} variant="body2" component="p" color="textSecondary">
+                {p.name}
+                </Typography>
+              )
+            })}
+             </Grid>
            </ListItem>
-
           {showMainPayment(showViewPayment)}
-
-
        </List>
+       <ListItem>
+          <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="body2" component="p">
+                Outlet Pembelian  :
+              </Typography>
+              <Typography  variant="body2" component="p" color="textSecondary">
+                {order.outlets}
+              </Typography>
+          </Grid>
+       </ListItem>
 
        </CardContent>
       </Card>
