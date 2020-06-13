@@ -37,6 +37,18 @@ export const getAllOutlets = () => {
   })
 };
 
+export const getOutlet = (outletId) => {
+  return fetch(`${API}/outlet/${outletId}`, {
+     method: "GET",
+     })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => {
+    console.log(err);
+  })
+};
+
 
 export const getPromoLayouts = () => {
   return fetch(`${API}/promolayouts`, {

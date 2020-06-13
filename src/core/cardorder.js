@@ -128,13 +128,14 @@ return (
             })}
              </Grid>
            </ListItem>
+
            <ListItem>
               <Grid item xs={12} sm={12} md={12}>
                   <Typography variant="body2" component="p">
                     Outlet Pembelian  :
                   </Typography>
                   <Typography  variant="body2" component="p" color="textSecondary">
-                    {order.outlets}
+                    {order.outlets_name}
                   </Typography>
               </Grid>
            </ListItem>

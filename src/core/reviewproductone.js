@@ -106,9 +106,9 @@ const getOutletName = () => {
   }, [])
 }
 
-const getOutletId = () => {
+const getOutletLocation = () => {
   return timePickers.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.outlets[0]._id
+    return currentValue + nextValue.outlets[0].location
   }, [])
 }
 
@@ -129,7 +129,8 @@ const createOrderData = {
     products: products,
     transaction_id: products.id,
     amount: products.amount,
-    outlets: getOutletId(),
+    outlets_name: getOutletName(),
+    outlets_location: getOutletLocation(),
     date_pickup: getDatePickup(),
     time_pickup: getTimePickup(),
     total: getNetTotal()
