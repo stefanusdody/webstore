@@ -20,8 +20,9 @@ import Badge from '@material-ui/core/Badge';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles } from '@material-ui/core/styles';
 import { isAuthenticated} from '../auth';
-import { getCart, emptyCart, getAddress, getCourier, itemTotal, emptyCourier, emptyAddress } from "./carthelpers";
-import { createOrder} from "./apicore"
+import { getCart, emptyCart, itemTotal, emptyAddress ,getTimePickers, emptyTimePickers } from "./carthelpers";
+import { createOrder } from "./apicore"
+import moment from 'moment'
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,24 +39,23 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
   },
   card: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1)
   }
 }))
 
-const ReviewProduct = ({products}) => {
+const ReviewProduct = ({products,outlets}) => {
 const classes = useStyles();
 
 
 const [values, setValues] = useState({
-      courier_name: "",
+      outlet_name: "",
       error: '',
       loading: false,
       success: false,
 });
 
-const { loading, success, error, courier_name } = values;
-const [ deliveryAddress, setDeliveryAddress ] = useState([]);
-const [ courierService, setCourierService ] = useState([]);
+const { loading, success, error,  } = values;
+const [ timePickers, setTimePickers ] = useState([]);
 const [ cart, setCart ] = useState([]);
 
 const userId = isAuthenticated() && isAuthenticated().user._id;
@@ -63,9 +63,8 @@ const token = isAuthenticated() && isAuthenticated().token;
 
 
 useEffect(() => {
-      setDeliveryAddress(getAddress());
-      setCourierService(getCourier());
       setCart(getCart())
+      setTimePickers(getTimePickers())
   }, []);
 
 
@@ -79,56 +78,33 @@ const getTotal = () => {
   }, 0)
 }
 
-const getWeight = () => {
-  return courierService.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.cost[0].value
-  }, 0)
-}
 
 const getNetTotal = () => {
-  return getTotal() + getWeight()
+  return getTotal()
 }
 
-const getCourierName = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.courier
-  },[])
+const getOutletName = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.outlets[0].name
+  }, [])
 }
 
-const getCourierService = () => {
-  return courierService.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.description
-  },[])
+const getOutletLocation = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.outlets[0].location
+  }, [])
 }
 
-const getCourierFee = () => {
-  return courierService.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.cost[0].value
-  },[])
+const getDatePickup = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.date_pickers
+  }, [])
 }
 
-const getStreetAddress = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.alamat
-  },[])
-}
-
-const getCityAddress = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.kelurahan
-  },[])
-}
-
-const getPostal = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.postal
-  },[])
-}
-
-const getAddressId = () => {
-  return deliveryAddress.reduce((currentValue, nextValue) => {
-    return currentValue + nextValue.destination
-  },[])
+const getTimePickup = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.time_pickers
+  }, [])
 }
 
 
@@ -136,27 +112,25 @@ const createOrderData = {
     products: products,
     transaction_id: products.id,
     amount: products.amount,
-    address: getStreetAddress(),
-    city: getCityAddress(),
-    postal_code: getPostal(),
-    courier_name: getCourierName(),
-    courier_service: getCourierService(),
-    courier_fee: getCourierFee(),
-    address_id: getAddressId(),
-    total: getNetTotal()
+    outlets_name: getOutletName(),
+    outlets_location: getOutletLocation(),
+    date_pickup: getDatePickup(),
+    time_pickup: getTimePickup(),
+    total: getTotal()
 };
 
-const buy = () => {
+const buy = (event) => {
+        event.preventDefault();
         setValues({ ...values, error: false, loading: true});
 
-        createOrder(userId, token, createOrderData, {courier_name})
+        createOrder(userId, token, createOrderData)
             .then(data => {
               if(data.error){
                 setValues({ ...values, error: data.error, loading: false})
               } else {
                  emptyCart();
-                 emptyCourier();
                  emptyAddress();
+                 emptyTimePickers();
                  setValues({
                    ...values,
                    loading: false,
@@ -221,18 +195,73 @@ const showLoading = () => (
       )
   );
 
+
 return (
-  <Container>
+  <Container className={classes.container}>
      {showLoading()}
      {showSuccess()}
      {showError()}
-
      {isAuthenticated() && (
        <div>
-         <TableContainer>
-           <Typography variant="h6" gutterBottom>
-             Order Summary
+       <Typography variant="h6" gutterBottom className={classes.card} align="center">
+         Order Summary
+       </Typography>
+       <br/>
+       <form  noValidate>
+        {timePickers.map((outlet, i) => (
+         <Grid key={i} item xs={12} sm={12} md={12}>
+           <Typography
+             gutterBottom
+             variant="p"
+             component="h6"
+             align="left"
+             >
+             {outlet.outlets[0].name}
            </Typography>
+           <Typography variant="caption" display="block" gutterBottom>
+             {outlet.outlets[0].address}
+           </Typography>
+           <Typography variant="caption" display="block" gutterBottom>
+             {outlet.outlets[0].city}
+           </Typography>
+
+           <Typography variant="h6" gutterBottom className={classes.card}>
+            Jadwal Pengambilan
+           </Typography>
+
+           <Grid container spacing={2}>
+              <Grid item xs={12} sm={12} md={6}>
+                <Typography
+                 gutterBottom
+                 variant="p"
+                 component="h6">
+                  Tanggal :
+                </Typography>
+                <Typography  variant="body2" component="p" color="textSecondary">
+                {moment(outlet.date_pickers).format(" MMMM Do YYYY")}
+                </Typography>
+
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                 <Typography
+                  gutterBottom
+                  variant="p"
+                  component="h6">
+                     Jam :
+                 </Typography>
+                 <Typography  variant="body2" component="p" color="textSecondary">
+                   {outlet.time_pickers}
+                 </Typography>
+              </Grid>
+           </Grid>
+        </Grid>
+       ))}
+
+       </form>
+        <Typography variant="h6" gutterBottom className={classes.card}>
+         Produk Pesanan
+        </Typography>
+         <TableContainer>
               <Table>
                  <TableHead>
                      <TableRow>
@@ -254,104 +283,19 @@ return (
                        <TableCell colSpan={1}>Sub Total</TableCell>
                        <TableCell align="right">{getTotal()}</TableCell>
                     </TableRow>
-                    { courierService.map((r, i) => (
-                    <TableRow key={i}>
-                       <TableCell>Pengiriman</TableCell>
-                       <TableCell align="right" value={r.cost[0].value}>{r.cost[0].value}</TableCell>
-                    </TableRow>
-                    ))}
                     <TableRow>
-                       <TableCell rowSpan={2} />
-                       <TableCell colSpan={1}>Total</TableCell>
+                       <TableCell >Total</TableCell>
                        <TableCell align="right" value={getNetTotal} onChange={handleTotal}>{getNetTotal()}</TableCell>
                     </TableRow>
                 </TableBody>
               </Table>
            </TableContainer>
-
-           <Typography variant="h6" gutterBottom className={classes.card}>
-               Jasa Pengiriman
-           </Typography>
-
-             { deliveryAddress.map((r, i) => (
-               <Grid key={i} container spacing={3} >
-                   <Grid item xs={12} sm={12} md={12}>
-                      <Typography variant="body2" component="p">
-                        Kurir Pengiriman :
-                      </Typography>
-                   <Typography  variant="body2" component="p" color="textSecondary">
-                     {r.courier}
-                   </Typography>
-                  </Grid>
-               </Grid>
-             ))}
-
-             { courierService.map((r, i) => (
-               <Grid container spacing={3} key={i}>
-                <Grid item xs={6} sm={6} md={6}>
-                   <Typography variant="body2" component="p">
-                     Service :
-                   </Typography>
-                   <Typography  variant="body2" component="p" color="textSecondary">
-                     {r.description}
-                   </Typography>
-                </Grid>
-                <Grid item xs={6} sm={6} md={6}>
-                   <Typography variant="body2" component="p">
-                     Pengiriman :
-                   </Typography>
-                   <Typography  variant="body2" component="p" color="textSecondary">
-                     {r.cost[0].etd} hari
-                   </Typography>
-                </Grid>
-              </Grid>
-             ))}
-
-           <Typography variant="h6" gutterBottom className={classes.card}>
-             Alamat Pengiriman
-           </Typography>
-             { deliveryAddress.map((r, i) => (
-               <Grid key={i} container spacing={3} >
-                   <Grid item xs={12} sm={12} md={12}>
-                      <Typography variant="body2" component="p">
-                        Nama Alamat :
-                      </Typography>
-                      <Typography
-                       variant="body2"
-                       component="p"
-                       color="textSecondary"
-                       value={getStreetAddress}
-                      >
-                       {r.alamat}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={6}>
-                      <Typography variant="body2" component="p">
-                       Kelurahan :
-                      </Typography>
-                      <Typography  variant="body2" component="p" color="textSecondary">
-                       {r.kelurahan}
-                      </Typography>
-                  </Grid>
-
-                  <Grid item xs={6} sm={6} md={6}>
-                      <Typography variant="body2" component="p">
-                       Kode pos:
-                      </Typography>
-                      <Typography  variant="body2" component="p" color="textSecondary">
-                       {r.postal}
-                      </Typography>
-                  </Grid>
-
-               </Grid>
-              ))}
-
              <Button
                className={classes.Button}
                type="submit"
                fullWidth
-               variant="contained"
-               color="primary"
+               variant="outlined"
+               color="inherit"
                onClick={buy}
              >
                Order
@@ -375,8 +319,6 @@ return (
        </Button>
       </div>
      )}
-
-
      {showBottomNavigation()}
   </Container>
 

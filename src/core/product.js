@@ -12,9 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 import Container from '@material-ui/core/Container';
-import StoreIcon from '@material-ui/icons/Store';
-import AppBar from '@material-ui/core/AppBar';
-import Link from '@material-ui/core/Link';
 import { read, listRelated } from './apicore';
 import { addItem } from './carthelpers';
 
@@ -104,7 +101,7 @@ const showStock = (quantity) => {
 
 const showCartButton = (quantity) => {
      return quantity > 0 ?
-     <Button onClick={addToCart} variant="outlined" color="secondary" fullWidth href="/shopone">
+     <Button onClick={addToCart} variant="outlined" color="secondary" fullWidth href="/shop">
        Pesan
      </Button>
        :

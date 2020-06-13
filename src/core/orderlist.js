@@ -12,7 +12,7 @@ import WaitingProsesOrder from './waitingprosesorder'
 import WaitingDeliveryOrder from './waitingdeliveryorder'
 import PaymentIcon from '@material-ui/icons/Payment';
 import VerifiedUserRoundedIcon from '@material-ui/icons/VerifiedUserRounded';
-import LocalShippingRoundedIcon from '@material-ui/icons/LocalShippingRounded';
+import FreeBreakfastOutlinedIcon from '@material-ui/icons/FreeBreakfastOutlined';
 import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = [<PaymentIcon/>, <VerifiedUserRoundedIcon/> , <LocalShippingRoundedIcon/>];
+const steps = [<PaymentIcon/>, <VerifiedUserRoundedIcon/> , <FreeBreakfastOutlinedIcon/>];
 
 function getStepContent(step) {
   switch (step) {

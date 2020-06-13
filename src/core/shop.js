@@ -1,21 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import Link from '@material-ui/core/Link';
 import { makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import SearchItem from './search';
-import CheckBoxes from "./checkbox";
 import CardProduct from "./card";
-import Fab from '@material-ui/core/Fab';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import { getCategories, getFilteredProducts } from './apicore';
+import LocalCafeOutlinedIcon from '@material-ui/icons/LocalCafeOutlined';
+import LocalDrinkOutlinedIcon from '@material-ui/icons/LocalDrinkOutlined';
+import FastfoodOutlinedIcon from '@material-ui/icons/FastfoodOutlined';
+import Typography from '@material-ui/core/Typography';
+import { getFilteredProducts, getAllProducts } from './apicore';
 import {prices} from './fixedprices';
 
 
@@ -41,9 +36,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4)
   },
   card: {
-    textAlign: "center",
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(8),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(3)
+  },
+  cardNonCoffee: {
+    marginBottom: theme.spacing(10),
   },
   toolbarTitle: {
     flex: 1,
@@ -65,21 +62,12 @@ const useStyles = makeStyles(theme => ({
 
 const Shop = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: []}
   });
 
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
   const [error, setError] = useState(false);
   const [limit, setLimit] = useState(6);
   const [skip, setSkip] = useState(0);
@@ -88,11 +76,11 @@ const Shop = () => {
 
   //Load categories and set form data
   const init = () => {
-    getCategories().then(data => {
+    getAllProducts().then(data => {
       if(data.error) {
         setError(data.error)
       } else {
-        setCategories(data)
+        setProducts(data)
       }
     });
   };
@@ -153,25 +141,6 @@ const Shop = () => {
     return array;
   };
 
-
-  const filtersLinks = () => {
-    return (
-    <div>
-     {/* Filter Tools */}
-      <List>
-        {['Search by Category'].map((text, index) => (
-          <ListItem button key={text}>
-            <Link color="inherit"variant="body2" className={classes.link}>
-              <ListItemText primary={text} />
-              <CheckBoxes categories={categories} handleFilters={filters => handleFilters(filters, "category")} />
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-    )
-  }
-
   const loadMoreButton = () => {
     return (
       size > 0 && size >= limit && (
@@ -182,45 +151,124 @@ const Shop = () => {
     )
   }
 
+const coffeeProduct = products.filter(product => (product.category.name === "Coffee"))
+const nonCoffeeProduct = products.filter(product => (product.category.name === "Non Coffee"))
+const foodsProduct = products.filter(product => (product.category.name === "Foods"))
 
+const coffeeProductMessage = (coffeeProduct) => {
+  if(coffeeProduct.length > 0) {
+    return (
+      <div>
+      <Typography  gutterBottom variant="p" component="h5" align="left">
+         <LocalCafeOutlinedIcon/> Coffee
+      </Typography>
+       <Grid container spacing={2} className={classes.card}>
+           {coffeeProduct.map((product, i) => (
+             <Grid key={i} item xs={12} sm={6} md={3}>
+               <CardProduct
+                 product={product}
+                 showViewImage= {true}
+                 showViewImageCarousel={false}
+                 showViewDescriptions={false}
+                 showViewCategories={false}
+                 showAddedProduct={false}
+                 showDetailProduct={false}/>
+             </Grid>
+            ))}
+      </Grid>
+      </div>
+    )
+   }
+   if( coffeeProduct.length < 1) {
+     return (
+       <div>
+       <Typography  gutterBottom variant="p" component="h5" align="left">
+
+       </Typography>
+       </div>
+     )
+    }
+}
+
+const nonCoffeeProductMessage = (nonCoffeeProduct) => {
+  if(nonCoffeeProduct.length > 0) {
+    return (
+      <div>
+      <Typography  gutterBottom variant="p" component="h5" align="left">
+         <LocalDrinkOutlinedIcon/> Non Coffee
+      </Typography>
+       <Grid container spacing={2} className={classes.cardNonCoffee}>
+           {nonCoffeeProduct.map((product, i) => (
+             <Grid key={i} item xs={12} sm={6} md={3}>
+               <CardProduct
+                 product={product}
+                 showViewImage= {true}
+                 showViewImageCarousel={false}
+                 showViewDescriptions={false}
+                 showViewCategories={false}
+                 showAddedProduct={false}
+                 showDetailProduct={false}/>
+             </Grid>
+            ))}
+      </Grid>
+      </div>
+    )
+   }
+   if( nonCoffeeProduct.length < 1) {
+     return (
+       <div>
+       <Typography  gutterBottom variant="p" component="h5" align="left">
+
+       </Typography>
+       </div>
+     )
+    }
+}
+
+const foodsProductMessage = (foodsProduct) => {
+  if(foodsProduct.length > 0) {
+    return (
+      <div>
+      <Typography  gutterBottom variant="p" component="h5" align="left">
+         <FastfoodOutlinedIcon/> Foods
+      </Typography>
+       <Grid container spacing={2} className={classes.cardNonCoffee}>
+           {foodsProduct.map((product, i) => (
+             <Grid key={i} item xs={12} sm={6} md={3}>
+               <CardProduct
+                 product={product}
+                 showViewImage= {true}
+                 showViewImageCarousel={false}
+                 showViewDescriptions={false}
+                 showViewCategories={false}
+                 showAddedProduct={false}
+                 showDetailProduct={false}/>
+             </Grid>
+            ))}
+      </Grid>
+      </div>
+    )
+   }
+   if( foodsProduct.length < 1) {
+     return (
+       <div>
+       <Typography  gutterBottom variant="p" component="h5" align="left">
+
+       </Typography>
+       </div>
+     )
+    }
+}
 
 return (
    <div className={classes.root}>
       <CssBaseline />
        <Container className={classes.container}>
-
-           <Fab size="medium" color="secondary" aria-label="add" className={classes.fab} onClick={handleClickOpen}>
-              <SearchOutlinedIcon />
-           </Fab>
-
-           <Dialog
-             open={open}
-             onClose={handleClose}
-             aria-labelledby="alert-dialog-title"
-             aria-describedby="alert-dialog-description"
-            >
-
-            {filtersLinks()}
-            <DialogActions>
-              <Button onClick={handleClose}  autoFocus>
-               Close
-             </Button>
-            </DialogActions>
-          </Dialog>
-           <Grid container spacing={2} className={classes.card}>
-               {filteredResults.map((product, i) => (
-                 <Grid key={i} item xs={6} sm={3} md={3}>
-                   <CardProduct
-                     product={product}
-                     showViewImage= {true}
-                     showViewImageCarousel={false}
-                     showViewDescriptions={false}
-                     showViewCategories={false}
-                     showAddedProduct={false}
-                     showDetailProduct={false}/>
-                 </Grid>
-                ))}
-          </Grid>
+          <SearchItem/>
+          <br/>
+          {coffeeProductMessage(coffeeProduct)}
+          {nonCoffeeProductMessage(nonCoffeeProduct)}
+          {foodsProductMessage(foodsProduct)}
         {loadMoreButton()}
        </Container>
     </div>

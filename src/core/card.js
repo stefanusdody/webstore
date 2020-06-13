@@ -4,13 +4,9 @@ import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ShowImage from './showimage';
 
 import { updateItem, removeItem} from './carthelpers';
@@ -74,22 +70,6 @@ const CardProduct = ({
     )
   }
 
-  const showCartContent = (showViewCartContent) => {
-    return(
-      <Link href={`/product/${product._id}`}>
-       <Card className={classes.root} >
-          <CardMedia className={classes.cover}>
-            <ShowImage item={product} url="product" />
-          </CardMedia>
-          <div className={classes.details}>
-            <CardContent className={classes.content}>
-             {showMainContent(showViewMainContent)}
-            </CardContent>
-          </div>
-        </Card >
-      </Link>
-    )
-  }
 
   const showStock = (quantity) => {
       return quantity > 0 ?
@@ -115,8 +95,7 @@ const CardProduct = ({
           Rp {product.price}
         </Typography>
         </div>
-      )
-    );
+      ))
   };
 
 
@@ -147,7 +126,7 @@ const cartShowCartUpdateOptions = (cartUpdate) => {
                 onClick={() => removeItem(product._id)}
                 size="small"
                 color="secondary"
-                href="/shopone"
+                href="/shop"
               >
                 Remove
               </Button>

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import SearchItem from './search';
 import Layout from './layout';
 import CardProduct from './card';
 import Button from '@material-ui/core/Button';
@@ -7,8 +6,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
-import ShowImage from './showimage';
-import { ExternalLink } from 'react-external-link';
 import { getProducts,getAllOutlets } from './apicore';
 import { makeStyles } from '@material-ui/core/styles';
 

@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import { getCart, emptyCourier, emptyAddress, updateItem, removeItem, emptyTimePickers} from "./carthelpers";
+import { getCart, emptyCourier, emptyAddress, emptyTimePickers} from "./carthelpers";
 
 const useStyles = makeStyles(theme => ({
   BottomBar: {
@@ -113,7 +113,7 @@ const Cart = () => {
           className={classes.BottomBar}>
           <Grid container>
             <Grid item xs={12} sm={12}>
-              <Link color="inherit" href="/shopone">
+              <Link color="inherit" href="/shop">
                 <ListItem>
                   <ListItemText align="center"> <StoreIcon /> Kembali Belanja </ListItemText>
                 </ListItem>

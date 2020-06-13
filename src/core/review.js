@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import ReviewProduct from './reviewproductone';
+import ReviewProduct from './reviewproduct';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import { getCart} from "./carthelpers";

@@ -72,7 +72,7 @@ const NavigationBarBottom = () => {
 
 
         <Grid item xs={3} sm={3} md={3}>
-          <Link color="inherit" href="/shopone">
+          <Link color="inherit" href="/shop">
             <ListItem>
                <ListItemText align="center"> <MenuBookOutlinedIcon /> Menu </ListItemText>
             </ListItem>
