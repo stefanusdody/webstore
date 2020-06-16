@@ -101,7 +101,7 @@ const showStock = (quantity) => {
 
 const showCartButton = (quantity) => {
      return quantity > 0 ?
-     <Button onClick={addToCart} variant="outlined" color="secondary" fullWidth href="/shop">
+     <Button onClick={addToCart} variant="outlined" color="inherit" fullWidth href="/shop">
        Pesan
      </Button>
        :

@@ -21,7 +21,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles } from '@material-ui/core/styles';
 import { isAuthenticated} from '../auth';
 import { getCart, emptyCart, itemTotal, emptyAddress ,getTimePickers, emptyTimePickers } from "./carthelpers";
-import { createOrder } from "./apicore"
+import { createOrder,createOutletOrder } from "./apicore"
 import moment from 'moment'
 
 
@@ -83,6 +83,12 @@ const getNetTotal = () => {
   return getTotal()
 }
 
+const outletId = () => {
+  return timePickers.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.outlets[0]._id
+  }, [])
+}
+
 const getOutletName = () => {
   return timePickers.reduce((currentValue, nextValue) => {
     return currentValue + nextValue.outlets[0].name
@@ -112,8 +118,9 @@ const createOrderData = {
     products: products,
     transaction_id: products.id,
     amount: products.amount,
-    outlets_name: getOutletName(),
-    outlets_location: getOutletLocation(),
+    outlet: outletId(),
+    outlet_name: getOutletName(),
+    outlet_location: getOutletLocation(),
     date_pickup: getDatePickup(),
     time_pickup: getTimePickup(),
     total: getTotal()
@@ -137,7 +144,6 @@ const buy = (event) => {
                    success: true
                  });
               }
-
             })
 
     };

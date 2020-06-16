@@ -69,7 +69,6 @@ const Profile = ({match}) => {
            ...values,
            name: data.name,
            email: data.email,
-
         })
       }
     })

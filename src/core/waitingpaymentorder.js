@@ -91,7 +91,10 @@ return (
           <Grid container spacing={2}>
              { orderStatus.map((order, i) => (
               <Grid  key={i} item xs={12} sm={12} md={12}>
-                  <CardOrder order={order}/>
+                  <CardOrder
+                   order={order}
+                   showViewOutletLocation={false}
+                   />
               </Grid>
              ))}
           </Grid>

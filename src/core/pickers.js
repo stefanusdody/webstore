@@ -100,7 +100,7 @@ const Pickers = () => {
     return status.role > 0 ?
       <Button
         variant="outlined"
-        color="primary"
+        color="inherit"
         fullWidth
         href="/reviewcart"
         onClick={addPickers}

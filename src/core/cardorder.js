@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +8,8 @@ import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
+import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
+import { getOutlet } from './apicore'
 import { isAuthenticated } from '../auth';
 
 
@@ -38,17 +41,47 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(0),
     paddingBottom: theme.spacing(-10),
   },
+  button: {
+    marginTop: theme.spacing(2),
+    fontSize: "20"
+  }
 }));
 
 
 const CardOrder = ({
       order,
-      showViewPayment=true
+      showViewOutletLocation=true,
+      showViewPayment=true,
     }) => {
 
   const classes = useStyles();
 
   const { user: { email }} = isAuthenticated();
+
+  const showMainOutletLocation = (showViewOutletLocation) => {
+    return(
+      showViewPayment && (
+        <ListItem>
+           <Grid item xs={12} sm={12} md={12}>
+           <Typography variant="body2" component="p">
+             Lokasi Outlet  :
+           </Typography>
+                <Button
+                  variant="outlined"
+                  component="p"
+                  color="default"
+                  size="small"
+                  className={classes.button}
+                  startIcon={<RoomOutlinedIcon />}
+                  href={order.outlet_location}
+                >
+                    Lokasi outlet
+                </Button>
+           </Grid>
+        </ListItem>
+      )
+    );
+  };
 
   const showMainPayment = (showViewPayment) => {
     return(
@@ -135,11 +168,13 @@ return (
                     Outlet Pembelian  :
                   </Typography>
                   <Typography  variant="body2" component="p" color="textSecondary">
-                    {order.outlets_name}
+                    {order.outlet_name}
                   </Typography>
               </Grid>
            </ListItem>
+          {showMainOutletLocation(showViewOutletLocation)}
           {showMainPayment(showViewPayment)}
+
        </List>
 
 
