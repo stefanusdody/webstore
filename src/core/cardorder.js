@@ -68,9 +68,8 @@ const CardOrder = ({
            </Typography>
                 <Button
                   variant="outlined"
-                  component="p"
                   color="default"
-                  size="small"
+                  fullWidth
                   className={classes.button}
                   startIcon={<RoomOutlinedIcon />}
                   href={order.outlet_location}
