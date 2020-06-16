@@ -86,7 +86,7 @@ const Home = () => {
           fullWidth
           className={classes.button}
           startIcon={<RoomOutlinedIcon />}
-          href={outlet.location}
+          href={outlet.outlet_location}
         >
             {outlet.name}
         </Button>
