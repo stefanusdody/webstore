@@ -64,10 +64,9 @@ const NavigationBar = () => {
 
       <AppBar position="fixed" color="inherit">
         <Toolbar>
-            <Avatar className={classes.grey}>
-              <FreeBreakfastOutlinedIcon/>
-            </Avatar>
-            <Typography className={classes.toolbarTitle}/>
+          <div className={classes.toolbarTitle}>
+           <Avatar alt="Remy Sharp" src={require(`../assets/favicon.ico`)} className={classes.large} />
+          </div>
 
              {!isAuthenticated() && (
                <div>

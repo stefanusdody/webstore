@@ -4,6 +4,7 @@ import CardProduct from './card';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import SearchItem from './search';
 import Typography from '@material-ui/core/Typography';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import { getProducts,getAllOutlets } from './apicore';
@@ -77,21 +78,7 @@ const Home = () => {
       <Layout/>
 
       <Container>
-      {outlets.map((outlet, i) => (
-
-        <Button
-          key={i}
-          variant="outlined"
-          color="default"
-          fullWidth
-          className={classes.button}
-          startIcon={<RoomOutlinedIcon />}
-          href={outlet.location}
-        >
-            {outlet.name}
-        </Button>
-
-      ))}
+      <SearchItem/>
 
 
       <Typography className={classes.card} gutterBottom variant="h5" component="h1">
