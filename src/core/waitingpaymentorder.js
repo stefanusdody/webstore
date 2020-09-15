@@ -9,8 +9,9 @@ import { isAuthenticated } from '../auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
-    textAlign: "center"
+    marginTop: theme.spacing(10),
+    textAlign: "center",
+    marginBottom: theme.spacing(5),
   },
   layout: {
     width: 'auto',
@@ -65,7 +66,7 @@ const WaitingPaymentOrder = () => {
 
   const searchMessage = (orderStatus) => {
     if(orderStatus.length > 0) {
-      return `Terdapat ${orderStatus.length} Status Pesanan`
+      return `Terdapat ${orderStatus.length} Status Menunggu Pembayaran`
      }
      if( orderStatus.length < 1) {
        return (
@@ -89,7 +90,7 @@ return (
     </Typography>
     <br/>
           <Grid container spacing={2}>
-             { orderStatus.map((order, i) => (
+             {orderStatus.map((order, i) => (
               <Grid  key={i} item xs={12} sm={12} md={12}>
                   <CardOrder
                    order={order}
@@ -98,7 +99,6 @@ return (
               </Grid>
              ))}
           </Grid>
-
       </div>
   );
 }

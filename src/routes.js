@@ -14,7 +14,8 @@ import NavigationBar from "./core/navbar";
 import NavigationBarBottom from "./core/navbottom"
 import Product from './core/product';
 import Pickers from './core/pickers';
-import OrderList from './core/orderlist'
+import OrderList from './core/orderlist';
+import PaymentList from './core/waitingpaymentorder'
 
 const Routes = () => {
  return(
@@ -42,6 +43,9 @@ const Routes = () => {
        <PrivateRoute
           path="/orderlist"
           component={OrderList}/>
+       <PrivateRoute
+          path="/payment"
+          component={PaymentList}/>
      </Switch>
      <NavigationBarBottom/>
    </React.Fragment>
